@@ -1,0 +1,2 @@
+integer , parameter, public :: WIN32S = #00000000
+

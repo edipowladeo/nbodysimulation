@@ -1,0 +1,10 @@
+interface 
+integer(4) function MainWndProc ( hwnd, message, wParam, lParam)
+!MS$  ATTRIBUTES STDCALL, ALIAS : '_MainWndProc@16' :: MainWndProc
+integer*4       hwnd 
+integer*4       message 
+integer*4       wParam 
+integer*4       lParam 
+end function MainWndProc
+end interface
+

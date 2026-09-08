@@ -1,0 +1,33 @@
+interface 
+integer function MonkeyDlgProc (x, y, z, w)
+!MS$ ATTRIBUTES STDCALL, ALIAS : '_MonkeyDlgProc@16' :: MonkeyDlgProc
+integer*4 x 
+integer*4 y 
+integer*4 z 
+integer*4 w 
+end function
+end interface
+
+interface 
+subroutine EnumerateLevel (hDlg, NameLBSelect,RegPath, hKeyRoot)
+integer*4 hDlg
+character*256 NameLBSelect
+character*260 RegPath 
+integer*4 hKeyRoot
+end subroutine
+end interface
+
+interface 
+subroutine QueryKey (x, y)
+integer*4 x, y
+end subroutine
+end interface
+
+interface 
+subroutine DisplayKeyData (x, y, z)
+integer*4 x
+character*260 y
+integer*4 z
+end subroutine
+end interface
+

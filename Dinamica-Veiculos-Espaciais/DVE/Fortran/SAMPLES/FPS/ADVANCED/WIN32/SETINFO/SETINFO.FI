@@ -1,0 +1,28 @@
+interface 
+integer(4) function MainWndProc (hwnd, message, wParam, lParam)
+integer*4   hwnd 
+integer*4   message 
+integer*4   wParam 
+integer*4   lParam 
+end function
+
+integer(4) function FileDlgProc (hwnd, message, wParam, lParam)
+integer*4   hwnd 
+integer*4   message 
+integer*4   wParam 
+integer*4   lParam 
+end function
+
+integer(4) function StatusDlgProc(hwnd, message, wParam, lParam)
+integer*4   hwnd 
+integer*4   message 
+integer*4   wParam 
+integer*4   lParam 
+end function
+
+integer(4) function RepStat (API, retcode)
+integer*4   API 
+integer*4   retcode 
+end function
+
+end interface

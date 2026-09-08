@@ -1,0 +1,523 @@
+App Name	"Microsoft Fortran PowerStation 4.0, Professional Edition"
+App Version	4
+Frame Bitmap	"f90setup.dll,211202"
+Frame Caption	Microsoft Fortran PowerStation Setup
+Dialog Caption Base	Microsoft Fortran PowerStation
+About Box String	Microsoft Fortran PowerStation\nCopyright (C) 1995 Microsoft Corporation.
+Check Modules	"MSVCSRC40,Microsoft Developer Studio"
+Inf File Name	setup.inf
+Maximum Object ID	1100													
+Floppy Mode Root Object ID	 30 : 10													
+Maintenance Mode Root Object ID	 70 : 10													
+Batch Mode Root Object ID	 60 : 10													
+Setup Version	1.20.0.1915													
+
+ObjID	Install During Batch Mode	Title	Description	Object Type	Object Data	Bitmap Id	Vital Attribute	Shared Attribute	Configurable Directory	Destination Directory	Check Directory	Installed By	Install Data	Install Directory
+10				CustomAction	"""f90setup.dll"",""AddAppSrch"""									
+30		Floppy Installation		AppMainDlg	60 70 80 90				yes	
+60		&Typical	Microsoft Fortran PowerStation will be installed with the most common options.  (Approximately 70 MB)	Group	330 500 391 399 439 440 450 457 110 130	"f90setup.dll,105"				%d
+70		&Custom/Complete	Microsoft Fortran PowerStation will be installed with the options you select.  (Maximum 115 MB)	CustomDlg	330 500 399 390 457 439 405 450 460 440 : 110 130	"f90setup.dll,102"				%d
+80		C&ompact	Microsoft Fortran PowerStation will be installed with only the necessary options.  (Approximately 25 MB)	Group	330 500 110 130	"f90setup.dll,106"				%d
+90		&Workstation	Install Fortran PowerStation to run from a network server.  Shared Developer Studio components will be installed on the local hard disk.  (Approximately 5 MB)	Group	501 110 131 	"f90setup.dll,108"				%d
+100				CustomAction	"""f90setup.dll"",""IsWin4"""					
+101				CustomAction	"""f90setup.dll"",""IsWinNT"""					
+
+110		Required Components		Group	111 900 602 469					
+111				CopyFile	"fpscdrom,fpscdrom_exe"					%d\BIN
+
+130				Group	131 132 133 134 135 136 137 138					
+131				AddBillboard	"""f90setup.dll"",200,""BBReg"""					
+132				AddBillboard	"""f90setup.dll"",201,""BBReg"""					
+133				AddBillboard	"""f90setup.dll"",202,""BBReg"""					
+134				AddBillboard	"""f90setup.dll"",203,""BBReg"""					
+135				AddBillboard	"""f90setup.dll"",204,""BBReg"""					
+136				AddBillboard	"""f90setup.dll"",205,""BBReg"""					
+137				AddBillboard	"""f90setup.dll"",207,""BBReg"""					
+138				AddBillboard	"""f90setup.dll"",206,""BBReg"""					
+
+==== Compiler and Tools										
+330	yes	"Fortran Compiler, Tools, and Libraries"	"The core of Fortran PowerStation: Microsoft's Fortran 90 compiler, command line tools, and runtime include files, modules, and libraries."	Group	331 332 333 334 335 336 345 346 		vital			%d
+331				CopyFile	"corebinfl32,fl32_exe"					%d\BIN
+332				CopySection	"""corebin"""					%d\BIN
+333		Compiler and Tools		CopySection	"""coreinclude"""					%d\INCLUDE
+334				CopySection	"""corelib"""					%d\LIB
+335				CopySection	"""corehelp"""					%d\HELP
+336				AddRegData	"LOCAL,""Software\Microsoft\Fortran PowerStation 4.0"", ""QwinHelpDir"", %s\HELP\"					%d
+
+345				Group	352 353 354 355 356 357 358 359 360 361 362 363 364 365 366 367 368 369					%d
+346				Group	370 371 372 373 374 375 376 377 378 379 380 381 382 383 384 385					%d
+352				InstallShared	"corebinshared,mspdb40_dll,msdev_mspdb40,msdev,333 502"					%d\BIN
+353				InstallShared	"corebinshared,bscmake_err,msdev_bscmake_err,msdev,331"					%d\BIN
+354				InstallShared	"corebinshared,bscmake_exe,msdev_bscmake_exe,msdev,331"					%d\BIN
+355				InstallShared	"corebinshared,cvpack_exe,msdev_cvpack_exe,msdev,331"					%d\BIN
+356				InstallShared	"corebinshared,cvpack_err,msdev_cvpack_err,msdev,331"					%d\BIN
+357				InstallShared	"corebinshared,lib_exe,msdev_lib_exe,msdev,331"					%d\BIN
+358				InstallShared	"corebinshared,link_exe,msdev_link_exe,msdev,331"					%d\BIN
+359				InstallShared	"corebinshared,dumpbin_exe,msdev_dumpbin_exe,msdev,331"					%d\BIN
+360				InstallShared	"corebinshared,editbin_exe,msdev_editbin_exe,msdev,331"					%d\BIN
+361				InstallShared	"corebinshared,nmake_exe,msdev_nmake_exe,msdev,331"					%d\BIN
+362				InstallShared	"corebinshared,nmake_err,msdev_nmake_err,msdev,331"					%d\BIN
+363				InstallShared	"corelibshared,kernel32_lib,msdev_kernel32_lib,msdev,331"					%d\LIB
+364				InstallShared	"corelibshared,libc_lib,msdev_libc_lib,msdev,331"					%d\LIB
+365				InstallShared	"corelibshared,libcmt_lib,msdev_libcmt_lib,msdev,331"					%d\LIB
+366				InstallShared	"corelibshared,shell32_lib,msdev_shell32_lib,msdev,331"					%d\LIB
+367				InstallShared	"corelibshared,user32_lib,msdev_user32_lib,msdev,331"					%d\LIB
+368				InstallShared	"corelibshared,advapi32_lib,msdev_advapi32_lib,msdev,331"					%d\LIB
+369				InstallShared	"corelibshared,comdlg32_lib,msdev_comdlg32_lib,msdev,331"					%d\LIB
+370				InstallShared	"corelibshared,gdi32_lib,msdev_gdi32_lib,msdev,331"					%d\LIB
+371				InstallShared	"corelibshared,fp10_obj,msdev_fp10_obj,msdev,331"					%d\LIB
+372				InstallShared	"corelibshared,msvcrt_lib,msdev_msvcrt_lib,msdev,331"					%d\LIB
+373				InstallShared	"corelibshared,oldnames_lib,msdev_oldnames_lib,msdev,331"					%d\LIB
+374				CustomAction	"""f90setup.dll"",""DelFile"",fqwin.fts"					%d\HELP
+375				CustomAction	"""f90setup.dll"",""DelFile"",fqwin.gid"					%d\HELP
+376				CustomAction	"""f90setup.dll"",""DelFile"",bitview.fts"					%d\HELP
+377				CustomAction	"""f90setup.dll"",""DelFile"",bitview.gid"					%d\HELP
+378				InstallShared	"corelibshared,wsock32_lib,msdev_wsock32_lib,msdev,331"					%d\LIB
+379				InstallShared	"corelibshared,version_lib,msdev_version_lib,msdev,331"					%d\LIB
+380				InstallShared	"corelibshared,mpr_lib,msdev_mpr_lib,msdev,331"					%d\LIB
+381				InstallShared	"corelibshared,lz32_lib,msdev_lz32_lib,msdev,331"					%d\LIB
+382				InstallShared	"corelibshared,winspool_lib,msdev_winspool_lib,msdev,331"					%d\LIB
+383				InstallShared	"corelibshared,winmm_lib,msdev_winmm_lib,msdev,331"					%d\LIB
+384				InstallShared	"corelibshared,scrnsave_lib,msdev_scrnsave_lib,msdev,331"					%d\LIB
+385				InstallShared	"msdevsys,imagehlp_dll,msdev_imagehlp_dll,msdev,331"					%m
+
+==== IMSL Libraries										
+390	yes	IMSL Numerical Libraries	"Comprehensive libraries for performing advanced math and statistics calculations, ready to be linked into your programs."	CustomDlg	392 393 394 395 396 397 398					%d
+391		Typical Install Group		Group	392 393 394 395 396 397					
+392	yes	IMSL Fortran 90 Modules	Fortran 90 interface modules for all IMSL routines.  Used to ensure that an IMSL routine is being called with the right type and number of arguments.	CopySection	"""imslinclude"""					%d\INCLUDE
+393	yes	IMSL Math Library (Single Precision)	"IMSL Math library, single precision version."	CopySection	"""imslmaths"""					%d\LIB
+394	yes	IMSL Math Library (Double Precision)	"IMSL Math library, double precision version."	CopySection	"""imslmathd"""					%d\LIB
+395	yes	IMSL Statistics Library (Single Precision)	"IMSL Statistics library, single precision version."	CopySection	"""imslstats"""					%d\LIB
+396	yes	IMSL Statistics Library (Double Precision)	"IMSL Statistics library, double precision version."	CopySection	"""imslstatd"""					%d\LIB
+397	yes	IMSL C Header Files	C language header files for all IMSL routines.  Used to ensure that an IMSL routine is being called with the right type and number of arguments from C/C++ programs.	CopySection	"""imslcinclude"""					%d\INCLUDE
+398	no	Fortran PowerStation 1.0 Header Files	"IMSL Fortran 77 header files, compatible with MS IMSL for Fortran PowerStation 1.0.  If you have not previously used an MS IMSL product, you do not need these files."	CopySection	"""imslincludeold"""					%d\INCLUDE
+
+==== Books online										
+399	yes	Fortran PowerStation Books Online	"Complete documentation, including the Programmer's Guide and Reference, for quickly viewing and searching from within Microsoft Developer Studio.  This component can be used directly from the network server."	Group	400 1000					%d 
+400		Copy Books		CopySection	"""books"""					%d\HELP
+
+==== Other Stuff										
+405	no	Supplemental Tools and Libraries	"Tools include the performance profiler, process viewer, file comparison utility, and Win32 message spy.  Also included are OpenGL modules and libraries for Fortran."	CustomDlg	406 414 429 432 438					%d
+406	yes	OpenGL Modules and Libraries	"For advanced users, Fortran 90 modules and libraries for OpenGL programming."	Group	407 408 409 410 411 412 413					%d
+407				CopyFile	"openglinclude,opengl_f90"					%d\INCLUDE
+408				CopyFile	"openglinclude,opengl_mod"					%d\INCLUDE
+409				CopyFile	"openglinclude,openglty_mod"					%d\INCLUDE
+410				CopyFile	"openglinclude,openglty_f90"					%d\INCLUDE
+411				InstallShared	"opengllib,opengl32_lib,msdev_opengl_lib,msdev,408"					%d\LIB
+412				InstallShared	"opengllib,glaux_lib,msdev_glaux_lib,msdev,408"					%d\LIB
+413				InstallShared	"opengllib,glu32_lib,msdev_glu32_lib,msdev,408"					%d\LIB
+414	yes	Profiler	"Primarily for code tuning purposes, the profiler can determine where in your program the most time is being spent.  For testing purposes, it can also be used to determine which lines of a program are actually being used."	Group	415 416 417 418 419 420 421 422 423 424 425 426					%d
+415				InstallShared	"profiler,profiler_ini,msdev_profiler_ini,msdev,111"					%d\BIN
+416				InstallShared	"profiler,prep_exe,msdev_prep_exe,msdev,111"					%d\BIN
+417				InstallShared	"profiler,plist_exe,msdev_plist_exe,msdev,111"					%d\BIN
+418				InstallShared	"profiler,profile_exe,msdev_profile_exe,msdev,111"					%d\BIN
+419				InstallShared	"profiler,fcount_bat,msdev_fcount_bat,msdev,111"					%d\BIN
+420				InstallShared	"profiler,fcover_bat,msdev_fcover_bat,msdev,111"					%d\BIN
+421				InstallShared	"profiler,lcount_bat,msdev_lcount_bat,msdev,111"					%d\BIN
+422				InstallShared	"profiler,lcover_bat,msdev_lcover_bat,msdev,111"					%d\BIN
+423				InstallShared	"profiler,ftime_bat,msdev_ftime_bat,msdev,111"					%d\BIN
+424				InstallShared	"profiler,profile_dll,msdev_profile_dll,msdev,111"					%d\BIN
+425				InstallShared	"profiler,profiler_xlm,msdev_profile_xlm,msdev,111"					%d\BIN
+426				DependAsk	416 ? 427 428					
+427				AddRegData	"CURRENT,""Software\Microsoft\Developer\General"",""ProfilerInstalled"",""1"",REG_DWORD"					
+428				AddRegData	"LOCAL,""Software\Microsoft\Developer\General"",""ProfilerInstalled"",""1"",REG_DWORD"					
+429	yes	PView	"View and interrogate the processes on your system, for example to determine memory or CPU usage."	Depend 	101 ? 430 : 431					%d
+430				InstallShared	"pviewnt,pview_exe,msdev_pview_exe,msdev,111"					%d\BIN\WINNT
+431				InstallShared	"pview95,pview95_exe,msdev_pview95_exe,msdev,111"					%d\BIN\WIN95
+432	yes	WinDiff	"Graphically compares two versions of a file, showing the lines that have been changed, added, or deleted."	Group	433 434 435 436 437					%d
+433				InstallShared	"windiff,windiff_exe,msdev_windiff_exe,msdev,111"					%d\BIN
+434				InstallShared	"windiff,windiff_hlp,msdev_windiff_hlp,msdev,111"					%d\BIN
+435				InstallShared	"windiff,gutils_dll,msdev_gutils_dll,msdev,111"					%d\BIN
+436				CustomAction	"""f90setup.dll"",""DelFile"",windiff.fts"					%d\BIN
+437				CustomAction	"""f90setup.dll"",""DelFile"",windiff.gid"					%d\BIN
+438	yes	Spy	"For advanced Win32 programmers, shows the messages that are being received by an application.  Used primarily to see the messages that a Win32 application receives, and to debug how it responds."	CopySection	"""spy"""					%d\BIN
+
+==== Samples										
+439	yes	Compressed Samples	Fortran PowerStation sample programs.  Samples are compressed to conserve hard disk space and are readily accessed through Fortran PowerStation Books Online.  This component can be used directly from the network server.	CopySection	"""samples"""					%d\HELP
+
+==== Setup Files										
+440	yes	Setup Files	"Allows you to add or remove components of Fortran PowerStation at a later time, or uninstall it entirely.  This component can be used directly from the network server."	Group	441 442 443 444 445 446					%d 
+441		Copy setup core		CopySection	"""setup1"""					%d\FPSSETUP
+442		Copy setup files		CopySection	"""setup2"""					%d\FPSSETUP
+443		Copy setup sys files		InstallSysFile	"setup3,msvcrt20_dll"					%m
+444				CustomAction	"""f90setup.dll"",""IncrementSharedDll"",msvcrt20.dll"					%m
+445				CustomAction	"""f90setup.dll"",""DelFile"",acmsetup.fts"					%d\FPSSETUP
+446				CustomAction	"""f90setup.dll"",""DelFile"",acmsetup.gid"					%d\FPSSETUP
+
+==== Numerical Recipes Files										
+450	yes	Numerical Recipes in Fortran	Fortran source code library for scientific computing from the book Numerical Recipes in Fortran published by Cambridge University Press.  This component can be used directly from the network server.	Group	451 452 453					%d 
+451				CopySection	"""numrec"""					%d\NUMREC
+452				CustomAction	"""f90setup.dll"",""DelFile"",nrf207.fts"					%d\NUMREC
+453				CustomAction	"""f90setup.dll"",""DelFile"",nrf207.gid"					%d\NUMREC
+
+==== Intro										
+457	yes	Introduction to Fortran PowerStation	"A tutorial introduction to what Fortran PowerStation is, how it is used, and what it can do for you.  This component can be used directly from the network server."	CopySection	"""introfps"""					%d\HELP
+
+==== Win32 SDK Help										
+460	no	Win32 SDK Books Online	"For advanced users, complete Win32 SDK documentation, for using the Win32 and OpenGL API from Fortran programs.  This component can be used directly from the network server. "	CustomDlg	461 464					%d
+461	yes	Win32 SDK Books	The complete Win32 SDK documentation.	Group	462 463 465 466 467 469 1000					%d
+462				InstallShared	"win32sdkhelp,win32sdk_mvb,msdev_win32sdk_mvb,msdev,111"					%d\HELP
+463				InstallShared	"win32sdkhelp,win32sdk_cac,msdev_win32sdk_cac,msdev,111"					%d\HELP
+464	yes	Win32 SDK Book Indices	"The index to the Win32 SDK documentation.  Installing this component on your hard disk will improve search performance, especially useful alone allowing the bulk of the documentation to remain on the CD-ROM."	Group	465 466 467 469 1000					%d
+465				InstallShared	"win32sdkhelp,win32sdk_idx,msdev_win32sdk_idx,msdev,111"					%d\HELP
+466				InstallShared	"win32sdkhelp,win32sdk_aux,msdev_win32sdk_aux,msdev,111"					%d\HELP
+467				InstallShared	"win32sdkhelp,win32sdk_kwd,msdev_win32sdk_kwd,msdev,111"					%d\HELP
+469				Group	470 471 472 473 474 475 476 477 478 483 484 485 486 487 488 489 					
+470		Books registry		AddRegData	"""CURRENT"",""Software\Microsoft\InfoViewer\Series\win32sdk"",""Title"",""win32sdk.mvb"""					
+471		Books registry		AddRegData	"""LOCAL"",""Software\Microsoft\InfoViewer\Series\win32sdk"",""Title"",""win32sdk.mvb"""					
+472		Books registry		AddRegData	"""CURRENT"",""Software\Microsoft\InfoViewer\Series\win32sdk"",""Release"",""1"""					
+473		Books registry		AddRegData	"""LOCAL"",""Software\Microsoft\InfoViewer\Series\win32sdk"",""Release"",""1"""					
+474		Books registry		AddRegData	"""CURRENT"",""Software\Microsoft\InfoViewer\Titles\win32sdk.mvb"",""Title"",""Win32 SDK Books Online"""					
+475		Books registry		AddRegData	"""LOCAL"",""Software\Microsoft\InfoViewer\Titles\win32sdk.mvb"",""Title"",""Win32 SDK Books Online"""					
+476		Books registry		AddRegData	"""CURRENT"",""Software\Microsoft\InfoViewer\Titles\win32sdk.mvb"",""Series"",""win32sdk"""					
+477		Books registry		AddRegData	"""LOCAL"",""Software\Microsoft\InfoViewer\Titles\win32sdk.mvb"",""Series"",""win32sdk"""					
+478				Depend	461 ? 479 480 : 481 482					%d
+479		Books registry		AddRegData	"""CURRENT"",""Software\Microsoft\InfoViewer\Titles\win32sdk.mvb"",""Path"",%s\HELP"					%d
+480		Books registry		AddRegData	"""LOCAL"",""Software\Microsoft\InfoViewer\Titles\win32sdk.mvb"",""Path"",%s\HELP"					%d
+481		Books registry		AddRegData	"""CURRENT"",""Software\Microsoft\InfoViewer\Titles\win32sdk.mvb"",""Path"",%s\HELP"					%S
+482		Books registry		AddRegData	"""LOCAL"",""Software\Microsoft\InfoViewer\Titles\win32sdk.mvb"",""Path"",%s\HELP"					%S
+483		Books registry		AddRegData	"""LOCAL"",""Software\Microsoft\InfoViewer\Win32SDKUsers"",""Fortran PowerStation 4.0"",1"					%S
+484				CustomAction	"""f90setup.dll"",""DeleteEmptyRegTree"",""LOCAL,Software\Microsoft\InfoViewer\Win32SDKUsers"""					
+485				CustomAction	"""f90setup.dll"",""DeleteCompanionRegTree"",""LOCAL,Software\Microsoft\InfoViewer\Win32SDKUsers,CURRENT,Software\Microsoft\InfoViewer\Series\win32sdk"""					
+486				CustomAction	"""f90setup.dll"",""DeleteCompanionRegTree"",""LOCAL,Software\Microsoft\InfoViewer\Win32SDKUsers,CURRENT,Software\Microsoft\InfoViewer\Titles\win32sdk.mvb"""					
+487				CustomAction	"""f90setup.dll"",""DeleteCompanionRegTree"",""LOCAL,Software\Microsoft\InfoViewer\Win32SDKUsers,LOCAL,Software\Microsoft\InfoViewer\Series\win32sdk"""					
+488				CustomAction	"""f90setup.dll"",""DeleteCompanionRegTree"",""LOCAL,Software\Microsoft\InfoViewer\Win32SDKUsers,LOCAL,Software\Microsoft\InfoViewer\Titles\win32sdk.mvb"""					
+489				DependAsk	462 ? 490 491 492 493					
+490				CustomAction	"""f90setup"",""DelFile"",WIN32SDK.GID"					%d\HELP
+491				CustomAction	"""f90setup"",""DelFile"",WIN32SDK.HST"					%d\HELP
+492				CustomAction	"""f90setup"",""DelFile"",WIN32SDK.SRS"					%d\HELP
+493				CustomAction	"""f90setup"",""DelFile"",WIN32SDK.FLT"					%d\HELP
+
+=== MS Developer Studio										
+500	yes	Microsoft Developer Studio	"Microsoft's integrated development environment, for writing and debugging programs, managing projects, and editing resources.  This component is also needed to use Books Online."	Group	501 530 531					
+501				Group	502 503 504 505 506 507 511 514 515 516 517 518 519 520 525 580 670 890					%d
+502		Microsoft Developer Studio		CopyFile	"msdevpkg,msvcfor_pkg"					%d\BIN\IDE
+503		Microsoft Developer Studio		InstallShared	"msdevexe,msdev_exe,msdev_msdev_exe,msdev,502"					%d\BIN
+504				StampCDInfo	"""502"",""257"",""20000"""					%d\BIN\IDE
+505				StampCDInfo	"""503"",""257"",""20000"""					%d\BIN
+506				CustomAction	"""f90setup.dll"",""CheckDir"""					%d
+507				Depend	500 ? 508 : 509 510					%d
+508		IDE ProgMan Icon		AddProgmanItem	"Fortran PowerStation 4.0, Microsoft Developer Studio, %s\bin\msdev.exe, %s\Projects"					%d
+509		IDE ProgMan Icon		AddProgmanItem	"Fortran PowerStation 4.0, Microsoft Developer Studio, %s\bin\fpscdrom.exe, %s\Projects, %s\bin\msdev.exe,0,msvcshl.dll Developer_Studio_DLL_Files %s\bin\msdev.exe -s"					%d
+510				AddRegData	"LOCAL,""Software\Microsoft\Fortran PowerStation 4.0\fpscdrom"", ""msvcshl.dll"",%s"					%S\BIN
+511				Depend	100 ? : 512 513					
+512		MSDEV System Files		InstallSysFile	"msdevsys,ctl3d32_dll"					%m
+513				CustomAction	"""f90setup.dll"",""IncrementSharedDll"",ctl3d32.dll"					%m
+514				CopySection	msdevproject					%d\Projects\CELSIUS
+515				InstallShared	"msdevbinide,msvcbld_pkg,msdev_msvcbld_pkg,msdev,502"					%d\BIN\IDE
+516				InstallShared	"msdevbinide,msvcx86_pkg,msdev_msvcx86_pkg,msdev,502"					%d\BIN\IDE
+517		MSDEV System Files		InstallShared	"msdevsys,mfc40_dll,msdev_mfc40_dll,msdev,502"					%m
+518				InstallShared	"msdevbinide,tools_tip,msdev_tools_tip,msdev,502"					%d\BIN\IDE
+519				InstallShared	"msdevbinide,msdev_tip,msdev_msdev_tip,msdev,502"					%d\BIN\IDE
+520				DependAsk	503 ? 521 522					
+521				AddRegData	"LOCAL,""Software\Microsoft\Windows\CurrentVersion\App Paths\msdev.exe"", ""Path"",""""""%s"""""""					%d\BIN
+522				Depend	500 ? 523 : 524					
+523				AddRegData	"LOCAL,""Software\Microsoft\Windows\CurrentVersion\App Paths\msdev.exe"", """", ""%s\msdev.exe"""					%d\BIN
+524				AddRegData	"LOCAL,""Software\Microsoft\Windows\CurrentVersion\App Paths\msdev.exe"", """",""%s\FPSCDROM.EXE"""					%d\BIN
+525				CopyFile	"msdevpkg,fps_tip"					%d\BIN\IDE
+
+530				Group	533 534 535 536 537 544 545 546 547 548 549					%d 
+531				Group	550 551 552 553 554 555 556 557 558 559 560 561 562 563 564 565 566 567 568 569 574 575 576 577 578 579 532					%d 
+532				InstallShared	"msdevbinshared,msvcsrc_dll,msdev_msvcsrc_dll,msdev,502"					%d\BIN
+533				InstallShared	"msdevbinshared,cvtres_exe,msdev_cvtres_exe,msdev,502"					%d\BIN
+534				InstallShared	"msdevbinshared,cvtres_err,msdev_cvtres_err,msdev,502"					%d\BIN
+535				InstallShared	"msdevbinshared,dmn0_dll,msdev_dmn0_dll,msdev,502"					%d\BIN
+536				InstallShared	"msdevbinshared,een0cxx_dll,msdev_een0cxx_dll,msdev,502"					%d\BIN
+537				InstallShared	"msdevbinshared,emn0n0_dll,msdev_een0n0_dll,msdev,502"					%d\BIN
+544				InstallShared	"msdevbinshared,msvcmon_exe,msdev_msvcmon_exe,msdev,502"					%d\BIN
+545				InstallShared	"msdevbinshared,rc_exe,msdev_rc_exe,msdev,502"					%d\BIN
+546				InstallShared	"msdevbinshared,rcdll_dll,msdev_rcdll_dll,msdev,502"					%d\BIN
+547				InstallShared	"msdevbinshared,rcxdti_dll,msdev_rcxdti_dll,msdev,502"					%d\BIN
+548				InstallShared	"msdevbinshared,shn0_dll,msdev_shn0_dll,msdev,502"					%d\BIN
+549				InstallShared	"msdevbinshared,tln0com_dll,msdev_tln0com_dll,msdev,502"					%d\BIN
+550				InstallShared	"msdevbinshared,tln0loc_dll,msdev_tln0loc_dll,msdev,502"					%d\BIN
+551				InstallShared	"msdevbinshared,tln0t_dll,msdev_tln0t_dll,msdev,502"					%d\BIN
+552				InstallShared	"msdevinclude,afxres_h,msdev_afxres_h,msdev,502"					%d\INCLUDE
+553				InstallShared	"msdevinclude,winres_h,msdev_winres_h,msdev,502"					%d\INCLUDE
+554				InstallShared	"msdevhelpshared,msdev40_mvb,msdev_msdev40_mvb,msdev,502"					%d\HELP
+555				CustomAction	"""f90setup.dll"",""DelFile"",frmtedit.fts"					%d\HELP
+556				CustomAction	"""f90setup.dll"",""DelFile"",frmtedit.gid"					%d\HELP
+557				CopySection	msdevbin					%d\BIN
+558				CopySection	msdevhelp					%d\HELP
+559				InstallShared	"msdevhelpshared,msdev40_aux,msdev_msdev40_aux,msdev,502"					%d\HELP
+560				InstallShared	"msdevhelpshared,msdev40_cac,msdev_msdev40_cac,msdev,502"					%d\HELP
+561				CustomAction	"""f90setup"",""DelFile"",FPSBKS40.GID"					%d\HELP
+562				CustomAction	"""f90setup"",""DelFile"",FPSBKS40.HST"					%d\HELP
+563				CustomAction	"""f90setup"",""DelFile"",FPSBKS40.SRS"					%d\HELP
+564				CustomAction	"""f90setup"",""DelFile"",FPSBKS40.FLT"					%d\HELP
+565				CustomAction	"""f90setup"",""DelFile"",FPS40.GID"					%d\HELP
+566				CustomAction	"""f90setup"",""DelFile"",FPS40.HST"					%d\HELP
+567				CustomAction	"""f90setup"",""DelFile"",FPS40.FLT"					%d\HELP
+568				CustomAction	"""f90setup"",""DelFile"",FPS40.SRS"					%d\HELP
+569				DependAsk	503 ? 570 571 572 573					
+570				CustomAction	"""f90setup"",""DelFile"",MSDEV40.GID"					%d\HELP
+571				CustomAction	"""f90setup"",""DelFile"",MSDEV40.HST"					%d\HELP
+572				CustomAction	"""f90setup"",""DelFile"",MSDEV40.FLT"					%d\HELP
+573				CustomAction	"""f90setup"",""DelFile"",MSDEV40.SRS"					%d\HELP
+574				InstallShared	"msdevinclude,winver_h,msdev_winver_h,msdev,502"					%d\INCLUDE
+575				InstallShared	"msdevbinshared,msvcin_dll,msdev_msvcin_dll,msdev,502"					%d\BIN
+576				InstallShared	"msdevbinshared,vcspawn_exe,msdev_vcspawn_exe,msdev,502"					%d\BIN
+577				InstallShared	"msdevbinshared,msvcprj_dll,msdev_msvcprj_dll,msdev,502"					%d\BIN
+578				InstallShared	"msdevbinshared,msvcres_dll,msdev_nsvcres_dll,msdev,502"					%d\BIN
+579				InstallShared	"msdevbinshared,msvcshl_dll,msdev_msvcshl_dll,msdev,502"					%d\BIN
+
+==== MSDEV Registry entries										
+580				Group	581 582 583 584 585 586 587 588 589 880					%d
+581				AddRegData	"CURRENT,""Software\Microsoft\Developer"",""Setup"",""1"""					
+582				AddRegData	"CURRENT,""Software\Microsoft\Developer\General"",""MaximizeDoc"",""1"",DWORD"					
+583				AddRegData	"CURRENT,""Software\Microsoft\Developer\Build System\Components\Platforms\Win32 (x86)\Expression Evaluators"",""Current EE"",""EEN0SWT"""					
+584				AddRegData	"CURRENT,""Software\Microsoft\Developer\Help"",""Installed"",1,DWORD"					
+585				AddRegData	"LOCAL,""Software\Microsoft\Developer"",""Setup"",""1"""					
+586				AddRegData	"LOCAL,""Software\Microsoft\Developer\General"",""MaximizeDoc"",""1"",DWORD"					
+587				AddRegData	"LOCAL,""Software\Microsoft\Developer\Build System\Components\Platforms\Win32 (x86)\Expression Evaluators"",""Current EE"",""EEN0SWT"""					
+588				AddRegData	"LOCAL,""Software\Microsoft\Developer\Help"",""Installed"",1,DWORD"					
+589				Depend	500 ? 596 597 598 599 600 601 : 590 591 592 593 594 595					
+590				CustomAction	"""f90setup.dll"",""AddMsdevPath"",CPath"					%S\BIN
+591				CustomAction	"""f90setup.dll"",""AddMsdevPath"",CInclude"					%S\INCLUDE
+592				CustomAction	"""f90setup.dll"",""AddMsdevPath"",CLib"					%S\LIB
+593				CustomAction	"""f90setup.dll"",""AddMsdevPath"",LPath"					%S\BIN
+594				CustomAction	"""f90setup.dll"",""AddMsdevPath"",LInclude"					%S\INCLUDE
+595				CustomAction	"""f90setup.dll"",""AddMsdevPath"",LLib"					%S\LIB
+596				CustomAction	"""f90setup.dll"",""AddMsdevPath"",CPath"					%d\BIN
+597				CustomAction	"""f90setup.dll"",""AddMsdevPath"",CInclude"					%d\INCLUDE
+598				CustomAction	"""f90setup.dll"",""AddMsdevPath"",CLib"					%d\LIB
+599				CustomAction	"""f90setup.dll"",""AddMsdevPath"",LPath"					%d\BIN
+600				CustomAction	"""f90setup.dll"",""AddMsdevPath"",LInclude"					%d\INCLUDE
+601				CustomAction	"""f90setup.dll"",""AddMsdevPath"",LLib"					%d\LIB
+
+==== Always done 										
+602				Group	603 604 605 606 607 608 609 610 611 612 613 614 615 616 617 618 619 620 621 622 623 628 637 642 647 648 649 650  651 656					%d
+603		Books registry		AddRegData	"""CURRENT"",""Software\Microsoft\InfoViewer\DocSets\fpsbks40\fpsbks40.mvb"""					
+604		Books registry		AddRegData	"""LOCAL"",""Software\Microsoft\InfoViewer\DocSets\fpsbks40\fpsbks40.mvb"""					
+605		Books registry		AddRegData	"""CURRENT"",""Software\Microsoft\InfoViewer\DocSets\fps40\fps40.mvb"""					
+606		Books registry		AddRegData	"""LOCAL"",""Software\Microsoft\InfoViewer\DocSets\fps40\fps40.mvb"""					
+607				CustomAction	"""f90setup.dll"",""DeleteRegTree"",""CURRENT,Software\Microsoft\InfoViewer\DocSets\fps40"""					
+608				CustomAction	"""f90setup.dll"",""DeleteRegTree"",""LOCAL,Software\Microsoft\InfoViewer\DocSets\fps40"""					
+609		Books registry		AddRegData	"""CURRENT"",""Software\Microsoft\InfoViewer\Series\fpsbks40"",""Title"",""fpsbks40.mvb"""					
+610		Books registry		AddRegData	"""CURRENT"",""Software\Microsoft\InfoViewer\Series\fpsbks40"",""Release"",""3"""					
+611		Books registry		AddRegData	"""CURRENT"",""Software\Microsoft\InfoViewer\Titles\fpsbks40.mvb"",""LocalDir"",""%s\HELP"""					%d
+612		Books registry		AddRegData	"""CURRENT"",""Software\Microsoft\InfoViewer\Titles\fpsbks40.mvb"",""Title"",""FPS 4.0 Books Online"""					
+613		Books registry		AddRegData	"""CURRENT"",""Software\Microsoft\InfoViewer\Titles\fpsbks40.mvb"",""Series"",""fpsbks40"""					
+614		Books registry		AddRegData	"""CURRENT"",""Software\Microsoft\InfoViewer\Titles\fpsbks40.mvb"",""SamplePath"",""%s\"""					%d
+615		Books registry		AddRegData	"""LOCAL"",""Software\Microsoft\InfoViewer\Series\fpsbks40"",""Title"",""fpsbks40.mvb"""					
+616		Books registry		AddRegData	"""LOCAL"",""Software\Microsoft\InfoViewer\Series\fpsbks40"",""Release"",""3"""					
+617		Books registry		AddRegData	"""LOCAL"",""Software\Microsoft\InfoViewer\Titles\fpsbks40.mvb"",""LocalDir"",""%s\HELP"""					%d
+618		Books registry		AddRegData	"""LOCAL"",""Software\Microsoft\InfoViewer\Titles\fpsbks40.mvb"",""Title"",""FPS 4.0 Books Online"""					
+619		Books registry		AddRegData	"""LOCAL"",""Software\Microsoft\InfoViewer\Titles\fpsbks40.mvb"",""Series"",""fpsbks40"""					
+620		Books registry		AddRegData	"""LOCAL"",""Software\Microsoft\InfoViewer\Titles\fpsbks40.mvb"",""SamplePath"",""%s\"""					%d
+621		Books registry		AddRegData	"""CURRENT"",""Software\Microsoft\InfoViewer\Titles\fps40.mvb"",""LocalDir"",""%s\HELP"""					%d
+622		Books registry		AddRegData	"""LOCAL"",""Software\Microsoft\InfoViewer\Titles\fps40.mvb"",""LocalDir"",""%s\HELP"""					%d
+623				Depend	500 ? 624 625 : 626 627					
+624		Books registry		AddRegData	"""CURRENT"",""Software\Microsoft\InfoViewer\Titles\fps40.mvb"",""Path"",""%s\HELP"""					%d
+625		Books registry		AddRegData	"""LOCAL"",""Software\Microsoft\InfoViewer\Titles\fps40.mvb"",""Path"",""%s\HELP"""					%d
+626		Books registry		AddRegData	"""CURRENT"",""Software\Microsoft\InfoViewer\Titles\fps40.mvb"",""Path"",""%s\HELP"""					%S
+627		Books registry		AddRegData	"""LOCAL"",""Software\Microsoft\InfoViewer\Titles\fps40.mvb"",""Path"",""%s\HELP"""					%S
+628				DependAsk	554 ? 629 630 631					
+629		Books registry		AddRegData	"""CURRENT"",""Software\Microsoft\InfoViewer\Titles\msdev40.mvb"",""LocalDir"",""%s\HELP"""					%d
+630		Books registry		AddRegData	"""LOCAL"",""Software\Microsoft\InfoViewer\Titles\msdev40.mvb"",""LocalDir"",""%s\HELP"""					%d
+631				Depend	500 ? 632 633 : 634 635					
+632		Books registry		AddRegData	"""CURRENT"",""Software\Microsoft\InfoViewer\Titles\msdev40.mvb"",""Path"",""%s\HELP"""					%d
+633		Books registry		AddRegData	"""LOCAL"",""Software\Microsoft\InfoViewer\Titles\msdev40.mvb"",""Path"",""%s\HELP"""					%d
+634		Books registry		AddRegData	"""CURRENT"",""Software\Microsoft\InfoViewer\Titles\msdev40.mvb"",""Path"",""%s\HELP"""					%S
+635		Books registry		AddRegData	"""LOCAL"",""Software\Microsoft\InfoViewer\Titles\msdev40.mvb"",""Path"",""%s\HELP"""					%S
+
+637				Depend	400 ? 638 640 : 639 641					%d
+638		Books registry		AddRegData	"""CURRENT"",""Software\Microsoft\InfoViewer\Titles\fpsbks40.mvb"",""Path"",""%s\HELP\"""					%d
+639		Books registry		AddRegData	"""CURRENT"",""Software\Microsoft\InfoViewer\Titles\fpsbks40.mvb"",""Path"",""%s\HELP\"""					%S
+640		Books registry		AddRegData	"""LOCAL"",""Software\Microsoft\InfoViewer\Titles\fpsbks40.mvb"",""Path"",""%s\HELP\"""					%d
+641		Books registry		AddRegData	"""LOCAL"",""Software\Microsoft\InfoViewer\Titles\fpsbks40.mvb"",""Path"",""%s\HELP\"""					%S
+642				Depend	439 ? 643 645 : 644 646					%d
+643		Books registry		AddRegData	"""CURRENT"",""Software\Microsoft\InfoViewer\Titles\fpsbks40.mvb"",""sampcd0"",""%s\"""					%d\HELP
+644		Books registry		AddRegData	"""CURRENT"",""Software\Microsoft\InfoViewer\Titles\fpsbks40.mvb"",""sampcd0"",""%s\"""					%S\HELP
+645		Books registry		AddRegData	"""LOCAL"",""Software\Microsoft\InfoViewer\Titles\fpsbks40.mvb"",""sampcd0"",""%s\"""					%d\HELP
+646		Books registry		AddRegData	"""LOCAL"",""Software\Microsoft\InfoViewer\Titles\fpsbks40.mvb"",""sampcd0"",""%s\"""					%S\HELP
+647				CustomAction	"""f90setup.dll"",""DeleteRegTree"",""CURRENT,Software\Microsoft\InfoViewer\Series\fpsbks40"""					
+648				CustomAction	"""f90setup.dll"",""DeleteRegTree"",""CURRENT,Software\Microsoft\InfoViewer\Titles\fpsbks40.mvb"""					
+649				CustomAction	"""f90setup.dll"",""DeleteRegTree"",""LOCAL,Software\Microsoft\InfoViewer\Series\fpsbks40"""					
+650				CustomAction	"""f90setup.dll"",""DeleteRegTree"",""LOCAL,Software\Microsoft\InfoViewer\Titles\fpsbks40.mvb"""					
+
+==== Clean Infoviewer Key					
+651				DependAsk	503 ? 652 653 654 655
+652				CustomAction	"""f90setup.dll"",""DeleteRegTree"",""CURRENT,Software\Microsoft\InfoViewer\Viewers\Developer"""
+653				CustomAction	"""f90setup.dll"",""DeleteRegTree"",""LOCAL,Software\Microsoft\InfoViewer\Viewers\Developer"""
+654				CustomAction	"""f90setup.dll"",""DeleteRegTree"",""CURRENT,Software\Microsoft\InfoViewer\Titles\MSDEV40.MVB"""
+655				CustomAction	"""f90setup.dll"",""DeleteRegTree"",""LOCAL,Software\Microsoft\InfoViewer\Titles\MSDEV40.MVB"""
+656				Group	657 658 659 660 661 662 663 664 665 666 667 668
+657				CustomAction	"""f90setup.dll"",""DeleteRegTree"",""CURRENT,Software\Microsoft\InfoViewer\Titles\FPS40.MVB"""
+658				CustomAction	"""f90setup.dll"",""DeleteRegTree"",""LOCAL,Software\Microsoft\InfoViewer\Titles\FPS40.MVB"""
+659				CustomAction	"""f90setup.dll"",""DeleteEmptyRegTree"",""CURRENT,Software\Microsoft\InfoViewer\Viewers"""
+660				CustomAction	"""f90setup.dll"",""DeleteEmptyRegTree"",""CURRENT,Software\Microsoft\InfoViewer\Titles"""
+661				CustomAction	"""f90setup.dll"",""DeleteEmptyRegTree"",""CURRENT,Software\Microsoft\InfoViewer\Series"""
+662				CustomAction	"""f90setup.dll"",""DeleteEmptyRegTree"",""CURRENT,Software\Microsoft\InfoViewer\DocSets"""
+663				CustomAction	"""f90setup.dll"",""DeleteEmptyRegTree"",""CURRENT,Software\Microsoft\InfoViewer"""
+664				CustomAction	"""f90setup.dll"",""DeleteEmptyRegTree"",""LOCAL,Software\Microsoft\InfoViewer\Viewers"""
+665				CustomAction	"""f90setup.dll"",""DeleteEmptyRegTree"",""LOCAL,Software\Microsoft\InfoViewer\Titles"""					
+666				CustomAction	"""f90setup.dll"",""DeleteEmptyRegTree"",""LOCAL,Software\Microsoft\InfoViewer\Series"""					
+667				CustomAction	"""f90setup.dll"",""DeleteEmptyRegTree"",""LOCAL,Software\Microsoft\InfoViewer\DocSets"""					
+668				CustomAction	"""f90setup.dll"",""DeleteEmptyRegTree"",""LOCAL,Software\Microsoft\InfoViewer"""					
+=== End always done										
+
+670				Group	671 710 720 730 740					
+671				Group	672 673 674 675 676 677 678 679 681 682 683 684 685 686 687 688 689					
+672				Group	690 692 693 694 695 696 697 698 699 701 702 703					
+673		File Assoc		AddRegData	"""CLASSES"",""forfile"",,""Fortran Fixed Form Source File"""					
+674		File Assoc		AddRegData	"""CLASSES"",""forfile\DefaultIcon"",,""%s\msvcfor.pkg,-14910"""					%d\BIN\IDE
+675		File Assoc		AddRegData	"""CLASSES"",""forfile"",""AlwaysShowExt"",,REG_SZ"					
+676		File Assoc		AddRegData	"""CLASSES"",""forfile\shell\Open\command"",,""%s\BIN\MSDEV.EXE """"%%1"""""""					%d
+677		File Assoc		AddRegData	"""CLASSES"",""forfile\shell\Open\ddeexec"",,""open(""""%%1"""")"""					
+678		File Assoc		AddRegData	"""CLASSES"",""forfile\shell\Open\ddeexec\Application"",,""msdev"""					
+679		File Assoc		AddRegData	"""CLASSES"",""forfile\shell\Open\ddeexec\Topic"",,""system"""					
+681		File Assoc		AddRegData	"""CLASSES"","".FOR"","""",""forfile"""					
+682		File Assoc		AddRegData	"""CLASSES"","".FI"","""",""forfile"""					
+683		File Assoc		AddRegData	"""CLASSES"","".FD"","""",""forfile"""					
+684		File Assoc		AddRegData	"""CLASSES"",""f90file"",,""Fortran 90 Free Form Source File"""					
+685		File Assoc		AddRegData	"""CLASSES"",""f90file\DefaultIcon"",,""%s\msvcfor.pkg,-14909"""					%d\BIN\IDE
+686		File Assoc		AddRegData	"""CLASSES"",""f90file"",""AlwaysShowExt"",,REG_SZ"					
+687		File Assoc		AddRegData	"""CLASSES"",""f90file\shell\Open\command"",,""%s\BIN\MSDEV.EXE """"%%1"""""""					%d
+688		File Assoc		AddRegData	"""CLASSES"",""f90file\shell\Open\ddeexec"",,""open(""""%%1"""")"""					
+689		File Assoc		AddRegData	"""CLASSES"",""f90file\shell\Open\ddeexec\Application"",,""msdev"""					
+690		File Assoc		AddRegData	"""CLASSES"",""f90file\shell\Open\ddeexec\Topic"",,""system"""					
+692		File Assoc		AddRegData	"""CLASSES"","".F90"","""",""f90file"""					
+693		File Assoc		AddRegData	"""CLASSES"",""ffile"",,""Fortran 90 Free Form Source File"""					
+694		File Assoc		AddRegData	"""CLASSES"",""ffile\DefaultIcon"",,""%s\msvcfor.pkg,-14911"""					%d\BIN\IDE
+695		File Assoc		AddRegData	"""CLASSES"",""ffile"",""AlwaysShowExt"",,REG_SZ"					
+696		File Assoc		AddRegData	"""CLASSES"",""ffile\shell\Open\command"",,""%s\BIN\MSDEV.EXE """"%%1"""""""					%d
+697		File Assoc		AddRegData	"""CLASSES"",""ffile\shell\Open\ddeexec"",,""open(""""%%1"""")"""					
+698		File Assoc		AddRegData	"""CLASSES"",""ffile\shell\Open\ddeexec\Application"",,""msdev"""					
+699		File Assoc		AddRegData	"""CLASSES"",""ffile\shell\Open\ddeexec\Topic"",,""system"""					
+701		File Assoc		AddRegData	"""CLASSES"","".F"","""",""ffile"""					
+702		File Assoc		AddRegData	"""CLASSES"",""pkgfile"",,""Microsoft Developer Extension"""					
+703		File Assoc		AddRegData	"""CLASSES"","".PKG"","""",""pkgfile"""					
+
+710				DependAsk	503 ? 711 712 713 715 716					
+711		File Assoc		AddRegData	"""CLASSES"",""rcfile"",,""Resource Script"""					
+712		File Assoc		AddRegData	"""CLASSES"",""rcfile\DefaultIcon"",,""%s\msdev.exe,-20206"""					%d\BIN
+713		File Assoc		AddRegData	"""CLASSES"",""rcfile\shell\open\command"",,""%s\BIN\MSDEV.EXE """"%%1"""""""					%d
+715		File Assoc		AddRegData	"""CLASSES"","".RC"","""",""rcfile"""					
+716		File Assoc		AddRegData	"""CLASSES"",""rcfile"",""AlwaysShowExt"",,REG_SZ"					
+
+720				DependAsk	503 ? 721 722 723 724					
+721		File Assoc		AddRegData	"""CLASSES"",""bscfile"",,""Browser Information"""					
+722		File Assoc		AddRegData	"""CLASSES"",""bscfile\DefaultIcon"",,""%s\msdev.exe,-20210"""					%d\BIN
+723		File Assoc		AddRegData	"""CLASSES"","".BSC"","""",""bscfile"""					
+724		File Assoc		AddRegData	"""CLASSES"",""bscfile"",""AlwaysShowExt"",,REG_SZ"					
+
+730				DependAsk	503 ? 731 732 733 734 735 736 737 738 739					
+731		File Assoc		AddRegData	"""CLASSES"",""mdpxfile"",,""Intermediate File"""					
+732		File Assoc		AddRegData	"""CLASSES"",""mdpxfile\DefaultIcon"",,""%s\msdev.exe,-20209"""					%d\BIN
+733		File Assoc		AddRegData	"""CLASSES"","".RES"","""",""mdpxfile"""					
+734		File Assoc		AddRegData	"""CLASSES"","".PDB"","""",""mdpxfile"""					
+735		File Assoc		AddRegData	"""CLASSES"","".IDB"","""",""mdpxfile"""					
+736		File Assoc		AddRegData	"""CLASSES"","".SBR"","""",""mdpxfile"""					
+737		File Assoc		AddRegData	"""CLASSES"","".OBJ"","""",""mdpxfile"""					
+738		File Assoc		AddRegData	"""CLASSES"","".MOD"","""",""mdpxfile"""					
+739		File Assoc		AddRegData	"""CLASSES"",""mdpxfile"",""AlwaysShowExt"",,REG_SZ"					
+
+740				DependAsk	503 ? 741 742 743 744					
+741		File Assoc		AddRegData	"""CLASSES"",""mdpfile"",,""Project Workspace"""					
+742		File Assoc		AddRegData	"""CLASSES"",""mdpfile\DefaultIcon"",,""%s\msdev.exe,-20208"""					%d\BIN
+743		File Assoc		AddRegData	"""CLASSES"",""mdpfile\shell\Open\command"",,""%s\BIN\MSDEV.EXE """"%%1"""""""					%d
+744		File Assoc		AddRegData	"""CLASSES"","".MDP"","""",""mdpfile"""					
+
+880				Group	881 882 883 884 885 886					
+881				AddRegData	"CURRENT,""Software\Microsoft\Developer\Components\Platforms\Win32 (x86)\Transports\TLN0COM"""					
+882				AddRegData	"CURRENT,""Software\Microsoft\Developer\Components\Platforms\Win32 (x86)\Transports\TLN0LOC"""					
+883				AddRegData	"CURRENT,""Software\Microsoft\Developer\Components\Platforms\Win32 (x86)\Transports\TLN0T"""					
+884				AddRegData	"LOCAL,""Software\Microsoft\Developer\Components\Platforms\Win32 (x86)\Transports\TLN0COM"""					
+885				AddRegData	"LOCAL,""Software\Microsoft\Developer\Components\Platforms\Win32 (x86)\Transports\TLN0LOC"""					
+886				AddRegData	"LOCAL,""Software\Microsoft\Developer\Components\Platforms\Win32 (x86)\Transports\TLN0T"""					
+
+890				DependAsk	503 ? 891 892 893 894 895 896 					%d 
+891				AddRegData	"CURRENT,""Software\Microsoft\Developer\Directories"",""Install Dirs"",""%s\"""					%d\BIN
+892				AddRegData	"CURRENT,""Software\Microsoft\Developer\Directories"",""ProductDir"",%s"					%d
+893				AddRegData	"LOCAL,""Software\Microsoft\Developer\Directories"",""Install Dirs"",""%s\"""					%d\BIN
+894				AddRegData	"LOCAL,""Software\Microsoft\Developer\Directories"",""ProductDir"",%s"					%d
+895				CustomAction	"""f90setup.dll"",""DeleteRegTree"",""CURRENT,Software\Microsoft\Developer"""					
+896				CustomAction	"""f90setup.dll"",""DeleteRegTree"",""LOCAL,Software\Microsoft\Developer"""					
+
+==== Always done										
+900	yes	Always		Group	901 902 903 904 905 910 919 920 950  1090					%d 
+901				CustomAction	"""f90setup.dll"",""BadPentium"""					
+902				InstallComplianceFile	"setup3,complinc_dll"					%d\FPSSETUP
+903		Install Reg		AddRegData	"LOCAL,""Software\Microsoft\Fortran PowerStation 4.0"",""InstallPath"",%s"					%d
+904		Install Reg		AddRegData	"LOCAL,""Software\Microsoft\Fortran PowerStation 4.0"",""SourcePath"",%s"					%S
+905				Group	906 907					
+906				AddProgmanItem	"Fortran PowerStation 4.0, Numerical Recipes Fortran, %s\BIN\fpscdrom.exe,,%s\BIN\fpscdrom.exe,1,nrf207.hlp Numerical_Recipes_Files winhlp32_%%s -s"					
+907				Depend	450 ? 908 : 909					
+908				AddRegData	"LOCAL,""Software\Microsoft\Fortran PowerStation 4.0\fpscdrom"", ""nrf207.hlp"",%s"					%d\NUMREC
+909				AddRegData	"LOCAL,""Software\Microsoft\Fortran PowerStation 4.0\fpscdrom"", ""nrf207.hlp"", %s"					%S\NUMREC
+
+==== Always done setup										
+910				Group	911 913 914 915 918 949					
+911		Write Table File		WriteTableFile	"""SETUP.STF"""					%d\FPSSETUP
+913		Uninstall Reg Lines		AddRegData	"LOCAL,""Software\Microsoft\Windows\CurrentVersion\Uninstall\MSFortranPowerStation"",""DisplayName"",""Microsoft Fortran PowerStation 4.0"","""""					
+914		Uninstall Reg Lines		AddRegData	"LOCAL,""Software\Microsoft\Windows\CurrentVersion\Uninstall\MSFortranPowerStation"",""UninstallString"",""%s\BIN\fpscdrom.exe setup.exe """"Setup Files"""" %%s -1"","""""					%d
+915				Depend	440 ? 916 : 917					
+916				AddRegData	"LOCAL,""Software\Microsoft\Fortran PowerStation 4.0\fpscdrom"", ""setup.exe"",%s"					%d\FPSSETUP
+917				AddRegData	"LOCAL,""Software\Microsoft\Fortran PowerStation 4.0\fpscdrom"", ""setup.exe"", %s"					%S
+918				AddRegData	"LOCAL,""Software\Microsoft\Fortran PowerStation 4.0\fpscdrom"", ""media"",2, DWORD"
+
+==== Tools Always Done					
+919				Depend	90 ? 922 932 933 937 938
+920				Group	921 931 936 941
+921				Depend	429 ? 922
+922				Depend	101 ? 923 924 : 927 928
+923				AddProgmanItem	"Fortran PowerStation 4.0, PView, %s\BIN\fpscdrom.exe,,%s\BIN\fpscdrom.exe,4,pview.exe PView_Files %%s"					
+924				Depend	429 ? 925 : 926					
+925				AddRegData	"LOCAL,""Software\Microsoft\Fortran PowerStation 4.0\fpscdrom"", ""pview.exe"",%s"					%d\BIN\WINNT
+926				AddRegData	"LOCAL,""Software\Microsoft\Fortran PowerStation 4.0\fpscdrom"", ""pview.exe"", %s"					%S\BIN\WINNT
+927				AddProgmanItem	"Fortran PowerStation 4.0, PView, %s\BIN\fpscdrom.exe,,%s\BIN\fpscdrom.exe,3,pview95.exe Pview_Files %%s"					
+928				Depend	429 ? 929 : 930					
+929				AddRegData	"LOCAL,""Software\Microsoft\Fortran PowerStation 4.0\fpscdrom"", ""pview95.exe"",%s"					%d\BIN\WIN95
+930				AddRegData	"LOCAL,""Software\Microsoft\Fortran PowerStation 4.0\fpscdrom"", ""pview95.exe"", %s"					%S\BIN\WIN95
+
+931				Depend	432 ? 932 933					
+932				AddProgmanItem	"Fortran PowerStation 4.0, WinDiff, %s\BIN\fpscdrom.exe,,%s\BIN\fpscdrom.exe,5,windiff.exe WinDiff_Files %%s"					
+933				Depend	432 ? 934 : 935					
+934				AddRegData	"LOCAL,""Software\Microsoft\Fortran PowerStation 4.0\fpscdrom"", ""windiff.exe"",%s"					%d\BIN
+935				AddRegData	"LOCAL,""Software\Microsoft\Fortran PowerStation 4.0\fpscdrom"", ""windiff.exe"", %s"					%S\BIN
+
+936				Depend	438 ? 937 938					
+937				AddProgmanItem	"Fortran PowerStation 4.0, Spy, %s\BIN\fpscdrom.exe,,%s\BIN\fpscdrom.exe,6,spy.exe Spy_Files %%s"					
+938				Depend	438 ? 939 : 940					
+939				AddRegData	"LOCAL,""Software\Microsoft\Fortran PowerStation 4.0\fpscdrom"", ""spy.exe"",%s"					%d\BIN
+940				AddRegData	"LOCAL,""Software\Microsoft\Fortran PowerStation 4.0\fpscdrom"", ""spy.exe"", %s"					%S\BIN
+
+941				Group	942					
+942				Depend	457 ? 946 947 : 944					
+943				CustomAction	"""f90setup.dll"",""IsUNC"""					%S
+944				Depend	943 ? : 945 947					
+945				AddRegData	"LOCAL,""Software\Microsoft\Fortran PowerStation 4.0\fpscdrom"", ""play.exe"", %s"					%S\HELP
+946				AddRegData	"LOCAL,""Software\Microsoft\Fortran PowerStation 4.0\fpscdrom"", ""play.exe"",%s"					%d\HELP
+947				AddProgmanItem	"Fortran PowerStation 4.0, Welcome to Fortran PowerStation, %s\BIN\fpscdrom.exe,,%s\BIN\fpscdrom.exe,7,play.exe Welcome_to_Fortran_PowerStation_Files %%s_%%sintrofps.les"					
+
+949		IDE ProgMan Icon		AddProgmanItem	"Fortran PowerStation 4.0, Microsoft Fortran PowerStation Setup, %s\BIN\fpscdrom.exe,,%s\BIN\fpscdrom.exe,2,setup.exe Setup_Files %%s -1"					
+
+==== More Always Done										
+950				Group	951 952 953 954 955 956 957 958 961 962 963					%d
+951				InstallShared	"psshelp,pss_hlp,msdev_pss_hlp,msdev,111"					%d\HELP
+952				InstallShared	"psshelp,pss_cnt,msdev_pss_cnt,msdev,111"					%d\HELP
+953				CustomAction	"""f90setup.dll"",""DelFile"",pss.gid"					%d\HELP
+954				CustomAction	"""f90setup.dll"",""DelFile"",pss.fts"					%d\HELP
+955		IDE ProgMan Icon		AddProgmanItem	"Fortran PowerStation 4.0, Technical Support, %s\HELP\PSS.HLP"					%d
+956				CustomAction	"""f90setup.dll"",""WriteFPSVARS"""					%d
+957				CustomAction	"""f90setup.dll"",""DelFile"",fpsvarcd.bat"					%d\BIN
+958				DependAsk	330 ? 959 : 960					
+959				CustomAction	"""f90setup.dll"",""SetEnvironment"""					%d
+960				CustomAction	"""f90setup.dll"",""NoEnvironment"""					%d
+961		Compiler System Files		InstallShared	"coresys,msvcrt30_dll,msdev_msvcrt40_dll,msdev,111"					%m
+962		Compiler System Files		InstallShared	"coresys,msfrt30_dll,msdev_msfrt40_dll,msdev,111"					%m
+963				Depend	330 ? 964 : 965					
+964				AddRegData	"LOCAL,""Software\Microsoft\Fortran PowerStation 4.0\fpscdrom"", ""fl32.exe"",%s"					%d\BIN
+965				AddRegData	"LOCAL,""Software\Microsoft\Fortran PowerStation 4.0\fpscdrom"", ""fl32.exe"", %s"					%S\BIN
+
+
+1000				Depend	500 ? : 1002					
+1001	yes	Books Online Configuration Error		YesNoDlg	"Books Online requires that Microsoft Developer Studio also be installed, and you have chosen not to install Microsoft Developer Studio at this time.  Would you like to review and possibly change your installation selections?"					
+1002				Depend	1001 ? 1003					
+1003				CustomAction	"""f90setup.dll"",""ErrorMvbButNoIde"""					
+
+==== End of the world										
+1090				Group	1091 1092					
+1091				CustomAction	"""f90setup.dll"",""DeleteRegTree"",""LOCAL,Software\Microsoft\Fortran PowerStation 4.0"""					
+1092				CustomAction	"""f90setup.dll"",""DeleteRegTree"",""CURRENT,Software\Microsoft\Fortran PowerStation 4.0"""

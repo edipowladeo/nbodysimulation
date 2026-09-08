@@ -1,0 +1,52 @@
+!****************************************************************************
+!* FUNCTION PROTOTYPES
+!****************************************************************************
+
+interface 
+subroutine ExamineAccessToken(hAccessToken) 
+!MS$ATTRIBUTES VALUE :: hAccessToken 
+integer*4   hAccessToken 
+end subroutine
+
+integer(4) function ExamineSD (psdSD ,kamKindOfMask) 
+!MS$ATTRIBUTES VALUE :: psdSD 
+!MS$ATTRIBUTES VALUE :: kamKindOfMask 
+integer*4   psdSD 
+integer*4   kamKindOfMask 
+end function
+
+
+!integer(4) function SetPrivilegeInAccessToken() 
+!end function
+!
+!subroutine InitializeWellKnownSIDs() 
+!end subroutine
+!
+!subroutine DisplayHelp() 
+!end subroutine
+
+
+!integer(4) function ExamineACL(paclACL,lpszOldIndent, kamKindOfMask) 
+!integer*4   paclACL [VALUE]
+!integer*4   lpszOldIndent [VALUE] x
+!integer*4   kamKindOfMask [VALUE]
+!end function
+!
+!subroutine ExamineMask  (amMask, lpszOldIndent, kamKindOfMask) 
+!integer*4   amMask [VALUE]
+!integer*4   lpszOldIndent [VALUE]  x
+!integer*4   kamKindOfMask [VALUE]
+!end subroutine
+!
+!integer(4) function LookupSIDName(psidSID, lpszOldIndent) 
+!integer*4   psidSID [VALUE]         x
+!integer*4   lpszOldIndent [VALUE]
+!end function
+!
+!integer(4) function SIDStringName(psidSID, lpszSIDStringName) 
+!integer*4   psidSID [VALUE]          x
+!integer*4   lpszSIDStringName [VALUE]
+!end function
+
+
+end interface

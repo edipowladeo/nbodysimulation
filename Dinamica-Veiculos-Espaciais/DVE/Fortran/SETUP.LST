@@ -1,0 +1,38 @@
+[Windows 95 Params]
+	WndTitle    = Microsoft Fortran PowerStation Setup
+	WndMess     = Starting Microsoft Fortran PowerStation Setup...
+	TmpDirSize  = 900
+	TmpDirName  = ~msstfqf.t
+	CmdLine     = acmsetup /T setup.stf /S %s %s
+	DrvWinClass = Stuff-Shell
+	CabinetFile = FPS4_1.CAB
+	Require31   = This program requires Windows NT 3.51 (or higher) or Windows 95 (or higher).
+
+[Windows 95 Files]
+	fpssetup\acmsetup.exe = acmsetup.exe
+	fpssetup\acmsetup.hlp = acmsetup.hlp
+	fpssetup\mssetup.dll = mssetup.dll
+	fpssetup\f90setup.dll = f90setup.dll
+	fpssetup\setup.stf = setup.stf
+	fpssetup\msvcrt20.dll = msvcrt20.dll
+	fpssetup\setup.inf = setup.inf
+
+[NT3.51 Intel Params]
+	WndTitle    = Microsoft Fortran PowerStation Setup
+	WndMess     = Starting Microsoft Fortran PowerStation Setup...
+	TmpDirSize  = 900
+	TmpDirName  = ~msstfqf.t
+	CmdLine     = acmsetup /T setup.stf /S %s %s
+	DrvWinClass = Stuff-Shell
+	CabinetFile = FPS4_1.CAB
+	Require31   = This program requires Windows NT 3.51 (or higher) or Windows 95 (or higher).
+
+[NT3.51 Intel Files]
+	fpssetup\acmsetup.exe = acmsetup.exe
+	fpssetup\acmsetup.hlp = acmsetup.hlp
+	fpssetup\mssetup.dll = mssetup.dll
+	fpssetup\f90setup.dll = f90setup.dll
+	fpssetup\setup.stf = setup.stf
+	fpssetup\msvcrt20.dll = msvcrt20.dll
+	fpssetup\setup.inf = setup.inf
+

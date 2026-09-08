@@ -1,0 +1,38 @@
+!/* function prototypes.  Window procedures first. */
+interface 
+subroutine doSysColors (hwnd)
+!MS$ATTRIBUTES VALUE :: hwnd
+integer     hwnd 
+end subroutine
+
+subroutine doInfo (hwnd)
+!MS$ATTRIBUTES VALUE :: hwnd
+integer     hwnd 
+end subroutine
+
+subroutine doDirectory (hwnd)
+!MS$ATTRIBUTES VALUE :: hwnd
+integer     hwnd 
+end subroutine
+
+subroutine doMetrics (hwnd)
+!MS$ATTRIBUTES VALUE :: hwnd
+integer     hwnd 
+end subroutine
+
+subroutine doPalette (hwnd)
+!MS$ATTRIBUTES VALUE :: hwnd
+integer     hwnd 
+end subroutine
+
+subroutine doLocalTime (hwnd)
+!MS$ATTRIBUTES VALUE :: hwnd
+integer     hwnd 
+end subroutine
+
+subroutine doTime (hwnd)
+!MS$ATTRIBUTES VALUE :: hwnd
+integer     hwnd 
+end subroutine
+
+end interface

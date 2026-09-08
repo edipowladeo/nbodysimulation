@@ -1,0 +1,29 @@
+interface 
+integer function TlsInit()
+!MS$ ATTRIBUTES STDCALL, ALIAS : '_TlsInit@0' :: TlsInit
+end function
+end interface
+
+interface 
+integer function TlsRetrieve (x)
+!MS$ ATTRIBUTES STDCALL, ALIAS : '_TlsRetrieve@4' :: TlsRetrieve
+integer x
+end function
+end interface
+
+
+interface 
+subroutine ErrorOut  (errstring)
+character*(*) errstring
+end subroutine
+end interface
+
+
+interface 
+integer function DllMain  (hInst, ul_reason_being_called, lpReserved)
+!MS$ ATTRIBUTES STDCALL, ALIAS : '_DllMain@12' :: DllMain
+integer hInst 
+integer ul_reason_being_called 
+integer lpReserved 
+end function
+end interface

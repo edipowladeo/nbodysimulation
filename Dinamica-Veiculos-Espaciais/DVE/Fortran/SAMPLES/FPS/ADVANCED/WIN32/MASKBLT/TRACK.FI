@@ -1,0 +1,34 @@
+! function prototypes. 
+
+interface 
+subroutine doTrackObject(x, y, z, w)
+!MS$ ATTRIBUTES STDCALL, ALIAS : '_doTrackObject@16' :: doTrackObject
+type  RECT
+    integer left 
+    integer top 
+    integer right 
+    integer bottom 
+end type  RECT
+type  XFORM                                      
+    real eM11 
+    real eM12 
+    real eM21 
+    real eM22 
+    real eDx 
+    real eDy 
+end type  XFORM
+type TrackObject
+  type (RECT)              rect1
+  type (XFORM)             xfmChange    ! World coordinate transform      */
+  type (XFORM)             xfmDown      ! transform when the mouse down happens. */
+  integer*4                hdc 
+  integer*4                Mode         ! TMROTATE, TMSIZEXY, TMMOVE, ... */
+  integer*4                allowedModes 
+  type (RECT)              rectClip 
+  integer*4                Next 
+end type
+type (TrackObject) x
+integer*4 y, z, w
+end subroutine
+end interface
+

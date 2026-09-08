@@ -1,0 +1,615 @@
+!* Data Structures for for Thread/Process/Synchronization Win32 APIs
+!* Copyright (c) 1995 Microsoft Corporation
+
+!* NOTE: When modifying this file, you must follow the following rules to
+!* ensure compatibility with fixed form and free form source:
+!*   1) All comments must start with '!'
+!*   2) All code must be within columns 7 to 72
+!*   3) For continuation, place a '&' in column 73,
+!*      and a '&' in column 6 of the continuation line
+
+$if .not. defined (_MSFORTRAN_)
+$define _MSFORTRAN_ = 100
+$endif
+$if _MSFORTRAN_ .GE. 300
+
+      interface
+      logical*4 function CloseHandle                                    &
+     &  [stdcall, alias: '_CloseHandle@4'] (handle)
+        integer*4 handle[value]
+      end
+
+      integer*4 function CreateEvent                                    &
+     &   [stdcall, alias: '_CreateEventA@16']                           & 
+     &   (security, reset, init_state, string)
+        integer*4 security [value]
+        Logical*4 reset [value]
+        Logical*4 init_state [value]
+        integer*4 string [value]
+      end
+
+      integer*4 function CreateMutex                                    &
+     &  [stdcall, alias: '_CreateMutexA@12']                            &
+     &  (security, owner, string)
+        integer*4 security [value]
+        logical*4 owner [value]
+        integer*4 string [value]
+      end
+
+      logical*4 function CreateProcess                                  &
+     &  [stdcall, alias: '_CreateProcessA@40']                          &
+     &  (lpApplicationName, lpCommandLine, lpProcessAttributes,         &
+     &  lpThreadAttributes, bInheritHandles, dwCreationFlags,           &
+     &  lpEnvironment, lpCurrentDirectory, lpStartupInfo,               &
+     &  lpProcessInformation)
+        integer*4 lpApplicationName [value]
+        integer*4 lpCommandLine [value]
+        integer*4 lpProcessAttributes [value]
+        integer*4 lpThreadAttributes [value]
+        logical*4 bInheritHandles [value]
+        integer*4 dwCreationFlags [value]
+        integer*4 lpEnvironment [value]
+        integer*4 lpCurrentDirectory [value]
+        integer*4 lpStartupInfo [value]
+        integer*4 lpProcessInformation [value]
+      end
+        
+      integer*4 function CreateSemaphore                                &
+     &  [stdcall, alias: '_CreateSemaphoreA@16']                        &
+     &  (security, InitialCount, MaxCount, string)
+        integer*4 security [value]
+        integer*4 InitialCount [value]
+        integer*4 MaxCount [value]
+        integer*4 string [value]
+      end
+
+      integer*4 function CreateThread                                   &
+     &  [stdcall, alias: '_CreateThread@24']                            &
+     &  (security, stack, thread_func,                                  &
+     &  argument, flags, thread_id)
+         integer*4 security [value]
+         integer*4 stack [value]
+         external thread_func
+         integer*4 argument [reference]
+         integer*4 flags [value]
+         integer*4 thread_id [reference]
+      end
+
+      subroutine DeleteCriticalSection                                  &
+     &  [stdcall, alias: '_DeleteCriticalSection@4'] (object)
+        integer*4 object [value]
+      end
+
+      logical*4 function DuplicateHandle                                &
+     &  [stdcall, alias: '_DuplicateHandle@28']                         &
+     &  (hSourceProcessHandle, hSourceHandle,                           &
+     &  hTargetProcessHandle, lpTargetHandle,                           &
+     &  dwDesiredAccess, bInheritHandle, dwOptions)
+        integer*4 hSourceProcessHandle [value]
+        integer*4 hSourceHandle [value]
+        integer*4 hTargetProcessHandle [value]
+        integer*4 lpTargetHandle [reference]
+        integer*4 dwDesiredAccess [value]
+        logical*4 bInheritHandle [value]
+        integer*4 dwOptions [value]
+      end
+
+      subroutine EnterCriticalSection                                   &
+     &    [stdcall, alias: '_EnterCriticalSection@4'] (object)
+      integer*4 object [value]
+      end
+
+      subroutine ExitProcess                                            &
+     &    [stdcall, alias: '_ExitProcess@4'] (ExitCode)
+      integer*4 ExitCode [value]
+      end
+
+      subroutine ExitThread                                             &
+     &    [stdcall, alias: '_ExitThread@4'] (ExitCode)
+      integer*4 ExitCode [value]
+      end
+
+      integer*4 function GetCurrentProcess                              &
+     &   [stdcall, alias: '_GetCurrentProcess@0'] ()
+      end
+
+      integer*4 function GetCurrentProcessId                            &
+     &   [stdcall, alias: '_GetCurrentProcessId@0'] ()
+      end
+
+      integer*4 function GetCurrentThread                               &
+     &   [stdcall, alias: '_GetCurrentThread@0'] ()
+      end
+
+      integer*4 function GetCurrentThreadId                             &
+     &   [stdcall, alias: '_GetCurrentThreadId@0'] ()
+      end
+
+      logical*4 function GetExitCodeProcess                             &
+     &   [stdcall, alias: '_GetExitCodeProcess@8']                      &
+     &   (hProcess, lpExitCode)
+        integer*4 hProcess [value]
+        integer*4 lpExitCode [reference]
+      end
+
+      logical*4 function GetExitCodeThread                              &
+     &   [stdcall, alias: '_GetExitCodeThread@8']                       &
+     &   (hThread, lpExitCode)
+        integer*4 hThread [value]
+        integer*4 lpExitCode [reference]
+      end
+
+      integer*4 function GetLastError                                   &
+     &    [stdcall, alias: '_GetLastError@0'] ()
+      end
+
+      integer*4 function GetPriorityClass                               &
+     &   [stdcall, alias: '_GetPriorityClass@4'] (hProcess)
+        integer*4 hProcess [value]
+      end
+
+      integer*4 function GetThreadPriority                              &
+     &   [stdcall, alias: '_GetThreadPriority@4'] (hThread)
+        integer*4 hThread [value]
+      end
+
+      subroutine InitializeCriticalSection                              &
+     &    [stdcall, alias: '_InitializeCriticalSection@4'] (object)
+      integer*4 object [value]
+      end
+
+      subroutine LeaveCriticalSection                                   &
+     &    [stdcall, alias: '_LeaveCriticalSection@4'] (object)
+      integer*4 object [value]
+      end
+
+      integer*4 function OpenEvent                                      &
+     &     [stdcall, alias: '_OpenEventA@12']                           &
+     &     (dwDesiredAccess, bInheritHandle, lpName)
+      integer*4 dwDesiredAccess [value]
+      logical*4 bInheritHandle [value]
+      integer*4 lpName [value]
+      end
+
+      integer*4 function OpenMutex                                      &
+     &     [stdcall, alias: '_OpenMutexA@12']                           &
+     &     (dwDesiredAccess, bInheritHandle, lpName)
+      integer*4 dwDesiredAccess [value]
+      logical*4 bInheritHandle [value]
+      integer*4 lpName [value]
+      end
+      
+      integer*4 function OpenProcess                                    &
+     &     [stdcall, alias: '_OpenProcess@12']                          &
+     &     (dwDesiredAccess, bInheritHandle, IdProcess)
+      integer*4 dwDesiredAccess [value]
+      logical*4 bInheritHandle [value]
+      integer*4 IdProcess [value]
+      end
+      
+      integer*4 function OpenSemaphore                                  &
+     &     [stdcall, alias: '_OpenSemaphoreA@12']                       &
+     &     (dwDesiredAccess, bInheritHandle, lpName)
+      integer*4 dwDesiredAccess [value]
+      logical*4 bInheritHandle [value]
+      integer*4 lpName [value]
+      end
+      
+      logical*4 function PulseEvent                                     &
+     &    [stdcall, alias: '_PulseEvent@4'] (hEvent)
+        integer*4 hEvent [value]
+      end
+
+      logical*4 function ReleaseMutex                                   &
+     &    [stdcall, alias: '_ReleaseMutex@4'] (handle)
+        integer*4 handle [value]
+      end
+
+      logical*4 function ReleaseSemaphore                               &
+     &    [stdcall, alias: '_ReleaseSemaphore@12']                      &
+     &    (handle, ReleaseCount, LpPreviousCount)
+        integer*4 handle [value]
+        integer*4 ReleaseCount [value]
+        integer*4 LpPreviousCount [reference]
+      end
+
+      logical*4 function ResetEvent                                     &
+     &   [stdcall, alias: '_ResetEvent@4'] (hEvent)
+       integer*4 hEvent [value] 
+      end
+
+      integer*4 function ResumeThread                                   &
+     &   [stdcall, alias: '_ResumeThread@4'] (hThread)
+        integer*4 hThread [value]
+      end
+
+      logical*4 function SetEvent                                       &
+     &    [stdcall, alias: '_SetEvent@4'] (handle)
+        integer*4 handle [value]
+      end
+
+      subroutine SetLastError                                           &
+     &    [stdcall, alias: '_SetLastError@4'] (dwErrorCode)
+      integer*4 dwErrorCode [value]
+      end
+
+      logical*4 function SetPriorityClass                               &
+     &  [stdcall, alias: '_SetPriorityClass@8'](hProcess,dwPriority)
+        integer*4 hProcess [value]
+        integer*4 dwPriority [value]
+      end
+
+      logical*4 function SetThreadPriority                              &
+     &   [stdcall, alias: '_SetThreadPriority@8'](hThread, nPriority)
+        integer*4 hThread [value]
+        integer*4 nPriority [value]
+      end
+
+      integer*4 function SuspendThread                                  &
+     &   [stdcall, alias: '_SuspendThread@4'] (hThread)
+        integer*4 hThread [value]
+      end
+
+      logical*4 function TerminateProcess                               &
+     &   [stdcall, alias: '_TerminateProcess@8']                        &
+     &   (hProcess, uExitCode)
+        integer*4 hProcess [value]
+        integer*4 uExitCode [value]
+      end
+
+      logical*4 function TerminateThread                                &
+     &   [stdcall, alias: '_TerminateThread@8']                         &
+     &   (hThread, dwExitCode)
+        integer*4 hThread [value]
+        integer*4 dwExitCode [value]
+      end
+
+      integer*4 function TlsAlloc                                       &
+     &   [stdcall, alias: '_TlsAlloc@0'] ()
+      end
+
+      logical*4 function TlsFree                                        &
+     &   [stdcall, alias: '_TlsFree@4'] (dwTlsIndex)
+        integer*4 dwTlsIndex [value]
+      end
+
+      integer*4 function TlsGetValue                                    &
+     &   [stdcall, alias: '_TlsGetValue@4'] (dwTlsIndex)
+      integer*4 dwTlsIndex [value]
+      end
+
+      logical*4 function TlsSetValue                                    &
+     &   [stdcall, alias: '_TlsSetValue@8'] (dwTlsIndex, lpTlsVal)
+      integer*4 dwTlsIndex [value]
+      integer*4 lpTlsVal [value]
+      end
+
+      integer*4 function WaitForMultipleObjects                         &
+     &    [stdcall, alias: '_WaitForMultipleObjects@16']                &
+     &    (Count, LpHandles, WaitAll, Mseconds)
+        integer*4 Count [value]
+        integer*4 LpHandles [reference](*)
+        logical*4 WaitAll [value]
+        integer*4 Mseconds [value]
+      end
+
+      integer*4 function WaitForSingleObject                            &
+     &    [stdcall, alias: '_WaitForSingleObject@8']                    &
+     &    (handle, Mseconds)
+        integer*4 handle [value]
+        integer*4 Mseconds [value]
+      end
+      end interface
+$else
+      logical*4 CloseHandle           
+      integer*4 CreateEvent           
+      integer*4 CreateMutex           
+      logical*4 CreateProcess         
+      integer*4 CreateSemaphore       
+      integer*4 CreateThread          
+      logical*4 DuplicateHandle       
+      integer*4 GetCurrentProcess     
+      integer*4 GetCurrentProcessId   
+      integer*4 GetCurrentThread      
+      integer*4 GetCurrentThreadId    
+      logical*4 GetExitCodeProcess    
+      logical*4 GetExitCodeThread     
+      integer*4 GetLastError          
+      integer*4 GetPriorityClass      
+      integer*4 GetThreadPriority     
+      integer*4 OpenEvent             
+      integer*4 OpenMutex             
+      integer*4 OpenProcess           
+      integer*4 OpenSemaphore         
+      logical*4 PulseEvent            
+      logical*4 ReleaseMutex          
+      logical*4 ReleaseSemaphore      
+      logical*4 ResetEvent            
+      integer*4 ResumeThread          
+      logical*4 SetEvent              
+      logical*4 SetPriorityClass      
+      logical*4 SetThreadPriority     
+      integer*4 SuspendThread         
+      logical*4 TerminateProcess      
+      logical*4 TerminateThread       
+      integer*4 TlsAlloc              
+      logical*4 TlsFree               
+      integer*4 TlsGetValue           
+      logical*4 TlsSetValue           
+      integer*4 WaitForMultipleObjects
+      integer*4 WaitForSingleObject
+      external CloseHandle           
+      external CreateEvent           
+      external CreateMutex           
+      external CreateProcess         
+      external CreateSemaphore       
+      external CreateThread          
+      external DeleteCriticalSection
+      external DuplicateHandle      
+      external EnterCriticalSection
+      external ExitProcess
+      external ExitThread 
+      external GetCurrentProcess     
+      external GetCurrentProcessId   
+      external GetCurrentThread      
+      external GetCurrentThreadId    
+      external GetExitCodeProcess    
+      external GetExitCodeThread     
+      external GetLastError          
+      external GetPriorityClass      
+      external GetProcessHandle      
+      external GetThreadPriority     
+      external InitializeCriticalSection
+      external LeaveCriticalSection
+      external OpenEvent             
+      external OpenMutex             
+      external OpenProcess           
+      external OpenSemaphore         
+      external PulseEvent            
+      external ReleaseMutex          
+      external ReleaseSemaphore      
+      external ResetEvent            
+      external ResumeThread          
+      external SetEvent              
+      external SetLastError
+      external SetPriorityClass      
+      external SetThreadPriority     
+      external SuspendThread         
+      external TerminateProcess      
+      external TerminateThread       
+      external TlsAlloc              
+      external TlsFree               
+      external TlsGetValue           
+      external TlsSetValue           
+      external WaitForMultipleObjects
+      external WaitForSingleObject
+
+$endif
+ 
+      INTEGER CREATE_NEW_CONSOLE
+      INTEGER CREATE_NO_WINDOW
+      INTEGER CREATE_NEW_PROCESS_GROUP
+      INTEGER CREATE_SUSPENDED
+      INTEGER DEBUG_PROCESS
+      INTEGER DEBUG_ONLY_THIS_PROCESS
+      INTEGER DETACHED_PROCESS
+      INTEGER DUPLICATE_CLOSE_SOURCE
+      INTEGER DUPLICATE_SAME_ACCESS
+      INTEGER ERROR_INVALID_HANDLE
+      INTEGER ERROR_ALREADY_EXISTS
+      INTEGER EVENT_ALL_ACCESS
+      INTEGER EVENT_MODIFY_STATE
+      INTEGER FILE_MAP_ALL_ACCESS
+      INTEGER FILE_MAP_READ
+      INTEGER FILE_MAP_WRITE
+      INTEGER GENERIC_READ
+      INTEGER GENERIC_WRITE
+      INTEGER HIGH_PRIORITY_CLASS
+      INTEGER IDLE_PRIORITY_CLASS
+      INTEGER INFINITE
+      INTEGER MAXCHAR
+      INTEGER MAX_COMPUTERNAME_LENGTH
+      INTEGER MAXIMUM_SUSPEND_COUNT
+      INTEGER MAXIMUM_WAIT_OBJECTS
+      INTEGER MAXLONG
+      INTEGER MAX_PATH
+      INTEGER MUTANT_QUERY_STATE
+      INTEGER MUTANT_ALL_ACCESS
+      INTEGER MUTEX_ALL_ACCESS
+      INTEGER NORMAL_PRIORITY_CLASS
+      INTEGER PAGE_READWRITE
+      INTEGER PROCESS_ALL_ACCESS
+      INTEGER PROCESS_CREATE_PROCESS
+      INTEGER PROCESS_CREATE_THREAD
+      INTEGER PROCESS_DUP_HANDLE
+      INTEGER PROCESS_QUERY_INFORMATION
+      INTEGER PROCESS_SET_INFORMATION
+      INTEGER PROCESS_TERMINATE
+      INTEGER PROCESS_VM_OPERATION
+      INTEGER PROCESS_VM_READ
+      INTEGER PROCESS_VM_WRITE
+      INTEGER REAL_TIME_PRIORITY_CLASS
+      INTEGER SECTION_MAP_ALL_ACCESS
+      INTEGER SECTION_QUERY
+      INTEGER SECTION_EXTEND_SIZE
+      INTEGER SECTION_MAP_EXECUTE
+      INTEGER SECTION_MAP_READ
+      INTEGER SECTION_MAP_WRITE
+      INTEGER SEMAPHORE_ALL_ACCESS
+      INTEGER SEMAPHORE_MODIFY_STATE
+      INTEGER STANDARD_RIGHTS_REQUIRED
+      INTEGER STATUS_PENDING
+      INTEGER STATUS_TIMEOUT
+      INTEGER STD_INPUT_HANDLE
+      INTEGER STD_OUTPUT_HANDLE
+      INTEGER STILL_ACTIVE
+      INTEGER SYNCHRONIZE
+      INTEGER THREAD_ALL_ACCESS
+      INTEGER THREAD_BASE_PRIORITY_IDLE
+      INTEGER THREAD_BASE_PRIORITY_LOWRT
+      INTEGER THREAD_BASE_PRIORITY_MAX
+      INTEGER THREAD_BASE_PRIORITY_MIN
+      INTEGER THREAD_DIRECT_IMPERSONATION
+      INTEGER THREAD_GET_CONTEXT
+      INTEGER THREAD_IMPERSONATE
+      INTEGER THREAD_PRIORITY_ABOVE_NORMAL
+      INTEGER THREAD_PRIORITY_BELOW_NORMAL
+      INTEGER THREAD_PRIORITY_HIGHEST
+      INTEGER THREAD_PRIORITY_IDLE
+      INTEGER THREAD_PRIORITY_LOWEST
+      INTEGER THREAD_PRIORITY_NORMAL
+      INTEGER THREAD_PRIORITY_ERROR_RETURN
+      INTEGER THREAD_PRIORITY_TIME_CRITICAL
+      INTEGER THREAD_QUERY_INFORMATION
+      INTEGER THREAD_SET_CONTEXT
+      INTEGER THREAD_SET_INFORMATION
+      INTEGER THREAD_SET_THREAD_TOKEN
+      INTEGER THREAD_SUSPEND_RESUME
+      INTEGER THREAD_TERMINATE
+      INTEGER TLS_MINIMUM_AVAILABLE
+      INTEGER WAIT_FAILED
+      INTEGER WAIT_INFINITE
+      INTEGER WAIT_TIMEOUT
+
+      PARAMETER (CREATE_NEW_CONSOLE = #10)
+      PARAMETER (CREATE_NO_WINDOW = #8000000)
+      PARAMETER (CREATE_NEW_PROCESS_GROUP = #200)
+      PARAMETER (CREATE_SUSPENDED = #4)
+      PARAMETER (DEBUG_PROCESS = #1)
+      PARAMETER (DEBUG_ONLY_THIS_PROCESS = #2)
+      PARAMETER (DETACHED_PROCESS = #8)
+      PARAMETER (DUPLICATE_CLOSE_SOURCE = #1)
+      PARAMETER (DUPLICATE_SAME_ACCESS = #2)
+      PARAMETER (ERROR_INVALID_HANDLE = 6)
+      PARAMETER (ERROR_ALREADY_EXISTS = 183)
+      PARAMETER (EVENT_ALL_ACCESS = #1F0003)
+      PARAMETER (EVENT_MODIFY_STATE = #2)
+      PARAMETER (FILE_MAP_ALL_ACCESS = #F000F)
+      PARAMETER (FILE_MAP_READ = #4)
+      PARAMETER (FILE_MAP_WRITE = #2)
+      PARAMETER (GENERIC_READ = #80000000)
+      PARAMETER (GENERIC_WRITE = #40000000)
+      PARAMETER (HIGH_PRIORITY_CLASS = #80)
+      PARAMETER (IDLE_PRIORITY_CLASS = #40)
+      PARAMETER (INFINITE = #FFFFFFFF)
+      PARAMETER (MAXCHAR = #7F)
+      PARAMETER (MAX_COMPUTERNAME_LENGTH = 15)
+      PARAMETER (MAXIMUM_SUSPEND_COUNT = #7F)
+      PARAMETER (MAXIMUM_WAIT_OBJECTS = 64)
+      PARAMETER (MAXLONG = #7FFFFFFF)
+      PARAMETER (MAX_PATH = 260)
+      PARAMETER (MUTANT_QUERY_STATE = #1)
+      PARAMETER (MUTANT_ALL_ACCESS = #1F0001)
+      PARAMETER (MUTEX_ALL_ACCESS = #1F0001)
+      PARAMETER (NORMAL_PRIORITY_CLASS = #20)
+      PARAMETER (PAGE_READWRITE = #4)
+      PARAMETER (PROCESS_ALL_ACCESS = #1F0FFF)
+      PARAMETER (PROCESS_CREATE_PROCESS = #80)
+      PARAMETER (PROCESS_CREATE_THREAD = #2)
+      PARAMETER (PROCESS_DUP_HANDLE = #40)
+      PARAMETER (PROCESS_QUERY_INFORMATION = #400)
+      PARAMETER (PROCESS_SET_INFORMATION = #200)
+      PARAMETER (PROCESS_TERMINATE = #1)
+      PARAMETER (PROCESS_VM_OPERATION = #8)
+      PARAMETER (PROCESS_VM_READ = #10)
+      PARAMETER (PROCESS_VM_WRITE = #20)
+      PARAMETER (REAL_TIME_PRIORITY_CLASS = #100)
+      PARAMETER (SECTION_MAP_ALL_ACCESS = #F000F)
+      PARAMETER (SECTION_QUERY = #1)
+      PARAMETER (SECTION_EXTEND_SIZE = #10)
+      PARAMETER (SECTION_MAP_EXECUTE = #8)
+      PARAMETER (SECTION_MAP_READ = #4)
+      PARAMETER (SECTION_MAP_WRITE = #2)
+      PARAMETER (SEMAPHORE_ALL_ACCESS = #1F0003)
+      PARAMETER (SEMAPHORE_MODIFY_STATE = #2)
+      PARAMETER (STANDARD_RIGHTS_REQUIRED = #F0000)
+      PARAMETER (STATUS_PENDING = #103)
+      PARAMETER (STATUS_TIMEOUT = #102)
+      PARAMETER (STD_INPUT_HANDLE = -10)
+      PARAMETER (STD_OUTPUT_HANDLE = -11)
+      PARAMETER (STILL_ACTIVE = #103)
+      PARAMETER (SYNCHRONIZE = #100000)
+      PARAMETER (THREAD_ALL_ACCESS = #1F03FF)
+      PARAMETER (THREAD_BASE_PRIORITY_IDLE = -15)
+      PARAMETER (THREAD_BASE_PRIORITY_LOWRT = 15)
+      PARAMETER (THREAD_BASE_PRIORITY_MAX = 2)
+      PARAMETER (THREAD_BASE_PRIORITY_MIN = -2)
+      PARAMETER (THREAD_DIRECT_IMPERSONATION = #200)
+      PARAMETER (THREAD_GET_CONTEXT = #8)
+      PARAMETER (THREAD_IMPERSONATE = #100)
+      PARAMETER (THREAD_PRIORITY_ABOVE_NORMAL = 1)
+      PARAMETER (THREAD_PRIORITY_BELOW_NORMAL = -1)
+      PARAMETER (THREAD_PRIORITY_HIGHEST = 2)
+      PARAMETER (THREAD_PRIORITY_IDLE = -15)
+      PARAMETER (THREAD_PRIORITY_LOWEST = -2)
+      PARAMETER (THREAD_PRIORITY_NORMAL = 0)
+      PARAMETER (THREAD_PRIORITY_ERROR_RETURN = #7FFFFFFF)
+      PARAMETER (THREAD_PRIORITY_TIME_CRITICAL = 15)
+      PARAMETER (THREAD_QUERY_INFORMATION = #40)
+      PARAMETER (THREAD_SET_CONTEXT = #10)
+      PARAMETER (THREAD_SET_INFORMATION = #20)
+      PARAMETER (THREAD_SET_THREAD_TOKEN = #80)
+      PARAMETER (THREAD_SUSPEND_RESUME = #2)
+      PARAMETER (THREAD_TERMINATE = #1)
+      PARAMETER (TLS_MINIMUM_AVAILABLE = 64)
+      PARAMETER (WAIT_FAILED = #FFFFFFFF)
+      PARAMETER (WAIT_INFINITE = -1)
+      PARAMETER (WAIT_TIMEOUT = #102)
+
+      STRUCTURE /PROCESS_INFORMATION/
+      integer*4 hProcess 
+      integer*4 hThread
+      integer*4 dwProcessId
+      integer*4 dwThreadId
+      END STRUCTURE
+
+      STRUCTURE /RTL_CRITICAL_SECTION_DEBUG/
+      integer*4 Type 
+      integer*4 CreatorBackTraceIndex
+      integer*4 Address
+      integer*4 ProcessLocksList
+      integer*4 EntryCount
+      integer*4 ContentionCount
+      integer*4 Depth
+      integer*4 OwnerBackTrace(5)
+      END STRUCTURE
+
+      STRUCTURE /RTL_CRITICAL_SECTION/
+      integer*4 Address 
+      integer*4 LockCount
+      integer*4 RecursionCount
+      integer*4 OwningThread
+      integer*4 LockSemaphore
+      integer*4 Reserved
+      END STRUCTURE
+
+      STRUCTURE /SECURITY_ATTRIBUTES/
+      integer*4 nLength 
+      integer*4 lpSecurityDescriptor
+      logical*4 bInheritHandle
+      END STRUCTURE
+
+      STRUCTURE /STARTUPINFO/
+      integer*4 cb
+      integer*4 lpReserved
+      integer*4 lpDesktop
+      integer*4 lpTitle
+      integer*4 dwX
+      integer*4 dwY
+      integer*4 dwXSize
+      integer*4 dwYSize
+      integer*4 dwXCountChars
+      integer*4 dwYCountChars
+      integer*4 dwFillAttribute
+      integer*4 dwFlags
+      integer*2 wShowWindow
+      integer*2 cbReserved2
+      integer*4 lpReserved2
+      integer*4 hStdInput
+      integer*4 hStdOutput
+      integer*4 hStdError
+      END STRUCTURE
+
+! External functions 
+
+

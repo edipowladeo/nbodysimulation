@@ -1,0 +1,56 @@
+interface 
+integer function DllMain (hInst,ul_reason_being_called, lpReserved)
+!MS$ATTRIBUTES STDCALL, ALIAS : '_DllMain@12' :: DllMain
+integer*4 hInst 
+integer*4 ul_reason_being_called 
+integer*4 lpReserved 
+end function
+end interface
+
+interface 
+integer function StartSelection(HWND, MPOINT, LPRECT, int)
+!MS$ ATTRIBUTES STDCALL, ALIAS : '_StartSelection@16' :: StartSelection
+!MS$ ATTRIBUTES REFERENCE :: mpoint
+!MS$ ATTRIBUTES REFERENCE :: lprect
+use msfwinty
+integer*4 hwnd
+type (T_POINTS)  mpoint
+type (T_RECT)  lprect
+integer*4 int
+end function
+end interface 
+
+interface 
+integer function UpdateSelection(HWND, MPOINT, LPRECT, int)
+!MS$ ATTRIBUTES STDCALL, ALIAS : '_UpdateSelection@16' :: UpdateSelection
+!MS$ ATTRIBUTES REFERENCE :: mpoint
+!MS$ ATTRIBUTES REFERENCE :: lprect
+use msfwinty
+integer*4        hwnd
+type (T_POINTS)  mpoint
+type (T_RECT)    lprect
+integer*4 int
+end function
+end interface
+
+interface 
+integer function EndSelection(MPOINT, LPRECT)
+!MS$ ATTRIBUTES STDCALL, ALIAS : '_EndSelection@8' :: EndSelection
+!MS$ ATTRIBUTES REFERENCE :: mpoint
+!MS$ ATTRIBUTES REFERENCE :: lprect
+use msfwinty
+type (T_POINTS)  mpoint
+type (T_RECT)    lprect
+end function
+end interface
+
+interface 
+integer function ClearSelection(hwnd, LPRECT, intval)
+!MS$ ATTRIBUTES STDCALL, ALIAS : '_ClearSelection@12' :: ClearSelection
+!MS$ ATTRIBUTES REFERENCE :: lprect
+use msfwinty
+integer*4      hwnd
+type (T_RECT)  lprect
+integer*4      intval
+end function
+end interface

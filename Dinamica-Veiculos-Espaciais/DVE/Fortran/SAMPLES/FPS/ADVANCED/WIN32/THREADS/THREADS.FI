@@ -1,0 +1,28 @@
+interface 
+integer  function MainWndProc (x, y, z, w)
+!MS$ ATTRIBUTES STDCALL, ALIAS : '_MainWndProc@16' :: MainWndProc
+integer*4 x 
+integer*4 y 
+integer*4 z 
+integer*4 w 
+end function
+end interface
+
+interface 
+integer function ThreadProc (x)
+!MS$ ATTRIBUTES STDCALL, ALIAS :'_ThreadProc@16' :: ThreadProc
+integer*4 x 
+end function
+end interface
+
+interface
+integer function WinMain (hInstance, hPrevInstance, lpCmdLine, nCmdShow)
+!MS$ ATTRIBUTES STDCALL,ALIAS : '_WinMain@16' :: WinMain
+integer hInstance
+integer hPrevInstance
+integer lpCmdLine
+integer nCmdShow
+end function
+end interface
+
+

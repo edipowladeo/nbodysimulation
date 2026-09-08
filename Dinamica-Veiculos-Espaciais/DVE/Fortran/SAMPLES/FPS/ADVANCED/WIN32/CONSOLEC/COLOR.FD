@@ -1,0 +1,24 @@
+module colorin
+!************************************************************************
+!*                         SYMBOLIC CONSTANTS
+!************************************************************************
+
+integer, parameter, public ::   MAXCOLORS = 8
+integer, parameter, public ::   BACKGROUND_COLOR = #0f0
+
+!************************************************************************
+!*                          GLOBAL VARIABLES
+!************************************************************************
+
+!     character*10  Color(MAXCOLORS)
+!     common /globdata/ Color
+!      data Color / "BLACK"C,"BLUE"C,"GREEN"C,"CYAN"C,"RED"C, "MAGENTA"C,
+!     +"YELLOW"C, "WHITE"C /
+ 
+!************************************************************************
+!* FOREGROUND_INTENSITY & BACKGROUND_INTENSITY control support
+!* could be easily added to this sample
+!************************************************************************
+
+end module
+

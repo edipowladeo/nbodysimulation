@@ -1,0 +1,32 @@
+
+//-----------------------------------------------------------------------------
+// This is a part of the Microsoft Source Code Samples. 
+// Copyright (C) 1993 Microsoft Corporation.
+// All rights reserved. 
+//  
+// This source code is only intended as a supplement to 
+// Microsoft Development Tools and/or WinHelp documentation.
+// See these sources for detailed information regarding the 
+// Microsoft samples programs.
+//-----------------------------------------------------------------------------
+
+
+1 DLGINCLUDE "generic.h"
+
+AboutDlg DIALOG FIXED 22, 17, 167, 64
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+STYLE DS_MODALFRAME | WS_CAPTION | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "About Generic"
+BEGIN
+//    DEFPUSHBUTTON   "OK", IDOK, 132, 2, 32, 14, WS_GROUP
+    DEFPUSHBUTTON   "OK", IDOK, 132, 2, 32, 14
+    ICON            "Generic", -1,2,3,1,1
+    LTEXT           "CompanyName", 400, 30, 2, 100, 8
+    LTEXT           "FileDescription", 401, 30, 10, 82, 8
+    LTEXT           "ProductVersion", 402, 114, 10, 16, 8
+    LTEXT           "LegalCopyright \251", 403, 30, 18, 137, 8 
+    LTEXT           "LegalTrademarks", 404, 30, 34, 136, 27
+    CONTROL         "", 501, "Static", SS_BLACKRECT, 28, 31, 138, 1
+END
+
+

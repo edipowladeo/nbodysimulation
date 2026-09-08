@@ -1,0 +1,70 @@
+      !/*
+      ! * Forward declarations.
+      ! */
+interface 
+integer(4) function InitializeApp   ()
+end function
+
+function MainWndProc (hwnd, message, wParam, lParam)
+integer*4   hwnd [VALUE]
+integer*4   message [VALUE]
+integer*4   wParam [VALUE]
+integer*4   lParam [VALUE]
+end function 
+
+function ThreadWndProc(hwnd, message, wParam, lParam)
+integer*4   hwnd [VALUE]
+integer*4   message [VALUE]
+integer*4   wParam [VALUE]
+integer*4   lParam [VALUE]
+end function 
+
+function About  (hwnd, message, wParam, lParam)
+integer*4   hwnd [VALUE]
+integer*4   message [VALUE]
+integer*4   wParam [VALUE]
+integer*4   lParam [VALUE]
+end function 
+
+function StartBounce (pThrdBlkInfo)
+integer*4   pThrdBlkInfo [VALUE]
+end function 
+
+
+subroutine DrawBox (x, y, hbr, pThrdBlkInfo)
+integer*4   x [VALUE]
+integer*4   y [VALUE]
+integer*4   hbr [VALUE]
+integer*4   pThrdBlkInfo [VALUE]
+end subroutine 
+
+subroutine MoveBox  (px, py, pdx, pdy, pvx, pvy, ax, ay, pThrdBlkInfo)
+integer*4   px [REFERENCE]
+integer*4   py [REFERENCE]
+integer*4   pdx [REFERENCE]
+integer*4   pdy [REFERENCE]
+integer*4   pvx [REFERENCE]
+integer*4   pvy [REFERENCE]
+integer*4   ax [VALUE]
+integer*4   ay [VALUE]
+integer*4   pThrdBlkInfo [VALUE]
+end subroutine 
+
+subroutine BounceProc  (pThrdBlkInfo)
+integer*4   pThrdBlkInfo [VALUE]
+end subroutine 
+
+function StartDemo  (cmd, pThrdBlkInfo)
+integer*4   cmd [VALUE]
+integer*4   pThrdBlkInfo [VALUE]
+end function 
+
+function  GetRandomVector ()
+end function 
+
+subroutine InitializeBoxes(fVectorsOnly,pThrdBlkInfo)
+integer*4   fVectorsOnly [VALUE]
+integer*4   pThrdBlkInfo [VALUE]
+end subroutine 
+
+end interface

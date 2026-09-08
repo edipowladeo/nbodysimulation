@@ -1,0 +1,28 @@
+!* maskblt.h - header file for the maskblt demonstration program. */
+
+
+!* function prototypes for the window procedures. */
+interface 
+integer*4 function MainWndProc(HWND, UINT, WPARAM, LPARAM)
+!MS$ ATTRIBUTES STDCALL, ALIAS : '_MainWndProc@16' :: MainWndProc
+integer*4 HWND , UINT , WPARAM ,  LPARAM 
+end function
+end interface
+
+interface 
+integer*4 function DlgProc    (HWND, UINT, WPARAM, LPARAM)
+!MS$ ATTRIBUTES STDCALL, ALIAS : '_DlgProc@16' :: DlgProc 
+integer*4 HWND , UINT , WPARAM , LPARAM 
+end function
+end interface
+
+interface 
+subroutine DrawGrids (hdc, int1, int2)
+!MS$ ATTRIBUTES STDCALL, ALIAS : '_DrawGrids@12' :: DrawGrids
+integer*4 hdc, int1, int2
+end subroutine
+end interface
+
+
+
+

@@ -1,0 +1,523 @@
+!* fgraph.fd - declare constants and functions for graphics library
+!*
+!*   Copyright (c) 1987-1995 Microsoft Corporation.  All rights reserved.
+!*
+!* Purpose:
+!*   This file declares the graphics library functions and
+!*   the constants that are used with them.
+!*
+
+!* NOTE: When modifying this file, you must follow the following rules to
+!* ensure compatibility with fixed form and free form source:
+!*   1) All comments must start with '!'
+!*   2) All code must be within columns 7 to 72
+!*   3) For continuation, place a '&' in column 73,
+!*      and a '&' in column 6 of the continuation line
+
+$if .not. defined (_MSFORTRAN_)
+$define _MSFORTRAN_ = 100
+$endif
+$if_MSFORTRAN_ .LT. 300
+$NOTSTRICT         ! uses structures which are non-standard conforming
+$endif
+
+$if .not. defined($MSFLIB$ProgramUnitNumber)
+$define $MSFLIB$ProgramUnitNumber = -1
+$endif
+$if .not. defined($MSFLIB$FDProgUnitNum) 
+$define $MSFLIB$FDProgUnitNum = -2
+$endif
+
+$if .not. defined(__MSFLIB_FLIB_INCLUDE)
+
+!fi2mod:off
+$if _MSFORTRAN_ .GE. 300
+
+! Pull in the needed interface, data structures, and parameter definitions 
+! from the msflib module.  But, don't pull in definitions for flib.
+$if .not. defined(__MSFLIB_FGRAPH_INCLUDE)
+$define __MSFLIB_FGRAPH_INCLUDE
+$endif
+      INCLUDE 'msflib.fd'
+$undefine __MSFLIB_FGRAPH_INCLUDE
+
+$else  ! $if _MSFORTRAN_ .GE. 300
+
+!     External function declarations
+
+      INTEGER*2 grstatus[EXTERN]
+      INTEGER*2 setvideomode[EXTERN]
+      INTEGER*2 setvideomoderows[EXTERN]
+      INTEGER*2 setactivepage[EXTERN]
+      INTEGER*2 setvisualpage[EXTERN]
+      INTEGER*2 getactivepage[EXTERN]
+      INTEGER*2 getvisualpage[EXTERN]
+      EXTERNAL getvideoconfig
+      EXTERNAL setvieworg
+      EXTERNAL getviewcoord
+      EXTERNAL getphyscoord
+      EXTERNAL setcliprgn
+      EXTERNAL setviewport
+      EXTERNAL clearscreen
+      EXTERNAL moveto
+      EXTERNAL getcurrentposition
+      INTEGER*2 lineto[EXTERN]
+      INTEGER*2 rectangle[EXTERN]
+      INTEGER*2 polygon[EXTERN]
+      INTEGER*2 ellipse[EXTERN]
+      INTEGER*2 arc[EXTERN]
+      INTEGER*2 pie[EXTERN]
+      INTEGER*2 getarcinfo[EXTERN]
+      INTEGER*2 setpixel[EXTERN]
+      INTEGER*2 getpixel[EXTERN]
+      EXTERNAL setpixels
+      EXTERNAL getpixels
+      INTEGER*2 floodfill[EXTERN]
+      INTEGER*2 floodfillrgb[EXTERN]
+      INTEGER*2 setcolor[EXTERN]
+      INTEGER*2 getcolor[EXTERN]
+
+      EXTERNAL setlinestyle
+      INTEGER*2 getlinestyle[EXTERN]
+      INTEGER*2 setwritemode[EXTERN]
+      INTEGER*2 getwritemode[EXTERN]
+      EXTERNAL setfillmask
+      EXTERNAL getfillmask
+      INTEGER*4 setbkcolor[EXTERN]
+      INTEGER*4 getbkcolor[EXTERN]
+      INTEGER*4 remappalette[EXTERN]
+      INTEGER*2 remapallpalette[EXTERN]
+      INTEGER*4 remappalettergb[EXTERN]
+      INTEGER*2 remapallpalettergb[EXTERN]
+      INTEGER*2 selectpalette[EXTERN]
+      INTEGER*2 settextrows[EXTERN]
+      EXTERNAL settextwindow
+      EXTERNAL gettextwindow
+      EXTERNAL scrolltextwindow
+      EXTERNAL outtext
+      INTEGER*2 wrapon[EXTERN]
+      INTEGER*2 displaycursor[EXTERN]
+      INTEGER*2 settextcursor[EXTERN]
+      INTEGER*2 gettextcursor[EXTERN]
+      EXTERNAL settextposition
+      EXTERNAL gettextposition
+      INTEGER*2 settextcolor[EXTERN]
+      INTEGER*2 gettextcolor[EXTERN]
+      EXTERNAL getimage
+      EXTERNAL putimage
+      INTEGER*4 imagesize[EXTERN]
+      INTEGER*4 loadimage[EXTERN]
+      INTEGER*4 saveimage[EXTERN]
+      INTEGER*4 loadimage_w[EXTERN]
+      INTEGER*4 saveimage_w[EXTERN]
+      INTEGER*2 setwindow[EXTERN]
+
+      EXTERNAL getwindowcoord
+      EXTERNAL getviewcoord_w
+      EXTERNAL getcurrentposition_w
+
+!     Window coordinate entry points for graphics output routines
+
+      INTEGER*2 arc_w[EXTERN]
+      INTEGER*2 ellipse_w[EXTERN]
+      INTEGER*2 floodfill_w[EXTERN]
+      INTEGER*2 floodfillrgb_w[EXTERN]
+      INTEGER*2 getpixel_w[EXTERN]
+      INTEGER*2 lineto_w[EXTERN]
+      EXTERNAL moveto_w
+      INTEGER*2 pie_w[EXTERN]
+      INTEGER*2 rectangle_w[EXTERN]
+      INTEGER*2 polygon_w[EXTERN]
+      INTEGER*2 setpixel_w[EXTERN]
+      EXTERNAL getimage_w
+      INTEGER*4 imagesize_w[EXTERN]
+      EXTERNAL putimage_w
+
+      INTEGER*2 registerfonts[EXTERN]
+      INTEGER*2 initializefonts[EXTERN]
+      EXTERNAL unregisterfonts
+      INTEGER*2 setfont[EXTERN]
+      INTEGER*2 getfontinfo[EXTERN]
+      EXTERNAL outgtext
+      INTEGER*2 getgtextextent[EXTERN]
+      EXTERNAL setgtextvector
+      EXTERNAL getgtextvector
+!    functions which allow arbitrary rotation
+      EXTERNAL setgtextrotation
+      INTEGER*4  getgtextrotation [EXTERN]
+!    functions which use expicit rgb values for color manipulation
+      INTEGER*4 getcolorrgb [EXTERN]
+      INTEGER*4 getbkcolorrgb [EXTERN]
+      INTEGER*4 gettextcolorrgb [EXTERN]
+      INTEGER*4 getpixelrgb [EXTERN]
+      INTEGER*4 getpixelrgb_w [EXTERN]
+      EXTERNAL setpixelsrgb
+      EXTERNAL getpixelsrgb
+      INTEGER*4 setcolorrgb [EXTERN]
+      INTEGER*4 setbkcolorrgb [EXTERN]
+      INTEGER*4 setpixelrgb [EXTERN]
+      INTEGER*4 setpixelrgb_w [EXTERN]
+      INTEGER*4 settextcolorrgb [EXTERN]
+      INTEGER*4 rgbtointeger [EXTERN]
+      EXTERNAL integertorgb
+
+      INTEGER registermouseevent [EXTERN]
+      INTEGER unregistermouseevent [EXTERN]
+      EXTERNAL setdblclkinterval
+      INTEGER waitonmouseevent [EXTERN]
+      EXTERNAL setframewindow
+
+! We only include the following code once inside the same program unit.
+! This code is shared with flib.fd.
+$if _MSFORTRAN_ .lt. 300   ! if using /4fps1, DO NOT include the code below
+$undefine $MSFLIB$FDProgUnitNum
+$define $MSFLIB$FDProgUnitNum = -1
+$endif
+$if $MSFLIB$FDProgUnitNum .ne. $MSFLIB$ProgramUnitNumber
+$undefine $MSFLIB$FDProgUnitNum
+$define $MSFLIB$FDProgUnitNum = $MSFLIB$ProgramUnitNumber
+      INTEGER*2 INCHARQQ[EXTERN]
+      INTEGER*4 WGOPENQQ[EXTERN]
+      INTEGER*4 WGCLOSEQQ[EXTERN]
+      INTEGER*4 WGSETACTIVEQQ[EXTERN]
+      INTEGER*4 WGGETACTIVEQQ[EXTERN]
+$endif
+
+!fi2mod:on
+
+!     User-visible declarations for FORTRAN Graphics Library
+
+!     Structure for getvideoconfig() as visible to user
+      STRUCTURE/videoconfig/
+        INTEGER*2 numxpixels       ! number of pixels on X axis
+        INTEGER*2 numypixels       ! number of pixels on Y axis
+        INTEGER*2 numtextcols      ! number of text columns available
+        INTEGER*2 numtextrows      ! number of text rows available
+        INTEGER*2 numcolors        ! number of actual colors
+        INTEGER*2 bitsperpixel     ! number of bits per pixel
+        INTEGER*2 numvideopages    ! number of available video pages
+        INTEGER*2 mode             ! current video mode
+        INTEGER*2 adapter          ! active display adapter
+        INTEGER*2 monitor          ! active display monitor
+        INTEGER*2 memory           ! adapter video memory in K bytes
+      END STRUCTURE
+
+!     Return value of getcurrentposition(), etc.
+      STRUCTURE/xycoord/
+        INTEGER*2 xcoord
+        INTEGER*2 ycoord
+      END STRUCTURE
+
+!     Structure for text position
+      STRUCTURE/rccoord/
+        INTEGER*2 row
+        INTEGER*2 col
+      END STRUCTURE
+
+!     ERROR HANDLING
+
+!     Status info returned by grstatus()
+      INTEGER*2 $GRPARAMETERALTERED,$GRCLIPPED,$GRNOOUTPUT,$GROK,       &
+     &            $GRERROR,$GRMODENOTSUPPORTED,$GRNOTINPROPERMODE,      &
+     &            $GRINVALIDPARAMETER,$GRFONTFILENOTFOUND,              &
+     &            $GRINVALIDFONTFILE,$GRCORRUPTEDFONTFILE,              &
+     &            $GRINSUFFICIENTMEMORY,$GRINVALIDIMAGEBUFFER,          &
+     &            $GRNOBITMAPFILE, $GRFILEREADERROR,                    &
+     &            $GRIMPROPERBITMAPFORMAT, $GRBITMAPTOOLARGE,           &
+     &            $GRBITMAPDISPLAYERROR, $GRIMAGEREADERROR,             &
+     &            $GRFILEOPENERROR, $GRFILEWRITERROR
+!     Successful
+      PARAMETER($GROK                     = 0)  ! success
+!     Warnings
+      PARAMETER($GRNOOUTPUT               = 1)  ! nothing drawn
+      PARAMETER($GRCLIPPED                = 2)  ! output was partially clipped
+      PARAMETER($GRPARAMETERALTERED       = 3)  ! input parameters adjusted
+!     Errors
+      PARAMETER($GRERROR                  = -1)  ! generic graphics error
+      PARAMETER($GRMODENOTSUPPORTED       = -2)  ! video mode not supported
+      PARAMETER($GRNOTINPROPERMODE        = -3)  ! not supported in current mode
+      PARAMETER($GRINVALIDPARAMETER       = -4)  ! bad parameter
+      PARAMETER($GRFONTFILENOTFOUND       = -5)  ! font file not found
+      PARAMETER($GRINVALIDFONTFILE        = -6)  ! not a font file
+      PARAMETER($GRCORRUPTEDFONTFILE      = -7)  ! inconsistent font file
+      PARAMETER($GRINSUFFICIENTMEMORY     = -8)  ! out of memory
+      PARAMETER($GRINVALIDIMAGEBUFFER     = -9)  ! bad image buffer detected
+      PARAMETER($GRNOBITMAPFILE           = -10) ! bitmap file not found
+      PARAMETER($GRFILEREADERROR          = -11) ! error reading bitmap file
+      PARAMETER($GRIMPROPERBITMAPFORMAT   = -12) ! bitmap format not supported
+      PARAMETER($GRBITMAPTOOLARGE         = -13) ! bitmap size > window config
+      PARAMETER($GRBITMAPDISPLAYERROR     = -14) ! error displaying bitmap
+      PARAMETER($GRIMAGEREADERROR         = -15) ! error reading image
+      PARAMETER($GRFILEOPENERROR          = -16) ! error opening bitmap file
+      PARAMETER($GRFILEWRITERROR          = -17) ! error writing bitmap file
+
+!     SETUP AND CONFIGURATION
+
+!     Arguments to setvideomode()
+      INTEGER*2 $MAXRESMODE,$MAXCOLORMODE,$DEFAULTMODE,$TEXTBW40,       &
+     &            $TEXTC40,$TEXTBW80,$TEXTC80,$TEXTMONO,$MRES16COLOR,   &
+     &            $HRES16COLOR,$ERESNOCOLOR,$ERESCOLOR,$VRES2COLOR,     &
+     &            $VRES16COLOR,$MRES256COLOR,$ORESCOLOR,$ORES256COLOR,  &
+     &            $VRES256COLOR,$SRES16COLOR,$SRES256COLOR,$XRES16COLOR,&
+     &            $XRES256COLOR,$ZRES16COLOR,$ZRES256COLOR
+      PARAMETER($MAXRESMODE   =-3)    ! graphics mode with highest resolution
+      PARAMETER($MAXCOLORMODE =-2)    ! graphics mode with most colors
+      PARAMETER($DEFAULTMODE  =-1)    ! restore screen to original mode
+      PARAMETER($TEXTBW40      =0)    ! 40 x 25 text, 16 grey
+      PARAMETER($TEXTC40       =1)    ! 40 x 25 text, 16/8 color
+      PARAMETER($TEXTBW80      =2)    ! 80 x 25 text, 16 grey
+      PARAMETER($TEXTC80       =3)    ! 80 x 25 text, 16/8 color
+      PARAMETER($TEXTMONO      =7)    ! 80 x 25 text, BW
+      PARAMETER($MRES16COLOR   =13)   ! 320 x 200, 16 color
+      PARAMETER($HRES16COLOR   =14)   ! 640 x 200, 16 color
+      PARAMETER($ERESNOCOLOR   =15)   ! 640 x 350, BW
+      PARAMETER($ERESCOLOR     =16)   ! 640 x 350, 4 or 16 color
+      PARAMETER($VRES2COLOR    =17)   ! 640 x 480, BW
+      PARAMETER($VRES16COLOR   =18)   ! 640 x 480, 16 color
+      PARAMETER($MRES256COLOR  =19)   ! 320 x 200, 256 color
+      PARAMETER($ORESCOLOR     =64)   ! 640 x 400, 1 of 16 colors (Olivetti)
+
+!     The following 8 modes require VESA SuperVGA BIOS extensions
+      PARAMETER($ORES256COLOR  =#0100)        ! 640 x 400, 256 color
+      PARAMETER($VRES256COLOR  =#0101)        ! 640 x 480, 256 color
+
+!     WARNING: DO NOT attempt to set the following modes without ensuring
+!     that your monitor can safely handle that resolution. Otherwise, you
+!     may risk damaging your display monitor! Consult your owner's manual
+!     for details.
+!     Note: _MAXRESMODE and _MAXCOLORMODE never select SRES, XRES, or ZRES
+!     modes.
+
+!     Requires NEC MultiSync 3D or equivalent, or better
+      PARAMETER($SRES16COLOR   =#0102)        ! 800 x 600, 16 color
+      PARAMETER($SRES256COLOR  =#0103)        ! 800 x 600, 256 color
+
+!     Requires NEC MultiSync 4D or equivalent, or better
+      PARAMETER($XRES16COLOR   =#0104)        ! 1024 x 768, 16 color
+      PARAMETER($XRES256COLOR  =#0105)        ! 1024 x 768, 256 color
+
+!     Requires NEC MultiSync 5D or equivalent, or better
+      PARAMETER($ZRES16COLOR   =#0106)        ! 1280 x 1024, 16 color
+      PARAMETER($ZRES256COLOR  =#0107)        ! 1280 x 1024, 256 color
+
+!     VIDEOCONFIG adapter values
+
+!     These constants can be used to determine the type of the active
+!     adapter, using either simple comparisons or the bitwise-AND
+!     operator
+      INTEGER*2 $QUICKWIN, $MDPA,$EGA,$VGA,$OEGA,$OVGA,$SVGA
+      PARAMETER($QUICKWIN =#0000)  ! Quick Win Graphics is devide independent
+      PARAMETER($MDPA     =#0001)  ! Monochrome Display Adapter (MDPA)
+      PARAMETER($EGA      =#0004)  ! Enhanced Graphics Adapter  (EGA)
+      PARAMETER($VGA      =#0008)  ! Video Graphics Array       (VGA)
+      PARAMETER($OEGA     =#0044)  ! Olivetti Enhanced Graphics Adapter (OEGA)
+      PARAMETER($OVGA     =#0048)  ! Olivetti Video Graphics Array (OVGA)
+      PARAMETER($SVGA     =#0088)  ! Super VGA with VESA BIOS support (SVGA)
+
+!     VIDEOCONFIG monitor values
+
+!     These constants can be used to determine the type of monitor in use,
+!     using either simple comparisons or the bitwise-AND operator
+      INTEGER*2 $MONO,$COLOR,$ENHCOLOR,$ANALOGMONO,                     &
+     &            $ANALOGCOLOR,$ANALOG
+      PARAMETER($MONO       =#0001)     ! Monochrome
+      PARAMETER($COLOR      =#0002)     ! Color (or Enhanced emulating color)
+      PARAMETER($ENHCOLOR   =#0004)     ! Enhanced Color
+      PARAMETER($ANALOGMONO =#0008)     ! Analog Monochrome only
+      PARAMETER($ANALOGCOLOR=#0010)     ! Analog Color only
+      PARAMETER($ANALOG     =#0018)     ! Analog Color + Analog Monochrome
+
+!     COORDINATE SYSTEMS
+
+!     OUTPUT ROUTINES
+
+!     Control parameters for rectangle(), polygon(), ellipse(), and pie()
+      INTEGER*2 $GBORDER,$GFILLINTERIOR
+      PARAMETER($GBORDER       =2)      ! draw outline only
+      PARAMETER($GFILLINTERIOR =3)      ! fill using current fill mask
+
+!     Parameters for clearscreen()
+      INTEGER*2 $GCLEARSCREEN,$GVIEWPORT,$GWINDOW
+      PARAMETER($GCLEARSCREEN  =0)
+      PARAMETER($GVIEWPORT     =1)
+      PARAMETER($GWINDOW       =2)
+
+! TEXT
+
+!     Parameters for displaycursor()
+      INTEGER*2 $GCURSOROFF,$GCURSORON
+      PARAMETER($GCURSOROFF =0)
+      PARAMETER($GCURSORON  =1)
+
+!     Parameters for wrapon()
+      INTEGER*2 $GWRAPOFF,$GWRAPON
+      PARAMETER($GWRAPOFF  =0)
+      PARAMETER($GWRAPON   =1)
+
+!     Parameters for scrolltextwindow()
+      INTEGER*2 $GSCROLLUP,$GSCROLLDOWN
+      PARAMETER($GSCROLLUP   =1)
+      PARAMETER($GSCROLLDOWN =-1)
+
+!     Request maximum number of rows in _settextrows() and _setvideomoderows()
+      INTEGER*2 $MAXTEXTROWS
+      PARAMETER($MAXTEXTROWS =-1)
+
+!     "Action verbs" for putimage(), setwritemode()
+      INTEGER*2 $GPSET,$GPRESET,$GAND,$GOR,$GXOR
+      PARAMETER($GPSET         =3)
+      PARAMETER($GPRESET       =2)
+      PARAMETER($GAND          =1)
+      PARAMETER($GOR           =0)
+      PARAMETER($GXOR          =4)
+
+!     Color values are used with setbkcolor in graphics modes and also by
+!     remappalette and remapallpalette.  Also known as palette colors.
+!     Not to be confused with color indices (aka. color attributes).
+
+!     Universal color values (all color modes):
+      INTEGER*4 $BLACK,$BLUE,$GREEN,$CYAN,$RED,$MAGENTA,$BROWN,         &
+     &            $WHITE,$GRAY,$LIGHTBLUE,$LIGHTGREEN,$LIGHTCYAN,       &
+     &            $LIGHTRED,$LIGHTMAGENTA,$YELLOW,$BRIGHTWHITE
+      PARAMETER($BLACK         =#000000)
+      PARAMETER($BLUE          =#200000)
+      PARAMETER($GREEN         =#002000)
+      PARAMETER($CYAN          =#202000)
+      PARAMETER($RED           =#000020)
+      PARAMETER($MAGENTA       =#200020)
+      PARAMETER($BROWN         =#002020)
+      PARAMETER($WHITE         =#303030)
+      PARAMETER($GRAY          =#202020)
+      PARAMETER($LIGHTBLUE     =#3F0000)
+      PARAMETER($LIGHTGREEN    =#003f00)
+      PARAMETER($LIGHTCYAN     =#3f3f00)
+      PARAMETER($LIGHTRED      =#00003f)
+      PARAMETER($LIGHTMAGENTA  =#3f003f)
+      PARAMETER($YELLOW        =#003f3f)
+      PARAMETER($BRIGHTWHITE   =#3f3f3f)
+
+!     The following is obsolescent and defined only for backwards
+!     compatibility
+      INTEGER*4 $LIGHTYELLOW
+      PARAMETER($LIGHTYELLOW   =#153f3f)
+
+!     Mono mode F ($ERESNOCOLOR) color values:
+      INTEGER*4 $MODEFOFF,$MODEFOFFTOON,$MODEFOFFTOHI,$MODEFONTOOFF,    &
+     &            $MODEFON,$MODEFONTOHI,$MODEFHITOOFF,$MODEFHITOON,     &
+     &            $MODEFHI
+      PARAMETER($MODEFOFF      =0)
+      PARAMETER($MODEFOFFTOON  =1)
+      PARAMETER($MODEFOFFTOHI  =2)
+      PARAMETER($MODEFONTOOFF  =3)
+      PARAMETER($MODEFON       =4)
+      PARAMETER($MODEFONTOHI   =5)
+      PARAMETER($MODEFHITOOFF  =6)
+      PARAMETER($MODEFHITOON   =7)
+      PARAMETER($MODEFHI       =8)
+
+!     Mono mode 7 ($TEXTMONO) color values:
+       INTEGER*4 $MODE7OFF,$MODE7ON,$MODE7HI
+      PARAMETER($MODE7OFF      =0)
+      PARAMETER($MODE7ON       =1)
+      PARAMETER($MODE7HI       =2)
+
+!     QWIN Message IDS
+     
+      INTEGER*4 QWIN$MSG_TERM ,QWIN$MSG_EXITQ, QWIN$MSG_FINISHED,        &
+     & QWIN$MSG_PAUSED, QWIN$MSG_RUNNING, QWIN$MSG_FILEOPENDLG,          &
+     & QWIN$MSG_BMPSAVEDLG, QWIN$MSG_INPUTPEND,                          &
+     & QWIN$MSG_PASTEINPUTPEND, QWIN$MSG_MOUSEINPUTPEND,                 &
+     & QWIN$MSG_SELECTTEXT, QWIN$MSG_SELECTGRAPHICS,                     &
+     & QWIN$MSG_PRINTABORT, QWIN$MSG_PRINTLOAD, QWIN$MSG_PRINTNODEFAULT, &
+     & QWIN$MSG_PRINTDRIVER, QWIN$MSG_PRINTINGERROR, QWIN$MSG_PRINTING,  &
+     & QWIN$MSG_PRINTCANCEL, QWIN$MSG_PRINTINPROGRESS,                   &
+     & QWIN$MSG_HELPNOTAVAIL, QWIN$MSG_TITLETEXT
+
+      PARAMETER (QWIN$MSG_TERM              =1)
+      PARAMETER (QWIN$MSG_EXITQ =2)
+      PARAMETER (QWIN$MSG_FINISHED=3)
+      PARAMETER (QWIN$MSG_PAUSED =4)
+      PARAMETER (QWIN$MSG_RUNNING =5)
+      PARAMETER (QWIN$MSG_FILEOPENDLG =6)
+      PARAMETER (QWIN$MSG_BMPSAVEDLG =7)
+      PARAMETER (QWIN$MSG_INPUTPEND =8)
+      PARAMETER (QWIN$MSG_PASTEINPUTPEND =9)
+      PARAMETER (QWIN$MSG_MOUSEINPUTPEND =10)
+      PARAMETER (QWIN$MSG_SELECTTEXT =11)
+      PARAMETER (QWIN$MSG_SELECTGRAPHICS =12)
+      PARAMETER (QWIN$MSG_PRINTABORT =13)
+      PARAMETER (QWIN$MSG_PRINTLOAD =14)
+      PARAMETER (QWIN$MSG_PRINTNODEFAULT =15)
+      PARAMETER (QWIN$MSG_PRINTDRIVER =16)
+      PARAMETER (QWIN$MSG_PRINTINGERROR =17)
+      PARAMETER (QWIN$MSG_PRINTING =18)
+      PARAMETER (QWIN$MSG_PRINTCANCEL =19)
+      PARAMETER (QWIN$MSG_PRINTINPROGRESS =20)
+      PARAMETER (QWIN$MSG_HELPNOTAVAIL =21)
+      PARAMETER (QWIN$MSG_TITLETEXT =22)
+
+!     WINDOW COORDINATE SYSTEM
+
+!     Structure for window coordinate pair
+      STRUCTURE/wxycoord/
+        DOUBLE PRECISION wx   ! window x coordinate
+        DOUBLE PRECISION wy   ! window y coordinate
+      END STRUCTURE
+
+!     Window coordinate entry points for graphics output routines
+
+ 
+      STRUCTURE/fontinfo/
+        INTEGER*4 type        ! b0 set = vector,clear = bit map
+        INTEGER*4 ascent      ! pix dist from top to baseline
+        INTEGER*4 pixwidth    ! character width in pixels, 0=prop
+        INTEGER*4 pixheight   ! character height in pixels
+        INTEGER*4 avgwidth    ! average character width in pixels
+        CHARACTER*81 filename ! file name including path
+        CHARACTER*32 facename ! font name
+        LOGICAL*1 italic      ! .true. - font  is italic
+        LOGICAL*1 emphasized  ! .true. - font is  emphasized (bold)
+        LOGICAL*1 underline   ! .true. - font is underline
+      END STRUCTURE
+
+!     Font parameters
+
+      INTEGER*2 $NO_SPACE,$FIXED_SPACE,$PROP_SPACE
+      PARAMETER ($NO_SPACE    = 0)
+
+      PARAMETER ($FIXED_SPACE = 1)
+      PARAMETER ($PROP_SPACE  = 2)
+
+      INTEGER*2 $NO_FONT_MAP,$VECTOR_MAP,$BIT_MAP
+      PARAMETER ($NO_FONT_MAP = 0)
+      PARAMETER ($VECTOR_MAP  = 1)
+      PARAMETER ($BIT_MAP     = 2)
+
+
+
+      INTEGER MOUSE$LBUTTONDOWN,MOUSE$MOVE,MOUSE$LBUTTONUP,             &
+     & MOUSE$RBUTTONDOWN,MOUSE$RBUTTONUP,MOUSE$LBUTTONDBLCLK,           &
+     & MOUSE$RBUTTONDBLCLK,MOUSE$KS_LBUTTON,MOUSE$KS_RBUTTON,           &
+     & MOUSE$KS_SHIFT,MOUSE$KS_CONTROL,MOUSE$BADUNIT, MOUSE$BADEVENT
+
+      PARAMETER(MOUSE$LBUTTONDOWN           = #1)
+      PARAMETER(MOUSE$LBUTTONUP             = #2)
+      PARAMETER(MOUSE$LBUTTONDBLCLK         = #4)
+      PARAMETER(MOUSE$RBUTTONDOWN           = #8)
+      PARAMETER(MOUSE$RBUTTONUP             = #10)
+      PARAMETER(MOUSE$RBUTTONDBLCLK         = #20)
+      PARAMETER(MOUSE$MOVE                  = #40)
+
+      PARAMETER(MOUSE$KS_LBUTTON            = #1)
+      PARAMETER(MOUSE$KS_RBUTTON            = #2)
+      PARAMETER(MOUSE$KS_SHIFT              = #4)
+      PARAMETER(MOUSE$KS_CONTROL            = #8)
+
+      PARAMETER(MOUSE$BADUNIT               = -2)
+      PARAMETER(MOUSE$BADEVENT              = -1)
+
+!fi2mod:off
+$endif  ! $if _MSFORTRAN_ .GE. 300
+!fi2mod:on
+
+$endif  ! $if .not. defined(__MSFLIB_FLIB_INCLUDE)

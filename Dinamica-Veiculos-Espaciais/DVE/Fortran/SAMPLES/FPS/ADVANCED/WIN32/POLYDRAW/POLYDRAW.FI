@@ -1,0 +1,11 @@
+!/* function prototypes for the window procedures. */
+interface 
+integer(4) function MainWndProc(hwnd, message, wParam, lParam)
+integer*4 hwnd 
+integer*4 message 
+integer*4 wParam 
+integer*4 lParam 
+end function
+end interface
+
+

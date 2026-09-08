@@ -1,0 +1,28 @@
+interface 
+integer function DemoInit(HANDLE)
+!MS$ ATTRIBUTES STDCALL, ALIAS : '_DemoInit@0' :: DemoInit
+integer*4 HANDLE
+end function
+end interface
+
+interface 
+integer function DemoWndProc(x, y, z, w)
+!MS$ ATTRIBUTES STDCALL, ALIAS : '_DemoWndProc@16' :: DemoWndProc
+integer*4 x 
+integer*4 y 
+integer*4 z 
+integer*4 w 
+end function
+end interface
+
+interface 
+integer function About(x, y, z, w)
+!MS$ ATTRIBUTES STDCALL, ALIAS: '_About@16' :: About
+integer*4 x 
+integer*4 y 
+integer*4 z 
+integer*4 w 
+end function
+end interface
+
+

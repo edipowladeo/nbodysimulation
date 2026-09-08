@@ -1,0 +1,84 @@
+module thrdinc
+!/*
+! * Resource defines
+! */
+use msfwin
+integer*4, parameter, public :: WINDOWMENU  =  1 
+
+      !integer*4   ID(id) 
+      !parameter   ( ID(id) =  MAKEINTRESOURCE(id) )
+
+integer*2, parameter, public :: APPICON         =  1001 
+
+!/*
+! * Menu ID's
+! */
+integer*4, parameter, public :: MM_ABOUT        =  8000 
+integer*4, parameter, public :: MM_BOUNCE       =  8001 
+integer*4, parameter, public :: MM_SNAKE        =  8002 
+integer*4, parameter, public :: MM_WOBBLE       =  8003 
+
+integer*4, parameter, public :: IDM_CASCADE     =  30 
+integer*4, parameter, public :: IDM_TILE        =  31 
+integer*4, parameter, public :: IDM_ARRANGE     =  32 
+integer*4, parameter, public :: IDM_CLOSEALL    =  33 
+
+integer*4, parameter, public :: SIZEOFCAPTIONTEXT       =  20 
+
+integer*4, parameter, public :: CCOLORS = 16 
+integer*4, parameter, public :: CPOINTS = 20 
+integer*4, parameter, public :: COBJS   = 1 
+
+type B                   ! 188 bytes
+    type(T_POINT) apt(CPOINTS)
+    integer*4   dx
+    integer*4   dy
+    integer*4   vx
+    integer*4   vy
+    integer*4   ax
+    integer*4   ay
+    integer*4   iColor
+end type
+
+
+type THREADBLOCKINFO              ! 248 bytes
+    integer*4                       hThread
+    logical*4                       bKillThrd
+    integer*4                       hwndClient
+    integer*4                       hwndThreadWindow
+    integer*4                       lThreadId
+    character*(SIZEOFCAPTIONTEXT)   CaptionBarText
+    type(B)                         gab(COBJS)
+    type(T_RECT)                    rcClient
+    integer*4                       hdcThreadWindow
+end type
+
+type NODE             ! 252 bytes
+    type(THREADBLOCKINFO)    ThreadWindow     
+    integer*4       hNext
+end type
+
+integer*4, parameter, public :: SIZEOFNODE = 252 
+
+
+integer*4, parameter, public :: SIZEOFTHREADBLOCKINFO = 248
+
+
+
+!/*
+! * Some handy globals.
+! */
+integer*4   ghModule
+integer*4   ghbrWhite, ghbrBlack
+integer*4   gahbrColor(CCOLORS)
+integer*4   ghwndMain
+integer*4   cmdDemo
+logical*4   bKillMe
+integer*4   hMenu, hMenuWindow
+integer*4   aclr(CCOLORS) 
+integer(4)  globhandles (500), wndhandles(500), thrdhandles(500)
+
+common /globdata/ gahbrColor,bKillMe
+
+end module thrdinc
+

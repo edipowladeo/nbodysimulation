@@ -1,0 +1,48 @@
+
+//-----------------------------------------------------------------------------
+// This is a part of the Microsoft Source Code Samples. 
+// Copyright (C) 1993 Microsoft Corporation.
+// All rights reserved. 
+//  
+// This source code is only intended as a supplement to 
+// Microsoft Development Tools and/or WinHelp documentation.
+// See these sources for detailed information regarding the 
+// Microsoft samples programs.
+//-----------------------------------------------------------------------------
+
+#include <winres.h>
+#include "world.h"
+#include "world.dlg"
+
+WorldIcon ICON world.ico
+
+WorldMenu MENU
+{
+   POPUP "&Metafile"
+   {
+      MENUITEM "&Open",         IDM_OPEN
+      MENUITEM "E&xit",         IDM_EXIT
+   }
+
+   MENUITEM "&Scale!",          IDM_SCALE
+
+   POPUP "&Help"
+   {
+      MENUITEM "&About",        IDM_ABOUT
+   }
+}
+
+STRINGTABLE
+{
+   0, " 0.250000"
+   1, " 0.333333"
+   2, " 0.500000"
+   3, " 0.666666"
+   4, " 0.750000"
+   5, " 1.000000"
+   6, " 1.500000"
+   7, " 2.000000"
+   8, " 3.000000"
+   9, " 4.000000"
+  10, " 5.000000"
+}

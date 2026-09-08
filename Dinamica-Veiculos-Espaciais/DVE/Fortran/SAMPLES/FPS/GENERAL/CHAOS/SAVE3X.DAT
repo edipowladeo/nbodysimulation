@@ -1,0 +1,19 @@
+ &CHAOSINPUT
+ NUMXPIXELS =         -1
+ NUMYPIXELS =         -1
+ NUMCOLORS =          -1
+ A =        -1.670650
+ B =     9.500000E-01
+ C =     1.529000E-01
+ D =     8.731000E-01
+ X1_INP =     1.060000E-02
+ Y1_INP =    -1.020000E-02
+ IWASTE =        10000
+ IMINMAX =        10000
+ IIMAGE =     20000000
+ LROTAT =  F
+ ROTMAG =     0.000000E+00
+ SCALMM =         1.100000
+ IDIV =            1
+ ICHAOS =            3
+ /

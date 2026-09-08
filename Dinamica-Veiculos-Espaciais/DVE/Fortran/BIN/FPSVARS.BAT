@@ -1,0 +1,5 @@
+@echo off
+set PATH=\MSDEV\BIN;%PATH%
+set INCLUDE=\MSDEV\INCLUDE;%INCLUDE%
+set LIB=\MSDEV\LIB;%LIB%
+

@@ -1,0 +1,703 @@
+!****************************** Module Header ******************************
+!*
+!* Copyright (c) 1990-1995  Microsoft Corporation
+!*
+!* Module Name: FLIB.FD
+!*
+!* This module provides parameter and structure type declarations
+!* needed to communicate with subprograms found in the various Fortran
+!* libraries.  
+!*
+!* The functional areas covered are the following.
+!*
+!*    Data Type Codes
+!*    Math error support
+!*    Signal support
+!*    Coprocessor Control
+!*    Random Numbers
+!*    Drives and Directories
+!*    Files
+!*    Keyboard
+!*    Errors
+!*    Sorting and Searching Arrays
+!*    Configuration
+!*    QuickWin Support
+!*
+!***************************************************************************
+
+!* NOTE: When modifying this file, you must follow the following rules to
+!* ensure compatibility with fixed form and free form source:
+!*   1) All comments must start with '!'
+!*   2) All code must be within columns 7 to 72
+!*   3) For continuation, place a '&' in column 73,
+!*      and a '&' in column 6 of the continuation line
+
+$if .not. defined (_MSFORTRAN_)
+$define _MSFORTRAN_ = 100
+$endif
+
+$if .not. defined($MSFLIB$ProgramUnitNumber)
+$define $MSFLIB$ProgramUnitNumber = -1
+$endif
+$if .not. defined($MSFLIB$FDProgUnitNum) 
+$define $MSFLIB$FDProgUnitNum = -2
+$endif
+
+$if .not. defined(__MSFLIB_FGRAPH_INCLUDE)
+
+!fi2mod:off
+$if _MSFORTRAN_ .GE. 300
+
+! Pull in the needed interface, data structures, and parameter definitions 
+! from the msflib module.  But, don't pull in definitions for fgraph.
+$if .not. defined(__MSFLIB_FLIB_INCLUDE)
+$define __MSFLIB_FLIB_INCLUDE
+$endif
+      INCLUDE 'msflib.fd'
+$undefine __MSFLIB_FLIB_INCLUDE
+
+$else  ! $if _MSFORTRAN_ .GE. 300
+
+      LOGICAL*4 SETTIM[EXTERN]
+      LOGICAL*4 SETDAT[EXTERN]
+      INTEGER*4 NARGS[EXTERN]
+      INTEGER*4 GETHANDLEFRAMEQQ[EXTERN]
+      INTEGER*4 GETHANDLECLIENTQQ[EXTERN]
+      INTEGER*4 GETHANDLECHILDQQ[EXTERN]
+      INTEGER*4 MESSAGEBOXQQ[EXTERN]
+      INTEGER*4 GETEXITQQ[EXTERN]
+      INTEGER*4 SETEXITQQ[EXTERN]
+      INTEGER*4 GETWSIZEQQ[EXTERN]
+      INTEGER*4 SETWSIZEQQ[EXTERN]
+      INTEGER*4 CLICKQQ[EXTERN]
+      INTEGER*4 CLICKMENUQQ[EXTERN]
+      LOGICAL SETWINDOWCONFIG[EXTERN]
+      LOGICAL GETWINDOWCONFIG[EXTERN]
+      LOGICAL APPENDMENUQQ[EXTERN]
+      LOGICAL INSERTMENUQQ[EXTERN]
+      LOGICAL DELETEMENUQQ[EXTERN]
+      LOGICAL MODIFYMENUFLAGSQQ[EXTERN]
+      LOGICAL MODIFYMENUSTRINGQQ[EXTERN]
+      LOGICAL MODIFYMENUROUTINEQQ[EXTERN]
+      LOGICAL SETWINDOWMENUQQ[EXTERN]
+
+! We only include the following code once inside the same program unit.
+! This code is shared with fgraph.fd.
+$if _MSFORTRAN_ .lt. 300    ! if using /4fps1, always include the code below
+$undefine $MSFLIB$FDProgUnitNum
+$define $MSFLIB$FDProgUnitNum = -2
+$endif
+$if $MSFLIB$FDProgUnitNum .ne. $MSFLIB$ProgramUnitNumber
+$undefine $MSFLIB$FDProgUnitNum
+$define $MSFLIB$FDProgUnitNum = $MSFLIB$ProgramUnitNumber
+      INTEGER*2 INCHARQQ[EXTERN]
+      INTEGER*4 WGOPENQQ[EXTERN]
+      INTEGER*4 WGCLOSEQQ[EXTERN]
+      INTEGER*4 WGSETACTIVEQQ[EXTERN]
+      INTEGER*4 WGGETACTIVEQQ[EXTERN]
+$endif
+
+      INTEGER*4 SETACTIVEQQ[EXTERN]
+      INTEGER*4 GETACTIVEQQ[EXTERN]
+      INTEGER*4 FOCUSQQ[EXTERN]
+      INTEGER*4 INQFOCUSQQ[EXTERN]
+      INTEGER*4 GETHANDLEQQ[EXTERN]
+      INTEGER*4 GETUNITQQ[EXTERN]
+      INTEGER*4 ABOUTBOXQQ[EXTERN]
+      INTEGER*4 GETHWNDQQ[EXTERN]
+      INTEGER*4 GETCONFIGQQ[EXTERN]
+      INTEGER*4 BSEARCHQQ[EXTERN]
+      INTEGER*4 SIGNALQQ[EXTERN]
+      INTEGER*4 RAISEQQ[EXTERN]
+      INTEGER*4 RUNQQ[EXTERN]
+      LOGICAL*4 SYSTEMQQ[EXTERN]
+      LOGICAL*4 GETDRIVESIZEQQ[EXTERN]
+      CHARACTER*26 GETDRIVESQQ[EXTERN]
+      INTEGER*4 GETDRIVEDIRQQ[EXTERN]
+      LOGICAL*4 CHANGEDRIVEQQ[EXTERN]
+      LOGICAL*4 CHANGEDIRQQ[EXTERN]
+      LOGICAL*4 MAKEDIRQQ[EXTERN]
+      LOGICAL*4 DELDIRQQ[EXTERN]
+      INTEGER*4 FULLPATHQQ[EXTERN]
+      INTEGER*4 SPLITPATHQQ[EXTERN]
+      INTEGER*4 GETFILEINFOQQ[EXTERN]
+      LOGICAL*4 SETFILETIMEQQ[EXTERN]
+      LOGICAL*4 SETFILEACCESSQQ[EXTERN]
+      LOGICAL*4 RENAMEFILEQQ[EXTERN]
+      INTEGER*4 DELFILESQQ[EXTERN]
+      INTEGER*4 FINDFILEQQ[EXTERN]
+      LOGICAL*4 COMMITQQ[EXTERN]
+      CHARACTER*1 GETCHARQQ[EXTERN]
+      LOGICAL*4 PEEKCHARQQ[EXTERN]
+      INTEGER*4 GETSTRQQ[EXTERN]
+      INTEGER*4 GETLASTERRORQQ[EXTERN]
+      EXTERNAL  SETERRORMODEQQ
+      INTEGER*4 GETENVQQ[EXTERN]
+      LOGICAL*4 SETENVQQ[EXTERN]
+      EXTERNAL LCWRQQ
+      EXTERNAL SCWRQQ
+      EXTERNAL SSWRQQ
+      EXTERNAL SETCONTROLFPQQ
+      EXTERNAL GETCONTROLFPQQ
+      EXTERNAL GETSTATUSFPQQ
+      EXTERNAL GETTIM
+      EXTERNAL GETDAT
+      EXTERNAL RANDOM
+      EXTERNAL SEED
+      EXTERNAL GETARG
+      EXTERNAL EXIT
+      EXTERNAL PACKTIME
+      EXTERNAL UNPACKTIME
+      EXTERNAL SLEEPQQ
+      EXTERNAL BEEPQQ
+      EXTERNAL SORTQQ
+      EXTERNAL YIELDQQ
+      EXTERNAL WINPRINT
+      EXTERNAL WINSAVE
+      EXTERNAL WINEXIT
+      EXTERNAL WINCOPY
+      EXTERNAL WINPASTE
+      EXTERNAL WINSIZETOFIT
+      EXTERNAL WINFULLSCREEN
+      EXTERNAL WINSTATE
+      EXTERNAL WINCASCADE
+      EXTERNAL WINTILE
+      EXTERNAL WINARRANGE
+      EXTERNAL WININPUT
+      EXTERNAL WINCLEARPASTE
+      EXTERNAL WINSTATUS
+      EXTERNAL WININDEX
+      EXTERNAL WINUSING
+      EXTERNAL WINABOUT
+      EXTERNAL WINSELECTTEXT
+      EXTERNAL WINSELECTGRAPHICS
+      EXTERNAL WINSELECTALL
+      EXTERNAL WINWINDOWS
+      EXTERNAL NUL
+      EXTERNAL MATHERRQQ
+!fi2mod:on
+
+! -----------------------------------------------------------------
+! Data Type Codes
+! -----------------------------------------------------------------
+
+      INTEGER*4 TY$REAL4
+      INTEGER*4 TY$REAL8
+      INTEGER*4 TY$CMPLX8
+      INTEGER*4 TY$CMPLX16
+
+      PARAMETER (TY$REAL4           = 1)
+      PARAMETER (TY$REAL8           = 2)
+      PARAMETER (TY$CMPLX8          = 3)
+      PARAMETER (TY$CMPLX16         = 4)
+
+! -----------------------------------------------------------------
+! Math Error Support
+! -----------------------------------------------------------------
+! Codes for function failure.
+      INTEGER*4 MTH$E_DOMAIN              ! Argument domain error
+      INTEGER*4 MTH$E_SINGULARITY         ! Argument Singularity
+      INTEGER*4 MTH$E_OVERFLOW            ! Overflow range error
+      INTEGER*4 MTH$E_UNDERFLOW           ! Underflow range error
+      INTEGER*4 MTH$E_TLOSS               ! Total loss of precision
+      INTEGER*4 MTH$E_PLOSS               ! Partial loss of precision
+
+      PARAMETER (MTH$E_DOMAIN      = 1)
+      PARAMETER (MTH$E_SINGULARITY = 2)
+      PARAMETER (MTH$E_OVERFLOW    = 3)
+      PARAMETER (MTH$E_UNDERFLOW   = 4)
+      PARAMETER (MTH$E_TLOSS       = 5)
+      PARAMETER (MTH$E_PLOSS       = 6)
+
+! Math error information structure.
+      STRUCTURE /MTH$E_INFO/
+        INTEGER*4 ERRCODE        ! INPUT : One of the MTH$ values above
+        INTEGER*4 FTYPE          ! INPUT : One of the TY$ values above
+        UNION
+        MAP
+            REAL*4 R4ARG1        ! INPUT : FIrst argument
+            REAL*4 R4ARG2        ! INPUT : Second argument (if any)
+            REAL*4 R4RES         ! OUTPUT : Desired result
+        END MAP
+        MAP
+            REAL*8 R8ARG1        ! INPUT : FIrst argument
+            REAL*8 R8ARG2        ! INPUT : Second argument (if any)
+            REAL*8 R8RES         ! OUTPUT : Desired result
+        END MAP
+        MAP
+            COMPLEX*8 C8ARG1     ! INPUT : FIrst argument
+            COMPLEX*8 C8ARG2     ! INPUT : Second argument (if any)
+            COMPLEX*8 C8RES      ! OUTPUT : Desired result
+        END MAP
+        MAP
+            COMPLEX*16 C16ARG1   ! INPUT : FIrst argument
+            COMPLEX*16 C16ARG2   ! INPUT : Second argument (if any)
+            COMPLEX*16 C16RES    ! OUTPUT : Desired result
+        END MAP
+        END UNION
+      END STRUCTURE
+
+
+! -----------------------------------------------------------------
+! Signal support
+! -----------------------------------------------------------------
+      INTEGER*4 SIG$ERR                   ! SIGNALQQ return value
+      INTEGER*4 SIG$NSIG
+      INTEGER*4 SIG$INT
+      INTEGER*4 SIG$ILL
+      INTEGER*4 SIG$FPE
+      INTEGER*4 SIG$SEGV
+      INTEGER*4 SIG$TERM
+      INTEGER*4 SIG$USR1
+      INTEGER*4 SIG$USR2
+      INTEGER*4 SIG$USR3
+      INTEGER*4 SIG$BREAK
+      INTEGER*4 SIG$ABORT
+
+      PARAMETER (SIG$ERR   = -1)
+      PARAMETER (SIG$NSIG  = 23)
+      PARAMETER (SIG$INT   =  2)
+      PARAMETER (SIG$ILL   =  4)
+      PARAMETER (SIG$FPE   =  8)
+      PARAMETER (SIG$SEGV  = 11)
+      PARAMETER (SIG$TERM  = 15)
+      PARAMETER (SIG$USR1  = 16)
+      PARAMETER (SIG$USR2  = 17)
+      PARAMETER (SIG$USR3  = 20)
+      PARAMETER (SIG$BREAK = 21)
+      PARAMETER (SIG$ABORT = 22)
+
+      INTEGER*4 FPE$INVALID
+      INTEGER*4 FPE$DENORMAL
+      INTEGER*4 FPE$ZERODIVIDE
+      INTEGER*4 FPE$OVERFLOW
+      INTEGER*4 FPE$UNDERFLOW
+      INTEGER*4 FPE$INEXACT
+      INTEGER*4 FPE$UNEMULATED
+      INTEGER*4 FPE$SQRTNEG
+      INTEGER*4 FPE$STACKOVERFLOW
+      INTEGER*4 FPE$STACKUNDERFLOW
+      INTEGER*4 FPE$EXPLICITGEN                 ! RAISEQQ( SIGFPE )
+
+      PARAMETER (FPE$INVALID        = #81)
+      PARAMETER (FPE$DENORMAL       = #82)
+      PARAMETER (FPE$ZERODIVIDE     = #83)
+      PARAMETER (FPE$OVERFLOW       = #84)
+      PARAMETER (FPE$UNDERFLOW      = #85)
+      PARAMETER (FPE$INEXACT        = #86)
+      PARAMETER (FPE$UNEMULATED     = #87)
+      PARAMETER (FPE$SQRTNEG        = #88)
+      PARAMETER (FPE$STACKOVERFLOW  = #8a)
+      PARAMETER (FPE$STACKUNDERFLOW = #8b)
+      PARAMETER (FPE$EXPLICITGEN    = #8c)
+
+! -----------------------------------------------------------------
+! Coprocessor control
+! -----------------------------------------------------------------
+
+      INTEGER*2 FPCW$MCW_EM
+      INTEGER*2 FPCW$INEXACT
+      INTEGER*2 FPCW$UNDERFLOW
+      INTEGER*2 FPCW$OVERFLOW
+      INTEGER*2 FPCW$ZERODIVIDE
+      INTEGER*2 FPCW$INVALID
+      INTEGER*2 FPCW$DENORMAL
+
+      INTEGER*2 FPCW$MCW_PC
+      INTEGER*2 FPCW$64
+      INTEGER*2 FPCW$53
+      INTEGER*2 FPCW$24
+
+      INTEGER*2 FPCW$MCW_IC
+      INTEGER*2 FPCW$AFFINE
+      INTEGER*2 FPCW$PROJECTIVE
+
+      INTEGER*2 FPCW$MCW_RC
+      INTEGER*2 FPCW$NEAR
+      INTEGER*2 FPCW$DOWN
+      INTEGER*2 FPCW$UP
+      INTEGER*2 FPCW$CHOP
+
+      INTEGER*2 FPSW$MSW_EM
+      INTEGER*2 FPSW$INVALID
+      INTEGER*2 FPSW$DENORMAL
+      INTEGER*2 FPSW$ZERODIVIDE
+      INTEGER*2 FPSW$OVERFLOW
+      INTEGER*2 FPSW$UNDERFLOW
+      INTEGER*2 FPSW$INEXACT
+
+      PARAMETER (FPCW$MCW_EM        = #003F)  ! exception mask
+      PARAMETER (FPCW$INVALID       = #0001)  ! invalid
+      PARAMETER (FPCW$DENORMAL      = #0002)  ! denormal
+      PARAMETER (FPCW$ZERODIVIDE    = #0004)  ! zero divide
+      PARAMETER (FPCW$OVERFLOW      = #0008)  ! overflow
+      PARAMETER (FPCW$UNDERFLOW     = #0010)  ! underflow
+      PARAMETER (FPCW$INEXACT       = #0020)  ! inexact (precision)
+
+      PARAMETER (FPCW$MCW_PC        = #0300)  ! precision control mask
+      PARAMETER (FPCW$64            = #0300)  ! 64 bits
+      PARAMETER (FPCW$53            = #0200)  ! 53 bits
+      PARAMETER (FPCW$24            = #0000)  ! 24 bits
+
+      PARAMETER (FPCW$MCW_IC        = #1000)  ! infinity control mask
+      PARAMETER (FPCW$AFFINE        = #1000)  ! affine
+      PARAMETER (FPCW$PROJECTIVE    = #0000)  ! projective
+
+      PARAMETER (FPCW$MCW_RC        = #0C00)  ! rounding control mask
+      PARAMETER (FPCW$CHOP          = #0C00)  ! chop
+      PARAMETER (FPCW$UP            = #0800)  ! up
+      PARAMETER (FPCW$DOWN          = #0400)  ! down
+      PARAMETER (FPCW$NEAR          = #0000)  ! near
+
+      PARAMETER (FPSW$MSW_EM        = #003F)  ! exception mask
+      PARAMETER (FPSW$INVALID       = #0001)  ! invalid
+      PARAMETER (FPSW$DENORMAL      = #0002)  ! denormal
+      PARAMETER (FPSW$ZERODIVIDE    = #0004)  ! zero divide
+      PARAMETER (FPSW$OVERFLOW      = #0008)  ! overflow
+      PARAMETER (FPSW$UNDERFLOW     = #0010)  ! underflow
+      PARAMETER (FPSW$INEXACT       = #0020)  ! inexact (precision)
+
+! -----------------------------------------------------------------
+! Random Numbers
+! -----------------------------------------------------------------
+      INTEGER*4 RND$TIMESEED
+
+      PARAMETER (RND$TIMESEED = -1)
+
+! -----------------------------------------------------------------
+! Drives and Directories
+! -----------------------------------------------------------------
+
+      CHARACTER*1 FILE$CURDRIVE
+      INTEGER*4   FILE$MAXNAME
+      INTEGER*4   $MAXPATH
+
+      PARAMETER (FILE$CURDRIVE = ' ')
+      PARAMETER (FILE$MAXNAME = 255)
+      PARAMETER ($MAXPATH = 260)
+
+! -----------------------------------------------------------------
+! Files
+! -----------------------------------------------------------------
+
+      STRUCTURE / FILE$INFO /
+        INTEGER*4       CREATION          ! Creation time (-1 on FAT)
+        INTEGER*4       LASTWRITE         ! Last write to file
+        INTEGER*4       LASTACCESS        ! Last access (-1 on FAT)
+        INTEGER*4       LENGTH            ! Length of file
+        INTEGER*2       PERMIT            ! File access mode
+        CHARACTER*255   NAME              ! File name
+      END STRUCTURE
+
+      INTEGER*4 FILE$NORMAL
+      INTEGER*4 FILE$READONLY
+      INTEGER*4 FILE$HIDDEN
+      INTEGER*4 FILE$SYSTEM
+      INTEGER*4 FILE$VOLUME
+      INTEGER*4 FILE$DIR
+      INTEGER*4 FILE$ARCHIVE
+      INTEGER*4 FILE$FIRST
+      INTEGER*4 FILE$LAST
+      INTEGER*4 FILE$ERROR
+      INTEGER*4 FILE$INVALID
+      INTEGER*4 FILE$CURTIME
+
+      PARAMETER (FILE$NORMAL      = #0000)
+      PARAMETER (FILE$READONLY    = #0001)
+      PARAMETER (FILE$HIDDEN      = #0002)
+      PARAMETER (FILE$SYSTEM      = #0004)
+      PARAMETER (FILE$VOLUME      = #0008)
+      PARAMETER (FILE$DIR         = #0010)
+      PARAMETER (FILE$ARCHIVE     = #0020)
+
+      PARAMETER (FILE$FIRST       = -1)
+      PARAMETER (FILE$LAST        = -2)
+      PARAMETER (FILE$ERROR       = -3)
+
+      PARAMETER (FILE$INVALID     = -1) ! For PACKTIMEQQ and UNPACKTIMEQQ
+      PARAMETER (FILE$CURTIME     = -1) ! For SETFILETIMEQQ
+
+! -----------------------------------------------------------------
+! Keyboard
+! -----------------------------------------------------------------
+
+
+! -----------------------------------------------------------------
+! Errors
+! -----------------------------------------------------------------
+
+      INTEGER*4 ERR$ZERO
+      INTEGER*4 ERR$PERM
+      INTEGER*4 ERR$NOENT
+      INTEGER*4 ERR$SRCH
+      INTEGER*4 ERR$INTR
+      INTEGER*4 ERR$IO
+      INTEGER*4 ERR$NXIO
+      INTEGER*4 ERR$2BIG
+      INTEGER*4 ERR$NOEXEC
+      INTEGER*4 ERR$BADF
+      INTEGER*4 ERR$CHILD
+      INTEGER*4 ERR$AGAIN
+      INTEGER*4 ERR$NOMEM
+      INTEGER*4 ERR$ACCES
+      INTEGER*4 ERR$FAULT
+      INTEGER*4 ERR$NOTBLK
+      INTEGER*4 ERR$BUSY
+      INTEGER*4 ERR$EXIST
+      INTEGER*4 ERR$XDEV
+      INTEGER*4 ERR$NODEV
+      INTEGER*4 ERR$NOTDIR
+      INTEGER*4 ERR$ISDIR
+      INTEGER*4 ERR$INVAL
+      INTEGER*4 ERR$NFILE
+      INTEGER*4 ERR$MFILE
+      INTEGER*4 ERR$NOTTY
+      INTEGER*4 ERR$TXTBSY
+      INTEGER*4 ERR$FBIG
+      INTEGER*4 ERR$NOSPC
+      INTEGER*4 ERR$SPIPE
+      INTEGER*4 ERR$ROFS
+      INTEGER*4 ERR$MLINK
+      INTEGER*4 ERR$PIPE
+      INTEGER*4 ERR$DOM
+      INTEGER*4 ERR$RANGE
+      INTEGER*4 ERR$UCLEAN
+      INTEGER*4 ERR$DEADLOCK
+
+      PARAMETER (ERR$ZERO         =  0)
+      PARAMETER (ERR$PERM         =  1)
+      PARAMETER (ERR$NOENT        =  2)
+      PARAMETER (ERR$SRCH         =  3)
+      PARAMETER (ERR$INTR         =  4)
+      PARAMETER (ERR$IO           =  5)
+      PARAMETER (ERR$NXIO         =  6)
+      PARAMETER (ERR$2BIG         =  7)
+      PARAMETER (ERR$NOEXEC       =  8)
+      PARAMETER (ERR$BADF         =  9)
+      PARAMETER (ERR$CHILD        = 10)
+      PARAMETER (ERR$AGAIN        = 11)
+      PARAMETER (ERR$NOMEM        = 12)
+      PARAMETER (ERR$ACCES        = 13)
+      PARAMETER (ERR$FAULT        = 14)
+      PARAMETER (ERR$NOTBLK       = 15)
+      PARAMETER (ERR$BUSY         = 16)
+      PARAMETER (ERR$EXIST        = 17)
+      PARAMETER (ERR$XDEV         = 18)
+      PARAMETER (ERR$NODEV        = 19)
+      PARAMETER (ERR$NOTDIR       = 20)
+      PARAMETER (ERR$ISDIR        = 21)
+      PARAMETER (ERR$INVAL        = 22)
+      PARAMETER (ERR$NFILE        = 23)
+      PARAMETER (ERR$MFILE        = 24)
+      PARAMETER (ERR$NOTTY        = 25)
+      PARAMETER (ERR$TXTBSY       = 26)
+      PARAMETER (ERR$FBIG         = 27)
+      PARAMETER (ERR$NOSPC        = 28)
+      PARAMETER (ERR$SPIPE        = 29)
+      PARAMETER (ERR$ROFS         = 30)
+      PARAMETER (ERR$MLINK        = 31)
+      PARAMETER (ERR$PIPE         = 32)
+      PARAMETER (ERR$DOM          = 33)
+      PARAMETER (ERR$RANGE        = 34)
+      PARAMETER (ERR$UCLEAN       = 35)
+      PARAMETER (ERR$DEADLOCK     = 36)
+
+      LOGICAL*4 ERR$HARDPROMPT      ! For SETERRORMODEQQ
+      LOGICAL*4 ERR$HARDFAIL
+
+      PARAMETER (ERR$HARDPROMPT   = .TRUE.)
+      PARAMETER (ERR$HARDFAIL     = .FALSE.)
+
+! ----------------------------------------------------------------
+! Sorting and Searching Arrays
+! ----------------------------------------------------------------
+
+      INTEGER*4 SRT$REAL4
+      INTEGER*4 SRT$REAL8
+      INTEGER*4 SRT$INTEGER1
+      INTEGER*4 SRT$INTEGER2
+      INTEGER*4 SRT$INTEGER4
+
+      PARAMETER (SRT$REAL4          = #00010000)
+      PARAMETER (SRT$REAL8          = #00020000)
+      PARAMETER (SRT$INTEGER1       = #00030000)
+      PARAMETER (SRT$INTEGER2       = #00040000)
+      PARAMETER (SRT$INTEGER4       = #00050000)
+
+! ----------------------------------------------------------------
+! Configuration
+! ----------------------------------------------------------------
+
+      INTEGER*4 CFG$WINNT
+      PARAMETER (CFG$WINNT          = #00000001)
+
+
+! ----------------------------------------------------------------
+! QuickWin Support
+! ----------------------------------------------------------------
+$PACK:1
+! structure for setwindowconfig/getwindowconfig
+      STRUCTURE /windowconfig/
+        INTEGER*2 numxpixels
+        INTEGER*2 numypixels
+        INTEGER*2 numtextcols
+        INTEGER*2 numtextrows
+        INTEGER*2 numcolors
+        INTEGER*4 fontsize
+        CHARACTER*(80) title
+        INTEGER*2 bitsperpixel
+        INTEGER*2 numvideopages
+        INTEGER*2 mode
+        INTEGER*2 adapter
+        INTEGER*2 monitor
+        INTEGER*2 memory
+        INTEGER*2 environment
+        CHARACTER*(32) extendfontname
+        INTEGER*4 extendfontsize
+        INTEGER*4 extendfontattributes
+      END STRUCTURE
+$PACK
+
+!     Parameters for APPENDMENUQQ, INSERTMENUQQ, MODIFYMENUFLAGSQQ
+      INTEGER*4 $MENUGRAYED, $MENUDISABLED, $MENUENABLED
+      INTEGER*4 $MENUSEPARATOR, $MENUCHECKED, $MENUUNCHECKED
+      PARAMETER($MENUGRAYED=1)
+      PARAMETER($MENUDISABLED=2)
+      PARAMETER($MENUENABLED=4)
+      PARAMETER($MENUSEPARATOR=8)
+      PARAMETER($MENUCHECKED=16)
+      PARAMETER($MENUUNCHECKED=32)
+
+! Clicking on menus.
+      INTEGER*4 QWIN$STATUS
+      INTEGER*4 QWIN$TILE
+      INTEGER*4 QWIN$CASCADE
+      INTEGER*4 QWIN$ARRANGE
+
+      PARAMETER (QWIN$STATUS  = 1)
+      PARAMETER (QWIN$TILE    = 2)
+      PARAMETER (QWIN$CASCADE = 3)
+      PARAMETER (QWIN$ARRANGE = 4)
+
+! Extended font information
+
+      INTEGER*4 QWIN$EXTENDFONT
+      INTEGER*4 QWIN$EXTENDFONT_NORMAL
+      INTEGER*4 QWIN$EXTENDFONT_UNDERLINE
+      INTEGER*4 QWIN$EXTENDFONT_BOLD
+      INTEGER*4 QWIN$EXTENDFONT_ITALIC
+
+      PARAMETER (QWIN$EXTENDFONT            =#FFFFFFFE)
+      PARAMETER (QWIN$EXTENDFONT_NORMAL     =#80000000)
+      PARAMETER (QWIN$EXTENDFONT_BOLD       =#00000001)
+      PARAMETER (QWIN$EXTENDFONT_UNDERLINE  =#00000002)
+      PARAMETER (QWIN$EXTENDFONT_ITALIC     =#00000004)
+
+! Size/Move a window
+      STRUCTURE /QWINFO/
+          INTEGER*2 TYPE          ! request type
+          INTEGER*2 X             ! x coordinate for upper left
+          INTEGER*2 Y             ! y coordinate for upper left
+          INTEGER*2 H             ! window height
+          INTEGER*2 W             ! window width
+      END STRUCTURE
+
+      INTEGER*2 QWIN$MIN
+      INTEGER*2 QWIN$MAX
+      INTEGER*2 QWIN$RESTORE
+      INTEGER*2 QWIN$SET
+
+      PARAMETER (QWIN$MIN     = 1)
+      PARAMETER (QWIN$MAX     = 2)
+      PARAMETER (QWIN$RESTORE = 3)
+      PARAMETER (QWIN$SET     = 4)
+
+      INTEGER*4 QWIN$FRAMEWINDOW
+      INTEGER*4 QWIN$NOACTIVEWINDOW
+      PARAMETER (QWIN$FRAMEWINDOW = #80000000) 
+      PARAMETER (QWIN$NOACTIVEWINDOW = #C0000000)
+
+      INTEGER*4 QWIN$FRAMEMAX
+      INTEGER*4 QWIN$FRAMECURR
+      INTEGER*4 QWIN$CHILDMAX
+      INTEGER*4 QWIN$CHILDCURR
+      INTEGER*4 QWIN$SIZEMAX
+      INTEGER*4 QWIN$SIZECURR
+
+      PARAMETER (QWIN$FRAMEMAX  = 1)
+      PARAMETER (QWIN$FRAMECURR = 2)
+      PARAMETER (QWIN$CHILDMAX  = 3)
+      PARAMETER (QWIN$CHILDCURR = 4)
+      PARAMETER (QWIN$SIZEMAX   = 3)
+      PARAMETER (QWIN$SIZECURR  = 4)
+
+!Get/Set Exit
+      INTEGER*4 QWIN$EXITPROMPT, QWIN$EXITNOPERSIST, QWIN$EXITPERSIST
+
+      PARAMETER(QWIN$EXITPROMPT= 1)     ! prompt before exiting
+      PARAMETER(QWIN$EXITNOPERSIST= 2)  ! exit immediately
+      PARAMETER(QWIN$EXITPERSIST= 3)    ! do not exit appilcation
+
+! Message Boxes
+      INTEGER*4 MB$ABORTRETRYIGNORE
+      INTEGER*4 MB$DEFBUTTON1
+      INTEGER*4 MB$DEFBUTTON2
+      INTEGER*4 MB$DEFBUTTON3
+      INTEGER*4 MB$ICONASTERISK
+      INTEGER*4 MB$ICONEXCLAMATION
+      INTEGER*4 MB$ICONHAND
+      INTEGER*4 MB$ICONINFORMATION
+      INTEGER*4 MB$ICONQUESTION
+      INTEGER*4 MB$ICONSTOP
+      INTEGER*4 MB$OK
+      INTEGER*4 MB$OKCANCEL
+      INTEGER*4 MB$RETRYCANCEL
+      INTEGER*4 MB$SYSTEMMODAL
+      INTEGER*4 MB$TASKMODAL
+      INTEGER*4 MB$YESNO
+      INTEGER*4 MB$YESNOCANCEL
+
+      PARAMETER (MB$ABORTRETRYIGNORE = #00000002)
+      PARAMETER (MB$DEFBUTTON1       = #00000000)
+      PARAMETER (MB$DEFBUTTON2       = #00000100)
+      PARAMETER (MB$DEFBUTTON3       = #00000200)
+      PARAMETER (MB$ICONASTERISK     = #00000040)
+      PARAMETER (MB$ICONEXCLAMATION  = #00000030)
+      PARAMETER (MB$ICONHAND         = #00000010)
+      PARAMETER (MB$ICONINFORMATION  = #00000040)
+      PARAMETER (MB$ICONQUESTION     = #00000020)
+      PARAMETER (MB$ICONSTOP         = #00000010)
+      PARAMETER (MB$OK               = #00000000)
+      PARAMETER (MB$OKCANCEL         = #00000001)
+      PARAMETER (MB$RETRYCANCEL      = #00000005)
+      PARAMETER (MB$SYSTEMMODAL      = #00001000)
+      PARAMETER (MB$TASKMODAL        = #00002000)
+      PARAMETER (MB$YESNO            = #00000004)
+      PARAMETER (MB$YESNOCANCEL      = #00000003)
+
+      INTEGER*4 MB$IDOK
+      INTEGER*4 MB$IDCANCEL
+      INTEGER*4 MB$IDABORT
+      INTEGER*4 MB$IDRETRY
+      INTEGER*4 MB$IDIGNORE
+      INTEGER*4 MB$IDYES
+      INTEGER*4 MB$IDNO
+
+      PARAMETER (MB$IDOK     = 1)
+      PARAMETER (MB$IDCANCEL = 2)
+      PARAMETER (MB$IDABORT  = 3)
+      PARAMETER (MB$IDRETRY  = 4)
+      PARAMETER (MB$IDIGNORE = 5)
+      PARAMETER (MB$IDYES    = 6)
+      PARAMETER (MB$IDNO     = 7)
+
+! InitialMenu should not be typed here, so that when InitialMenu is
+! defined by the user it can include FLIB.FD.  Nor should it be external.
+!     LOGICAL*4 INITIALMENU[EXTERN]
+
+!fi2mod:off
+$endif  ! $if _MSFORTRAN_ .GE. 300
+!fi2mod:on
+
+$endif  ! $if .not. defined(__MSFLIB_FGRAPH_INCLUDE)
+

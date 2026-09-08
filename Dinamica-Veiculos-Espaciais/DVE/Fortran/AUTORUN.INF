@@ -1,0 +1,6 @@
+[autorun]
+open=fpssetup\autorun.exe -a
+icon=fpssetup\autorun.exe,0
+shell\configure\command=fpssetup\autorun.exe
+shell\configure=Co&nfigure AutoPlay
+

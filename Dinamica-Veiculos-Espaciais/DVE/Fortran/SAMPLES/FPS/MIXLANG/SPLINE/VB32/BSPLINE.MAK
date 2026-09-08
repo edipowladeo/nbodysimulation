@@ -1,0 +1,17 @@
+Form=BSPLINE.FRM
+Object={F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.0#0; COMDLG32.OCX
+ProjWinSize=134,320,248,215
+ProjWinShow=2
+IconForm="Form1"
+Title="VB/Fortran Spline Demo"
+ExeName32="bspline.exe"
+ExeName="BSPLINE.EXE"
+Name="bspline"
+HelpContextID="0"
+StartMode=0
+VersionCompatible32="0"
+MajorVer=1
+MinorVer=0
+RevisionVer=0
+AutoIncrementVer=0
+ServerSupportFiles=0

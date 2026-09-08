@@ -1,0 +1,38 @@
+interface 
+integer(4) function OwnComboWndProc (hwnd, message, wParam, lParam)
+integer*4   hwnd 
+integer*4   message 
+integer*4   wParam 
+integer*4   lParam 
+end function
+
+      
+logical(4) function About(hwnd, message, wParam, lParam)
+integer*4   hwnd 
+integer*4   message 
+integer*4   wParam 
+integer*4   lParam 
+end function
+
+logical(4) function ListBoxExample (hwnd, message, wParam, lParam)
+integer*4   hwnd 
+integer*4   message 
+integer*4   wParam 
+integer*4   lParam 
+end function
+
+logical(4) function ComboBoxExample (hwnd, message, wParam, lParam)
+integer*4   hwnd 
+integer*4   message 
+integer*4   wParam 
+integer*4   lParam 
+end function
+
+logical(4) function OwnerComboBoxExample (hwnd, message, wParam, lParam)
+integer*4   hwnd 
+integer*4   message 
+integer*4   wParam 
+integer*4   lParam 
+end function
+
+end interface

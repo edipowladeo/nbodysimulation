@@ -1,0 +1,46 @@
+!MS$FREEFORM
+! Microsoft Developer Studio generated include file.
+! Used by poker.rc
+!
+      integer, parameter :: IDD_STATS                       = 101
+      integer, parameter :: IDI_ICON1                       = 102
+      integer, parameter :: IDI_ICON2                       = 103
+      integer, parameter :: IDD_ABOUT                       = 104
+      integer, parameter :: IDD_HELPCONTENTS                = 105
+      integer, parameter :: IDI_POINTER                     = 107
+      integer, parameter :: IDD_HELPSCORING                 = 108
+      integer, parameter :: IDD_POKERPAY                    = 109
+      integer, parameter :: IDD_HELPPAYTABLE                = 110
+      integer, parameter :: IDD_HELPKEYBOARD                = 111
+      integer, parameter :: IDPAY56                         = 200
+      integer, parameter :: IDPAY57                         = 201
+      integer, parameter :: IDPAY58                         = 202
+      integer, parameter :: IDPAY69                         = 203
+      integer, parameter :: IDOK2                           = 204
+      integer, parameter :: IDPAY70                         = 205
+      integer, parameter :: IDPAYTENSORBETTER               = 206
+      integer, parameter :: IDC_RESET                       = 1001
+      integer, parameter :: IDC_HELPSCORING                 = 1005
+      integer, parameter :: IDC_HELPKEYBOARD                = 1007
+      integer, parameter :: IDC_HELPPAYTABLE                = 1008
+      integer, parameter :: IDC_PAYROYALFLUSH               = 1018
+      integer, parameter :: IDC_PAYSTRAIGHTFLUSH            = 1019
+      integer, parameter :: IDC_PAYFOUROFAKIND              = 1020
+      integer, parameter :: IDC_PAYFULLHOUSE                = 1021
+      integer, parameter :: IDC_PAYFLUSH                    = 1022
+      integer, parameter :: IDC_PAYSTRAIGHT                 = 1023
+      integer, parameter :: IDC_PAYTHREEOFAKIND             = 1024
+      integer, parameter :: IDC_PAYTWOPAIR                  = 1025
+      integer, parameter :: IDC_PAYJACKSORBETTER            = 1026
+      integer, parameter :: IDC_PAYTENSORBETTER             = 1027
+      integer, parameter :: IDC_PAYROYALFLUSH5              = 1029
+      integer, parameter :: IDCHECKOK                       = 1031
+      integer, parameter :: IDPAYHELP                       = 1032
+      integer, parameter :: HAND_PLAYED                     = 2000
+      integer, parameter :: HAND_SCORED                     = 2001
+      integer, parameter :: HAND_AVERAGE                    = 2002
+      integer, parameter :: HAND_BET                        = 2003
+      integer, parameter :: CREDITS_CURRENT                 = 3001
+      integer, parameter :: CREDITS_DEPOSITED               = 3002
+      integer, parameter :: CREDITS_WITHDRAWN               = 3003
+      integer, parameter :: CREDITS_TOTAL                   = 3004

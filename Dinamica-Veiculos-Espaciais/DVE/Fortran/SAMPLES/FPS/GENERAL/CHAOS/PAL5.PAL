@@ -1,0 +1,25 @@
+ &PALLETINPUT
+ LCHG =  T
+ RPHS =         1.570796
+ BPHS =         1.658063
+ GPHS =         1.570796
+ RDELTHE =     3.681554E-02
+ BDELTHE =     1.227185E-02
+ GDELTHE =     1.840777E-02
+ LSEE =  F
+ RMAX =       256.000000
+ BMAX =       256.000000
+ GMAX =       256.000000
+ IRDELAY =          170
+ IBDELAY =            0
+ IGDELAY =           85
+ REDSTART =     0.000000E+00
+ REDEND =         9.424778
+ GREENSTART =     0.000000E+00
+ GREENEND =         4.712389
+ BLUESTART =     0.000000E+00
+ BLUEEND =         3.141593
+ LNRED =  F
+ LNGREEN =  F
+ LNBLUE =  F
+ /

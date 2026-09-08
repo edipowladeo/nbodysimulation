@@ -1,0 +1,30 @@
+! **************************************************************************
+!  This file is not guaranteed by Microsoft to be error free. Every effort
+!  has been made to ensure proper data-types and declarations, but no
+!  testing has been performed using this include file. Additionally, some
+!  API's though listed, may not be compatible with the Microsoft Fortran
+!  language.
+! **************************************************************************
+                
+interface
+integer(4) function MainWndProc ( a,b,c,d ) 
+!MS$ ATTRIBUTES STDCALL, ALIAS : '_MainWndProc@16' :: MainWndProc
+integer a
+integer b
+integer c
+integer d
+end function MainWndProc
+
+integer(4) function About( a,b,c,d ) 
+!MS$ ATTRIBUTES STDCALL, ALIAS : '_About@16' :: About
+integer a
+integer b
+integer c
+integer d
+end function About
+
+subroutine OutOf_Memory()
+end subroutine OutOf_Memory
+
+end interface
+

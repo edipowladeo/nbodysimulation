@@ -1,0 +1,9 @@
+
+
+! function prototypes. 
+
+subroutine CenterOrigin (HWND, HDC) 
+integer*4 HWND, HDC
+end subroutine
+
+end interface

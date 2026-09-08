@@ -1,0 +1,24 @@
+# Makefile for MATH/LIBRARY example programs
+
+fc =	fl32
+
+.for.exe:
+	$(fc) $< 
+
+all:	bsint_ex.exe dlprs_ex.exe evcrg_ex.exe fftcf_ex.exe ivprk_ex.exe \
+	lsarg_ex.exe qdag_ex.exe
+
+bsint_ex.exe:	bsint_ex.for
+
+dlprs_ex.exe:	dlprs_ex.for
+
+evcrg_ex.exe:	evcrg_ex.for
+
+fftcf_ex.exe:	fftcf_ex.for
+
+ivprk_ex.exe:	ivprk_ex.for
+
+lsarg_ex.exe:	lsarg_ex.for
+
+qdag_ex.exe:	qdag_ex.for
+

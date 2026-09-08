@@ -1,0 +1,9 @@
+!/* function prototypes.  Window procedures first. */
+
+subroutine ExpandInfo (hwnd, index, value)
+integer*4   hwnd 
+integer*4   index 
+integer*4   value 
+end subroutine
+end interface
+

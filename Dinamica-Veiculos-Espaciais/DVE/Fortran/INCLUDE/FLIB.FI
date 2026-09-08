@@ -1,0 +1,711 @@
+!****************************** Module Header ******************************
+!*
+!* Copyright (c) 1990-1995  Microsoft Corporation
+!*
+!* Module Name: FLIB.FI
+!*
+!* This module provides interface descriptions for subprograms found
+!* in the various Fortran libraries.  
+!*
+!* The functional areas covered are the following.
+!*
+!*    Math error support
+!*    Signal support
+!*    Coprocessor Control
+!*    Time and Date Support
+!*    Command Line Arguments
+!*    Random Numbers
+!*    Running Programs and System Commands
+!*    Drives and Directories
+!*    Files
+!*    Keyboard
+!*    Errors
+!*    Environment
+!*    Beep and Sleep
+!*    Sorting and Searching Arrays
+!*    Configuration
+!*    QuickWin Support
+!*    Access to Windows Handles for QuickWin components
+!*    QuickWin Default Menu Support
+!*    
+!*
+!***************************************************************************
+
+!* NOTE: When modifying this file, you must follow the following rules to
+!* ensure compatibility with fixed form and free form source:
+!*   1) All comments must start with '!'
+!*   2) All code must be within columns 7 to 72
+!*   3) For continuation, place a '&' in column 73,
+!*      and a '&' in column 6 of the continuation line
+
+$if .not. defined (_MSFORTRAN_)
+$define _MSFORTRAN_ = 100
+$endif
+
+$if .not. defined($MSFLIB$ProgramUnitNumber)
+$define $MSFLIB$ProgramUnitNumber = -1
+$endif
+$if .not. defined($MSFLIB$FIProgUnitNum)
+$define $MSFLIB$FIProgUnitNum = -2
+$endif
+
+$if .not. defined (__MSFLIB_FGRAPH_INCLUDE)
+
+!fi2mod:off
+$if _MSFORTRAN_ .LT. 300
+!fi2mod:on
+
+! -----------------------------------------------------------------
+! Math Error Support
+! -----------------------------------------------------------------
+! MATHERRQQ -- user callbacks cannot be in the module MSFLIB
+!fi2mod:off
+      INTERFACE TO SUBROUTINE MATHERRQQ(NAME, NLEN, INFO, RETCODE)
+      INTEGER*2 NLEN
+      CHARACTER NAME(NLEN)       ! INPUT : Name of function causing error.
+      STRUCTURE /MTH$E_INFO/
+        INTEGER*4 ERRCODE        ! INPUT : One of the MTH$ values in flib.fd
+        INTEGER*4 FTYPE          ! INPUT : One of the TY$ values in flib.fd
+        UNION
+        MAP
+            REAL*4 R4ARG1        ! INPUT : First argument
+            REAL*4 R4ARG2        ! INPUT : Second argument (if any)
+            REAL*4 R4RES         ! OUTPUT : Desired result
+        END MAP
+        MAP
+            REAL*8 R8ARG1        ! INPUT : FIrst argument
+            REAL*8 R8ARG2        ! INPUT : Second argument (if any)
+            REAL*8 R8RES         ! OUTPUT : Desired result
+        END MAP
+        MAP
+            COMPLEX*8 C8ARG1     ! INPUT : FIrst argument
+            COMPLEX*8 C8ARG2     ! INPUT : Second argument (if any)
+            COMPLEX*8 C8RES      ! OUTPUT : Desired result
+        END MAP
+        MAP
+            COMPLEX*16 C16ARG1   ! INPUT : FIrst argument
+            COMPLEX*16 C16ARG2   ! INPUT : Second argument (if any)
+            COMPLEX*16 C16RES    ! OUTPUT : Desired result
+        END MAP
+        END UNION
+      END STRUCTURE
+      RECORD /MTH$E_INFO/ INFO
+      INTEGER*2 RETCODE          ! OUTPUT : 0 for failure, non 0 for success
+      END
+!fi2mod:on
+
+! -----------------------------------------------------------------
+! Signal support
+! -----------------------------------------------------------------
+      INTERFACE TO INTEGER*4 FUNCTION SIGNALQQ[c,alias:'_signal']       &
+     &                                        (SIGNAL, HANDLER)
+      INTEGER*4 SIGNAL[value]
+      integer*4 handler
+      EXTERNAL HANDLER
+      END
+
+      INTERFACE TO INTEGER*4 FUNCTION RAISEQQ[c,alias:'_raise'](SIGNAL)
+      INTEGER*4 SIGNAL[value]
+      END
+
+! -----------------------------------------------------------------
+! Coprocessor Control
+! -----------------------------------------------------------------
+
+      INTERFACE TO SUBROUTINE LCWRQQ(CONTROL)
+      INTEGER*2 CONTROL
+      END
+
+      INTERFACE TO SUBROUTINE SCWRQQ(CONTROL)
+      INTEGER*2 CONTROL
+      END
+
+      INTERFACE TO SUBROUTINE SSWRQQ(STATUS)
+      INTEGER*2 STATUS
+      END
+
+      INTERFACE TO SUBROUTINE SETCONTROLFPQQ[alias:'_LCWRQQ@4'](CONTROL)
+      INTEGER*2 CONTROL
+      END
+
+      INTERFACE TO SUBROUTINE GETCONTROLFPQQ[alias:'_SCWRQQ@4'](CONTROL)
+      INTEGER*2 CONTROL
+      END
+
+      INTERFACE TO SUBROUTINE GETSTATUSFPQQ[alias:'_SSWRQQ@4'](STATUS)
+      INTEGER*2 STATUS
+      END
+
+! -----------------------------------------------------------------
+! Time and Date Support
+! -----------------------------------------------------------------
+      INTERFACE TO SUBROUTINE GETTIM(IHR, IMIN, ISEC, I100TH)
+      INTEGER*2 IHR, IMIN, ISEC, I100TH
+      END
+
+      INTERFACE TO LOGICAL FUNCTION SETTIM(IHR, IMIN, ISEC, I100TH)
+      INTEGER*2 IHR, IMIN, ISEC, I100TH
+      END
+
+      INTERFACE TO SUBROUTINE GETDAT(IYR, IMON, IDAY)
+      INTEGER*2 IYR, IMON, IDAY
+      END
+
+      INTERFACE TO LOGICAL FUNCTION SETDAT(IYR, IMON, IDAY)
+      INTEGER*2 IYR, IMON, IDAY
+      END
+
+! -----------------------------------------------------------------
+! Command Line Arguments
+! -----------------------------------------------------------------
+      INTERFACE TO INTEGER*4 FUNCTION NARGS()
+      END
+
+$if _MSFORTRAN_ .LT. 300
+      INTERFACE TO SUBROUTINE GETARG(N, BUFFER, STATUS)
+      INTEGER*2 N
+      CHARACTER*(*) BUFFER
+      INTEGER*2 STATUS          
+      END
+
+      ! Note that EXIT does not have an interface for FORTRAN 77 compiles.  
+      ! Thus, EXIT can be used with or without an argument
+      ! (so long as it is used consistently within a program unit).
+$else
+      INTERFACE TO SUBROUTINE GETARG(N, BUFFER, STATUS)
+      INTEGER*2 N
+      CHARACTER*(*) BUFFER
+      INTEGER*2, OPTIONAL :: STATUS      
+      END
+
+      INTERFACE TO SUBROUTINE EXIT(EXITVALUE)
+      INTEGER*4, OPTIONAL :: EXITVALUE    
+      END
+$endif
+
+! -----------------------------------------------------------------
+! Random Numbers
+! -----------------------------------------------------------------
+
+$if _MSFORTRAN_ .LT. 300
+      INTERFACE TO SUBROUTINE RANDOM(ARG)
+      REAL*4 ARG
+      END
+$else
+!fi2mod:notrans
+! Random is a generic interface for use with the RANDOM in portlib
+      INTERFACE RANDOM
+         SUBROUTINE $$MSFLIB$RANDOM(ARG)
+!MS$ATTRIBUTES ALIAS:'_RANDOM@4' :: $$MSFLIB$RANDOM
+         REAL*4 ARG
+         END SUBROUTINE
+      END INTERFACE
+!fi2mod:trans
+$endif
+
+      INTERFACE TO SUBROUTINE SEED(ARG)
+      INTEGER*4 ARG
+      END
+
+! -----------------------------------------------------------------
+! Running Programs and System Commands
+! -----------------------------------------------------------------
+      INTERFACE TO INTEGER*4 FUNCTION RUNQQ(FILENAME, COMMANDLINE)
+      CHARACTER*(*) FILENAME, COMMANDLINE
+      END
+
+      INTERFACE TO LOGICAL*4 FUNCTION SYSTEMQQ(COMMANDLINE)
+      CHARACTER*(*) COMMANDLINE
+      END
+
+! -----------------------------------------------------------------
+! Drives and Directories
+! -----------------------------------------------------------------
+
+      INTERFACE TO LOGICAL*4 FUNCTION GETDRIVESIZEQQ(DRIVE, TOTAL,      &
+     &                                               AVAIL)
+      CHARACTER*(*) DRIVE
+      INTEGER*4 TOTAL, AVAIL
+      END
+
+      INTERFACE TO CHARACTER*26 FUNCTION GETDRIVESQQ()
+      END
+
+      INTERFACE TO INTEGER*4 FUNCTION GETDRIVEDIRQQ(BUFFER)
+      CHARACTER*(*) BUFFER
+      END
+
+      INTERFACE TO LOGICAL*4 FUNCTION CHANGEDRIVEQQ(DRIVE)
+      CHARACTER*(*) DRIVE
+      END
+
+      INTERFACE TO LOGICAL*4 FUNCTION CHANGEDIRQQ(DIR)
+      CHARACTER*(*) DIR
+      END
+
+      INTERFACE TO LOGICAL*4 FUNCTION MAKEDIRQQ(DIR)
+      CHARACTER*(*) DIR
+      END
+
+      INTERFACE TO LOGICAL*4 FUNCTION DELDIRQQ(DIR)
+      CHARACTER*(*) DIR
+      END
+
+      INTERFACE TO INTEGER*4 FUNCTION FULLPATHQQ(NAME, FULLPATH)
+      CHARACTER*(*) NAME, FULLPATH
+      END
+
+      INTERFACE TO INTEGER*4 FUNCTION SPLITPATHQQ(PATH, DRIVE, DIR,     &
+     &                                            NAME, EXT)
+      CHARACTER*(*) PATH, DRIVE, DIR, NAME, EXT
+      END
+
+! -----------------------------------------------------------------
+! Files
+! -----------------------------------------------------------------
+
+      INTERFACE TO INTEGER*4 FUNCTION GETFILEINFOQQ(FILES, BUFFER,      &
+     &                                              HANDLE)
+      CHARACTER*(*) FILES
+      STRUCTURE / FILE$INFO /
+        INTEGER*4       CREATION          ! Creation time (-1 on FAT)
+        INTEGER*4       LASTWRITE         ! Last write to file
+        INTEGER*4       LASTACCESS        ! Last access (-1 on FAT)
+        INTEGER*4       LENGTH            ! Length of file
+        INTEGER*2       PERMIT            ! File access mode
+        CHARACTER*255   NAME              ! File name
+      END STRUCTURE
+      RECORD / FILE$INFO / BUFFER
+      INTEGER*4 HANDLE
+      END
+
+      INTERFACE TO LOGICAL*4 FUNCTION SETFILETIMEQQ(NAME, TIMEDATE)
+      CHARACTER*(*) NAME
+      INTEGER*4 TIMEDATE
+      END
+
+      INTERFACE TO LOGICAL*4 FUNCTION SETFILEACCESSQQ(NAME, ACCESS)
+      CHARACTER*(*) NAME
+      INTEGER*4 ACCESS
+      END
+
+      INTERFACE TO INTEGER*4 FUNCTION DELFILESQQ(FILES)
+      CHARACTER*(*) FILES
+      END
+
+      INTERFACE TO LOGICAL*4 FUNCTION RENAMEFILEQQ(OLDNAME, NEWNAME)
+      CHARACTER*(*) OLDNAME, NEWNAME
+      END
+
+      INTERFACE TO INTEGER*4 FUNCTION FINDFILEQQ(FILE, ENV, BUF)
+      CHARACTER*(*) FILE, ENV, BUF
+      END
+
+      INTERFACE TO SUBROUTINE PACKTIMEQQ(TIMEDATE, IYR, IMON, IDAY,     &
+     &                                   IHR, IMIN, ISEC)
+      INTEGER*4 TIMEDATE
+      INTEGER*2 IYR, IMON, IDAY, IHR, IMIN, ISEC
+      END
+
+      INTERFACE TO SUBROUTINE UNPACKTIMEQQ(TIMEDATE, IYR, IMON, IDAY,   &
+     &                                     IHR, IMIN, ISEC)
+      INTEGER*4 TIMEDATE
+      INTEGER*2 IYR, IMON, IDAY, IHR, IMIN, ISEC
+      END
+
+      INTERFACE TO LOGICAL*4 FUNCTION COMMITQQ(UNIT)
+      INTEGER*4 UNIT
+      END
+
+! -----------------------------------------------------------------
+! Keyboard
+! -----------------------------------------------------------------
+
+      INTERFACE TO CHARACTER*1 FUNCTION GETCHARQQ()
+      END
+
+      INTERFACE TO LOGICAL*4 FUNCTION PEEKCHARQQ()
+      END
+
+      INTERFACE TO INTEGER*4 FUNCTION GETSTRQQ(BUFFER)
+      CHARACTER*(*) BUFFER
+      END
+
+! -----------------------------------------------------------------
+! Errors
+! -----------------------------------------------------------------
+
+      INTERFACE TO INTEGER*4 FUNCTION GETLASTERRORQQ()
+      END
+
+      INTERFACE TO SUBROUTINE SETERRORMODEQQ(PROMPT)
+      LOGICAL*4 PROMPT
+      END
+
+! -----------------------------------------------------------------
+! Environment
+! -----------------------------------------------------------------
+
+      INTERFACE TO INTEGER*4 FUNCTION GETENVQQ(NAME, VALUE)
+      CHARACTER*(*) NAME, VALUE
+      END
+
+      INTERFACE TO LOGICAL*4 FUNCTION SETENVQQ(NAMVAL)
+      CHARACTER*(*) NAMVAL
+      END
+
+
+! -----------------------------------------------------------------
+! Beep and Sleep
+! -----------------------------------------------------------------
+
+      INTERFACE TO SUBROUTINE SLEEPQQ(DURATION)
+      INTEGER*4 DURATION
+      END
+
+      INTERFACE TO SUBROUTINE BEEPQQ(FREQUENCY, DURATION)
+      INTEGER*4 FREQUENCY, DURATION
+      END
+
+! ----------------------------------------------------------------
+! Sorting and Searching Arrays
+! ----------------------------------------------------------------
+
+      INTERFACE TO SUBROUTINE SORTQQ(ADRARRAY, LENGTH, SIZE)
+      INTEGER*4 ADRARRAY, LENGTH, SIZE
+      END
+
+      INTERFACE TO INTEGER*4 FUNCTION BSEARCHQQ(ADRKEY, ADRARRAY,       &
+     &                                          LENGTH, SIZE)
+      INTEGER*4 ADRKEY, ADRARRAY, LENGTH, SIZE
+      END
+
+! ----------------------------------------------------------------
+! Configuration
+! ----------------------------------------------------------------
+
+      INTERFACE TO INTEGER*4 FUNCTION GETCONFIGQQ()
+      END
+
+! -----------------------------------------------------------------
+! QuickWin Support
+! -----------------------------------------------------------------
+$PACK:1
+
+      INTERFACE TO FUNCTION GETWINDOWCONFIG(wc)
+      LOGICAL GETWINDOWCONFIG[ALIAS:"__f_getwindowconfig@4"]
+      STRUCTURE/windowconfig/
+      INTEGER*2 numxpixels
+      INTEGER*2 numypixels
+      INTEGER*2 numtextcols
+      INTEGER*2 numtextrows
+      INTEGER*2 numcolors
+      INTEGER*4 fontsize
+      CHARACTER*(80) title
+      INTEGER*2 bitsperpixel
+      INTEGER*2 numvideopages
+      INTEGER*2 mode
+      INTEGER*2 adapter
+      INTEGER*2 monitor
+      INTEGER*2 memory
+      INTEGER*2 environment
+      CHARACTER*(32) extendfontname
+      INTEGER*4 extendfontsize
+      INTEGER*4 extendfontattributes
+      END STRUCTURE
+      RECORD/windowconfig/wc[REFERENCE]
+      END
+
+      INTERFACE TO FUNCTION SETWINDOWCONFIG(wc)
+      LOGICAL SETWINDOWCONFIG[ALIAS:"__f_setwindowconfig@4"]
+      STRUCTURE/windowconfig/
+      INTEGER*2 numxpixels
+      INTEGER*2 numypixels
+      INTEGER*2 numtextcols
+      INTEGER*2 numtextrows
+      INTEGER*2 numcolors
+      INTEGER*4 fontsize
+      CHARACTER*(80) title
+      INTEGER*2 bitsperpixel
+      INTEGER*2 numvideopages
+      INTEGER*2 mode
+      INTEGER*2 adapter
+      INTEGER*2 monitor
+      INTEGER*2 memory
+      INTEGER*2 environment
+      CHARACTER*(32) extendfontname
+      INTEGER*4 extendfontsize
+      INTEGER*4 extendfontattributes
+      END STRUCTURE
+      RECORD/windowconfig/wc[REFERENCE]
+      END
+$PACK
+
+      INTERFACE TO FUNCTION APPENDMENUQQ(menuID,flags,text,routine)
+      LOGICAL APPENDMENUQQ[C]
+      INTEGER*4 menuID,flags
+      CHARACTER*(*) text[REFERENCE]
+      EXTERNAL routine
+      END
+
+      INTERFACE TO FUNCTION INSERTMENUQQ(menuID,itemID,flags,text,      &
+     &routine)
+      LOGICAL INSERTMENUQQ[C]
+      INTEGER*4 menuID,itemID,flags
+      CHARACTER*(*) text[REFERENCE]
+      EXTERNAL routine
+      END
+
+      INTERFACE TO FUNCTION DELETEMENUQQ(menuID,itemID)
+      LOGICAL DELETEMENUQQ[C]
+      INTEGER*4 menuID,itemID
+      END
+
+      INTERFACE TO FUNCTION MODIFYMENUFLAGSQQ(menuID,itemID,flags)
+      LOGICAL MODIFYMENUFLAGSQQ[C]
+      INTEGER*4 menuID,itemID,flags
+      END
+
+      INTERFACE TO FUNCTION MODIFYMENUSTRINGQQ(menuID,itemID,text)
+      LOGICAL MODIFYMENUSTRINGQQ[C]
+      INTEGER*4 menuID,itemID
+      CHARACTER*(*) text[REFERENCE]
+      END
+
+      INTERFACE TO FUNCTION MODIFYMENUROUTINEQQ(menuID,itemID,routine)
+      LOGICAL MODIFYMENUROUTINEQQ[C]
+      INTEGER*4 menuID,itemID
+      EXTERNAL routine
+      END
+
+      INTERFACE TO FUNCTION SETWINDOWMENUQQ(menuID)
+      LOGICAL SETWINDOWMENUQQ[C]
+      INTEGER*4 menuID
+      END
+
+      INTERFACE TO SUBROUTINE YIELDQQ()
+      END
+
+! We only include the following code once inside the same program unit.
+! This code is shared with fgraph.fi.
+$if _MSFORTRAN_ .lt. 300    ! if using /4fps1, always include the code below
+$undefine $MSFLIB$FIProgUnitNum
+$define $MSFLIB$FIProgUnitNum = -2
+$endif
+$if $MSFLIB$FIProgUnitNum .ne. $MSFLIB$ProgramUnitNumber
+$undefine $MSFLIB$FIProgUnitNum
+$define $MSFLIB$FIProgUnitNum = $MSFLIB$ProgramUnitNumber
+
+      INTERFACE TO FUNCTION INCHARQQ()
+      INTEGER*2 INCHARQQ[C,ALIAS:"__inchar"]
+      END
+
+      INTERFACE TO FUNCTION WGOPENQQ(name)
+      INTEGER*4 WGOPENQQ[C,ALIAS:"__wgopen"]
+      CHARACTER*(*) name
+      END
+
+      INTERFACE TO FUNCTION WGCLOSEQQ(handle)
+      INTEGER*4 WGCLOSEQQ[C,ALIAS:"__wgclose"], handle
+      END
+
+      INTERFACE TO FUNCTION WGSETACTIVEQQ(handle)
+      INTEGER*4 WGSETACTIVEQQ[C,ALIAS:"__wgsetactive"], handle
+      END
+
+      INTERFACE TO FUNCTION WGGETACTIVEQQ()
+      INTEGER*4 WGGETACTIVEQQ[C,ALIAS:"__wggetactive"]
+      END
+$endif
+
+      INTERFACE TO FUNCTION SETACTIVEQQ(lunit)
+      INTEGER*4 SETACTIVEQQ[C,ALIAS:"__wgsetactiveunit"], lunit
+      END
+
+      INTERFACE TO FUNCTION GETACTIVEQQ()
+      INTEGER*4 GETACTIVEQQ[C,ALIAS:"__wggetactiveunit"]
+      END
+
+      INTERFACE TO FUNCTION FOCUSQQ(IUNIT)
+      INTEGER*4 FOCUSQQ, IUNIT
+      END
+
+      INTERFACE TO FUNCTION INQFOCUSQQ(IUNIT)
+      INTEGER*4 INQFOCUSQQ,IUNIT
+      END
+
+      INTERFACE TO FUNCTION GETHANDLEQQ(IUNIT)
+      INTEGER*4 GETHANDLEQQ, IUNIT
+      END
+
+      INTERFACE TO FUNCTION GETHWNDQQ(IUNIT)
+      INTEGER*4 GETHWNDQQ, IUNIT
+      END
+
+      INTERFACE TO FUNCTION GETUNITQQ(IHANDLE)
+      INTEGER*4 GETUNITQQ, IHANDLE
+      END
+
+      INTERFACE TO FUNCTION ABOUTBOXQQ(STR)
+      INTEGER*4 ABOUTBOXQQ[C,ALIAS:"__QWINSetAboutString"]
+      CHARACTER*(*) STR[REFERENCE]
+      END
+
+      INTERFACE TO FUNCTION CLICKQQ(ITEM)
+      INTEGER*4 CLICKQQ[C,ALIAS:"__QWINMenuClick"],ITEM
+      END
+
+      INTERFACE TO FUNCTION CLICKMENUQQ(ITEM)
+      INTEGER*4 CLICKMENUQQ[C,ALIAS:"__QWINMenuClick"]
+      INTEGER*4 ITEM
+      END
+
+
+      INTERFACE TO  FUNCTION SETWSIZEQQ(IUNIT,WINFO)
+      STRUCTURE /QWINFO/
+          INTEGER*2 TYPE          ! request type
+          INTEGER*2 X             ! x coordinate for upper left
+          INTEGER*2 Y             ! y coordinate for upper left
+          INTEGER*2 H             ! window height
+          INTEGER*2 W             ! window width
+      END STRUCTURE
+      INTEGER*4 SETWSIZEQQ, IUNIT
+      RECORD /QWINFO/ WINFO
+      END
+
+      INTERFACE TO  FUNCTION GETWSIZEQQ(IUNIT,IREQ,WINFO)
+      STRUCTURE /QWINFO/
+          INTEGER*2 TYPE          ! request type
+          INTEGER*2 X             ! x coordinate for upper left
+          INTEGER*2 Y             ! y coordinate for upper left
+          INTEGER*2 H             ! window height
+          INTEGER*2 W             ! window width
+      END STRUCTURE
+      INTEGER*4 GETWSIZEQQ, IUNIT
+      INTEGER*4 IREQ
+      RECORD /QWINFO/ WINFO
+      END
+
+      INTERFACE TO  FUNCTION MESSAGEBOXQQ(MSG,CAPTION,MTYPE)
+      CHARACTER*(*) MSG[REFERENCE]
+      CHARACTER*(*) CAPTION[REFERENCE]
+      INTEGER*4  MESSAGEBOXQQ[C,ALIAS:"__QWINMsgBox"],MTYPE
+      END
+
+      INTERFACE TO FUNCTION GETEXITQQ()
+      INTEGER*4 GETEXITQQ[C, ALIAS:"__QWINGetExit"]
+      END
+
+      INTERFACE TO FUNCTION SETEXITQQ(exitmode)
+      INTEGER*4 SETEXITQQ[C, ALIAS:"__QWINSetExit"]
+      INTEGER*4 exitmode
+      END
+
+! -----------------------------------------------------------------
+! Access to Windows Handles for QuickWin components
+! -----------------------------------------------------------------
+      INTERFACE TO FUNCTION GETHANDLEFRAMEQQ()
+      INTEGER*4 GETHANDLEFRAMEQQ[C,ALIAS:"__QWINTGethFrame"]
+      END
+
+      INTERFACE TO FUNCTION GETHANDLECLIENTQQ()
+      INTEGER*4 GETHANDLECLIENTQQ[C,ALIAS:"__QWINTGethClient"]
+      END
+
+      INTERFACE TO FUNCTION GETHANDLECHILDQQ(QUICKHND)
+      INTEGER*4 GETHANDLECHILDQQ[C,ALIAS:"__QWINGethWnd"]
+      INTEGER*4 QUICKHND
+      END
+
+$if _MSFORTRAN_ .GE. 300
+! -----------------------------------------------------------------
+! Unused Routine -- simply returns, used to avoid "unused" warnings
+! -----------------------------------------------------------------
+      INTERFACE TO SUBROUTINE UNUSEDQQ                                  &
+     &      [C,REFERENCE,VARYING,ALIAS:"__FFunusedqq"]()
+      END 
+$endif
+      
+! -----------------------------------------------------------------
+! QuickWin Default Menu Support
+! -----------------------------------------------------------------
+! INITIALMENU -- user callbacks cannot be in the module MSFLIB
+! INITIALSETTINGS -- user callbacks cannot be in the module MSFLIB
+!fi2mod:off
+      INTERFACE TO FUNCTION INITIALMENU()
+      LOGICAL*4 INITIALMENU
+      END
+
+      INTERFACE TO FUNCTION INITIALSETTINGS()
+      LOGICAL*4 INITIALSETTINGS
+      END
+!fi2mod:on
+
+      INTERFACE TO SUBROUTINE WINPRINT()
+      END
+
+      INTERFACE TO SUBROUTINE WINSAVE()
+      END
+
+      INTERFACE TO SUBROUTINE WINEXIT()
+      END
+
+      INTERFACE TO SUBROUTINE WINCOPY()
+      END
+
+      INTERFACE TO SUBROUTINE WINPASTE()
+      END
+
+      INTERFACE TO SUBROUTINE WINSIZETOFIT()
+      END
+
+      INTERFACE TO SUBROUTINE WINFULLSCREEN()
+      END
+
+      INTERFACE TO SUBROUTINE WINSTATE()
+      END
+
+      INTERFACE TO SUBROUTINE WINCASCADE()
+      END
+
+      INTERFACE TO SUBROUTINE WINTILE()
+      END
+
+      INTERFACE TO SUBROUTINE WINARRANGE()
+      END
+
+      INTERFACE TO SUBROUTINE WININPUT()
+      END
+
+      INTERFACE TO SUBROUTINE WINCLEARPASTE()
+      END
+
+      INTERFACE TO SUBROUTINE WINSTATUS()
+      END
+
+      INTERFACE TO SUBROUTINE WININDEX()
+      END
+
+      INTERFACE TO SUBROUTINE WINUSING()
+      END
+
+      INTERFACE TO SUBROUTINE WINABOUT()
+      END
+
+      INTERFACE TO SUBROUTINE WINSELECTTEXT()
+      END
+
+      INTERFACE TO SUBROUTINE WINSELECTGRAPHICS()
+      END
+
+      INTERFACE TO SUBROUTINE WINSELECTALL()
+      END
+
+      INTERFACE TO SUBROUTINE NUL()
+      END
+
+!fi2mod:off
+$endif  ! $if _MSFORTRAN_ .LT. 300
+!fi2mod:on
+
+$endif  ! $if .not. defined (__MSFLIB_FGRAPH_INCLUDE)

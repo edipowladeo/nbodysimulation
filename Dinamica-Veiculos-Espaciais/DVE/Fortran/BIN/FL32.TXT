@@ -1,0 +1,82 @@
+                FORTRAN POWERSTATION COMPILER OPTIONS
+
+-------LISTING OPTIONS
+/FA         Assembly listing
+/FAc        Assembly listing with machine code
+/FAs        Assembly listing with source code
+/FAcs       Assembly listing with machine instructions and source code
+/Fa[<file>] Named assembly listing
+/Fc[<file>] Named assembly listing with source and machine code 
+/Fl[<file>] Named assembly listing with machine code
+/Fs[<file>] Source listing for the compiled code
+
+-------CODE GENERATION OPTIONS
+/FR[<file>] Generates extended Source Browser information
+/G3         Generates code optimized for 80386
+/G4         Generates code optimized for 80486 (default)
+/G5         Generates Pentium-optimum instructions
+/Ob2        Automatic inlining of code, use with /Ox
+/Od         No code reorganization (default)
+/Op         Improved floating-point consistency
+/Ox         Full optimization; no error checking
+/Oxp        Speed optimization & denoted inlining; error checking
+/Zp[n]      Packs structures on n-byte boundary (1, 2, or 4)
+
+-------LANGUAGE EXTENSION OPTIONS
+/4L{72|80|132} Line length for Fortran 90 fixed-form source
+/4{Y|N}b    Enable/Disable extended error checking
+/4{Y|N}d    Warnings about undeclared variables
+/W0         Suppress warnings
+/W1         Show warnings (default)
+/WX         Interpret all warnings as errors
+
+-------LANGUAGE STANDARDS OPTIONS
+/4{Y|N}a    Makes all variables AUTOMATIC
+/4(Y|N}altparam   Use the alternate syntax for PARAMETER
+/4{Y|N}f    Use free-form source format
+/4fps1      Use the FORTRAN PowerStation 1.0 compiler
+/4I2        New default KIND for INTEGER and LOGICAL variables
+/4R8        New default KIND for REAL variables
+/4{Y|N}s    Strict Fortran 90 syntax
+
+-------COMPILER DIRECTIVE OPTIONS
+/D<symbol>[=text]  Define <symbol> for use by metacommands
+/4cc<string>       Conditional compilation
+
+-------BUILD CONTROL OPTIONS
+/4{Y|N}portlib     Link the portability library into the program
+/Fd[file]   Write debug information to [file].PDB
+/Fe<file>   Create .EXE with <file> name
+/Fm[<file>] Linker creates map file
+/Fo<file>   Create .OBJ with <file> name
+/I<path>    Adds <path> to the include file path
+/LD         Compiles and links a program as a DLL
+/MD         Selects multithread and DLL run-time routines
+/ML         Selects non-DLL single-thread run-time routines
+/MT         Selects multithreaded run-time routines
+/MW	    Invokes QuickWin graphics
+/MWs        Invokes Standard graphics as well as QuickWin graphics
+/Tf<file>   Treats a file as a source file regardless of the filename
+/V<string>  Labels the object file
+/Z7         Write debug information into .OBJ file, not .PDB file
+/Zd         Produce line number information for debugging
+/Zi         Produce symbolic debugging information & line numbers
+/Zl         Disables library search records from being entered in .OBJ file
+/Zs         Perform syntax check only
+/link [option]   Remaining options are passed to LINK (See LINK /?)
+
+-------COMMAND LINE SPECIFIC OPTIONS
+/?, /help   Displays this information
+/nologo     Suppress copyright message
+==============================================================
+
+-------Other Command Line Tools
+NMAKE       Project maintenance utility
+RC          Resource compiler
+LIB         Library management utility
+PREP        File preparation utility for profiler
+PLIST       Converts profile results into a formatted text file
+PROFILE     Program execution profiler
+EDITBIN     Binary file editor
+DUMPBIN     Binary file dumper
+

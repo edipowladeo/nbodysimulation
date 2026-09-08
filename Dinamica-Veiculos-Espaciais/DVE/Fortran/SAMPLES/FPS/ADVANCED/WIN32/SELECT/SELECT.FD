@@ -1,0 +1,37 @@
+
+******************************************************************************\
+*       This is a part of the Microsoft Source Code Samples. 
+*       Copyright (C) 1993 Microsoft Corporation.
+*       All rights reserved. 
+*       This source code is only intended as a supplement to 
+*       Microsoft Development Tools and/or WinHelp documentation.
+*       See these sources for detailed information regarding the 
+*       Microsoft samples programs.
+******************************************************************************/
+*
+* These defines determine the meaning of the fFlags variable.  The low byte
+* is used for the various types of "boxes" to draw.  The high byte is
+* available for special commands.
+*
+
+      integer*4 SL_BOX   
+      parameter(SL_BOX     = 1             )! Draw a solid border around the rectangle  */
+      integer*4 SL_BLOCK  
+      parameter(SL_BLOCK  = 2             )! Draw a solid rectangle                    */
+
+      integer*4 SL_EXTEND
+      parameter(SL_EXTEND = 256)           ! Extend the current pattern                */
+
+      integer*4 SL_TYPE    
+      parameter(SL_TYPE    = #00FF)       ! Mask out everything but the type flags    */
+      integer*4 SL_SPECIAL 
+      parameter(SL_SPECIAL = #FF00)       ! Mask out everything but the special flags */
+
+! Temporary porting macros
+
+!#define MAKEMPOINT(l)           (*((MPOINT *)&(l)))
+!#define MPOINT2POINT(mpt, pt)   ((pt).x = (mpt).x, (pt).y = (mpt).y)
+!#define POINT2MPOINT(pt, mpt)   ((mpt).x = (SHORT)(pt).x, (mpt).y = (SHORT)(pt).y)
+
+
+

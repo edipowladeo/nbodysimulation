@@ -1,0 +1,40 @@
+! **************************************************************************
+!  This file is not guaranteed by Microsoft to be error free. Every effort
+!  has been made to ensure proper data-types and declarations, but no
+!  testing has been performed using this include file. Additionally, some
+!  API's though listed, may not be compatible with the Microsoft Fortran
+!  language.
+! **************************************************************************
+interface 
+integer function getrandom (min, max)
+integer  min 
+integer  max 
+end function
+end interface
+
+interface 
+subroutine KbdFunc()                !/* Keyboard input, thread dispatch */
+end subroutine
+end interface
+
+interface 
+subroutine BounceProc( MyID )       !/* Threads 2 to n: display */
+integer MyID [REFERENCE]
+end subroutine 
+end interface
+
+interface 
+subroutine ClearScreen()
+end subroutine
+end interface
+
+interface 
+subroutine Shut_Down()              !/* Program shutdown */
+end subroutine
+end interface
+
+interface 
+subroutine WriteTitle( ThreadNum )  !/* Display title bar information */
+integer ThreadNum 
+end subroutine
+end interface

@@ -1,0 +1,30 @@
+# Makefile for STAT/LIBRARY example programs
+
+fc =	fl32
+
+.for.exe:
+	$(fc) $<
+
+all:	armme_ex.exe chigf_ex.exe dscrm_ex.exe ktble_ex.exe rnexp_ex.exe \
+	rnlin_ex.exe rstat_ex.exe rstep_ex.exe smpsr_ex.exe uvsta_ex.exe
+
+armme_ex.exe:	armme_ex.for
+
+chigf_ex.exe:	chigf_ex.for
+
+dscrm_ex.exe:	dscrm_ex.for
+
+ktble_ex.exe:	ktble_ex.for
+
+rnexp_ex.exe:	rnexp_ex.for
+
+rnlin_ex.exe:	rnlin_ex.for
+
+rstat_ex.exe:	rstat_ex.for
+
+rstep_ex.exe:	rstep_ex.for
+
+smpsr_ex.exe:	smpsr_ex.for
+
+uvsta_ex.exe:	uvsta_ex.for
+

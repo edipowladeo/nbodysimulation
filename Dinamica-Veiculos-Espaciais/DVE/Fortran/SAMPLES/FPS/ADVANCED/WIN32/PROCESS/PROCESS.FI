@@ -1,0 +1,19 @@
+!/*********************  Prototypes  ***********************/
+
+interface 
+integer(4) function DlgProc( hwnd, mesg, wParam, lParam )
+integer  hwnd 
+integer mesg 
+integer wParam 
+integer lParam 
+end function
+
+subroutine doCreate (hDlg)
+integer*4 hDlg 
+end subroutine
+
+subroutine doTerminate (hDlg)
+integer*4 hDlg 
+end subroutine
+
+end interface

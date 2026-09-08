@@ -1,0 +1,42 @@
+!* function prototypes for the window procedures. */
+interface 
+integer(4) function MainWndProc(hwnd, message, wParam, lParam)
+integer*4   hwnd 
+integer*4   message 
+integer*4   wParam 
+integer*4   lParam 
+end function MainWndProc
+
+
+integer(4) function SubclassWndProc(hwnd, message, wParam, lParam)
+integer*4   hwnd 
+integer*4   message 
+integer*4   wParam 
+integer*4   lParam 
+end function SubclassWndProc
+
+subroutine QueryWindowPos (hwnd, lpRect)
+integer*4   hwnd 
+integer*4   lpRect 
+end subroutine QueryWindowPos
+
+subroutine PaintRect (hwnd, lpRect)
+integer*4   hwnd 
+integer*4   lpRect 
+end subroutine PaintRect
+
+subroutine SubclassWindow (hwnd, WndProc)
+integer*4   hwnd 
+integer*4   WndProc [EXTERN]
+end subroutine SubclassWindow
+
+integer(4) function ToggleMenu (hmenu, iditem)
+integer*4   ToggleMenu
+integer*4   hmenu 
+integer*2   iditem 
+end function ToggleMenu
+end interface
+!interface to function ShiftlParam(HWND, HWND, LONG)
+
+
+

@@ -1,0 +1,21 @@
+interface 
+integer(4) function MainWndProc (x, y, z, w)
+integer*4 x 
+integer*4 y 
+integer*4 z 
+integer*4 w 
+end function MainWndProc
+
+integer(4) function StatusDlgProc (x, y, z, w)
+integer*4 x 
+integer*4 y 
+integer*4 z 
+integer*4 w 
+end function
+
+
+integer(4) function ReadProc(not_use)
+integer*4 not_use
+end function
+
+end interface

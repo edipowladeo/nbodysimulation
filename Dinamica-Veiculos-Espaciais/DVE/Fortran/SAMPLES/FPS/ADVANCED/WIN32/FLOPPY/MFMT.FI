@@ -1,0 +1,36 @@
+interface 
+integer(4) function GetDiskGeometry(hDisk, lpGeometry)
+integer*4   hDisk 
+integer*4   lpGeometry    
+end function
+
+integer(4) function GetSupportedGeometrys(hDisk)
+integer*4   hDisk 
+end function
+
+subroutine PrintGeometry( lpDriveName, lpGeometry )
+integer*4   lpDriveName 
+integer*4   lpGeometry 
+end subroutine
+
+integer(4) function LowLevelFormat( hDisk, lpGeometry )
+integer     hDisk 
+integer*4   lpGeometry 
+end function
+
+integer(4) function LockVolume( hDisk )
+integer*4   hDisk 
+end function
+
+integer(4) function UnlockVolume(hDisk)
+integer hDisk 
+end function
+
+integer(4) function DismountVolume( hDisk )
+integer hDisk 
+end function
+
+
+
+
+

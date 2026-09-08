@@ -1,0 +1,21 @@
+!
+!     MSIMSL.FI	- Declare Microsoft IMSL Libraries routines
+! 
+!     For use with the MS IMSL Libraries for MS FORTRAN PowerStation
+!     for DOS and MS IMSL Libraries for MS FORTRAN PowerStation 32
+!
+!     Copyright (c) 1994 by Visual Numerics, Inc.  All Rights Reserved.
+!
+!     NOTE:  The following rules are followed to maintain compatibility
+!            with fixed-form and free-form source:
+!            1. All comments must start with '!'
+!            2. All code must be within columns 7-72
+!            3. For continuation, a '&' is in column 73 of the line to
+!               be continued and in column 6 of the continuation line
+!
+
+      include 'mathd.fi'
+      include 'maths.fi'
+      include 'statd.fi'
+      include 'stats.fi'
+

@@ -1,0 +1,155 @@
+!// Function prototypes
+
+!// procs
+interface 
+integer*4 function MainWndProc( hWnd, message, wParam, lParam) 
+!MS$ ATTRIBUTES STDCALL, ALIAS : '_MainWndProc@16':: MainWndProc
+integer  hWnd , message , wParam, lParam
+end function
+end interface
+
+interface 
+integer function About(hDlg, message, wParam, lParam) 
+!MS$ ATTRIBUTES STDCALL, ALIAS : '_About@16':: About
+integer  hDlg, message, wParam, lParam
+end function
+end interface
+
+interface 
+integer function EnterNew(hDlg, message, wParam, lParam) 
+!MS$ ATTRIBUTES STDCALL, ALIAS : '_EnterNew@16':: EnterNew
+integer hDlg , message  , wParam  , lParam 
+end function
+end interface
+
+interface 
+integer function FileOpenHookProc( hDlg, message, wParam,  lParam) 
+!MS$ ATTRIBUTES STDCALL, ALIAS : '_FileOpenHookProc@16':: FileOpenHookProc
+integer hDlg, message, wParam, lParam
+end function
+end interface
+
+interface 
+integer function FileSaveHookProc( hDlg, message, wParam,  lParam) 
+!MS$ ATTRIBUTES STDCALL, ALIAS : '_FileSaveHookProc@16':: FileSaveHookProc
+integer hDlg, message, wParam, lParam
+end function
+end interface
+
+interface 
+integer function ChooseColorHookProc( hDlg, message, wParam,  lParam) 
+!MS$ ATTRIBUTES STDCALL, ALIAS : '_ChooseColorHookProc@16':: ChooseColorHookProc
+integer hDlg, message, wParam, lParam
+end function
+end interface
+
+interface 
+integer function ChooseFontHookProc( hDlg, message, wParam,  lParam) 
+!MS$ ATTRIBUTES STDCALL, ALIAS : '_ChooseFontHookProc@16':: ChooseFontHookProc
+integer hDlg, message, wParam, lParam
+end function
+end interface
+
+interface 
+integer function FindTextHookProc( hDlg, message, wParam,  lParam) 
+!MS$ ATTRIBUTES STDCALL, ALIAS : '_FindTextHookProc@16':: FindTextHookProc
+integer hDlg, message, wParam, lParam
+end function
+end interface
+
+interface 
+integer function ReplaceTextHookProc( hDlg, message, wParam,  lParam) 
+!MS$ ATTRIBUTES STDCALL, ALIAS : '_ReplaceTextHookProc@16':: ReplaceTextHookProc
+integer hDlg, message, wParam, lParam
+end function
+end interface
+
+interface 
+integer function PrintDlgHookProc( hDlg, message, wParam,  lParam) 
+!MS$ ATTRIBUTES STDCALL, ALIAS : '_PrintDlgHookProc@16':: PrintDlgHookProc
+integer hDlg, message, wParam, lParam
+end function
+end interface
+
+interface 
+integer function PrintSetupHookProc( hDlg, message, wParam,  lParam) 
+!MS$ ATTRIBUTES STDCALL, ALIAS : '_PrintSetupHookProc@16':: PrintSetupHookProc
+integer hDlg, message, wParam, lParam
+end function
+end interface
+
+
+!//functions
+interface 
+integer function InitApplication( hInstance )
+integer hInstance
+end function
+end interface
+
+interface 
+integer function InitInstance(hInstance, nCmdShow)
+integer hInstance, nCmdShow
+end function
+end interface
+
+interface 
+integer function OpenNewFile( hWnd )
+integer hWnd
+end function
+end interface
+
+interface 
+integer function SaveToFile( hWnd )
+integer hWnd
+end function
+end interface
+
+interface 
+integer function SaveAs( hWnd )
+integer hWnd
+end function
+end interface
+
+interface 
+subroutine SearchFile( LPFINDREPLACE )
+integer*4 LPFINDREPLACE
+end subroutine
+end interface
+
+interface 
+integer function ChooseNewFont( hWnd )
+integer*4 hWnd 
+end function
+end interface
+
+interface 
+integer function ChooseNewColor( hWnd )
+integer*4 hWnd 
+end function
+end interface
+
+interface 
+subroutine PrintFile( hWnd )
+integer hWnd
+end subroutine
+end interface
+
+interface 
+subroutine CallFindText( hWnd ) 
+integer hWnd
+end subroutine
+end interface
+
+interface 
+subroutine CallReplaceText( hWnd )
+integer hWnd
+end subroutine
+end interface
+
+interface 
+subroutine ProcessCDError(dwErrorCode, hWnd)
+integer dwErrorCode, hWnd
+end subroutine
+end interface
+
+

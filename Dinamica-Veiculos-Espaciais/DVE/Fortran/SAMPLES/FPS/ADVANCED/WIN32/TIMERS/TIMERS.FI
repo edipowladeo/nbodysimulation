@@ -1,0 +1,33 @@
+!******************************************************************************
+!*                              FUNCTION PROTOTYPES
+!******************************************************************************
+
+interface 
+integer(4) function MainWndProc  (hwnd, mesg, wpar, lpar)
+integer*4 hwnd 
+integer*4 mesg 
+integer*4 wpar 
+integer*4 lpar 
+end function
+
+subroutine TimerFunc  (x, y, z, w)
+integer*4 x ,y , z , w
+end
+
+subroutine NULLSUBROUTINE (x, y, z, w)
+integer*4 x ,y , z , w
+end
+
+subroutine SetButtonPositions (x, y)
+integer*4 x,y
+end
+
+subroutine SetFlashRectPositions (x, y)
+integer*4 x,y
+end
+
+subroutine DrawStuff (x, y)
+integer*4 x,y
+end
+
+end interface

@@ -1,0 +1,24 @@
+!/* procedure definitions */
+interface 
+integer(4) function CheckRM (lpszDriveName)
+!MS$ATTRIBUTES STDCALL ALIAS : '_CHECKRM@4' :: CheckRM
+integer*4       lpszDriveName 
+end function CheckRM
+end interface
+
+interface 
+subroutine GVI (lpszDriveName, lpszSystemName, nSystemNameSize)
+!MS$ATTRIBUTES STDCALL ALIAS : '_GVI@12' :: GVI
+integer*4       lpszDriveName   
+integer*4       lpszSystemName  
+integer*4       nSystemNameSize 
+end subroutine GVI
+end interface
+
+interface 
+integer(4) function UpdateBuffer (lpszString)
+!MS$ATTRIBUTES STDCALL ALIAS : '_UPDATEBUFFER@4' :: UpdateBuffer 
+integer*4       lpszString 
+end function UpdateBuffer
+end interface
+

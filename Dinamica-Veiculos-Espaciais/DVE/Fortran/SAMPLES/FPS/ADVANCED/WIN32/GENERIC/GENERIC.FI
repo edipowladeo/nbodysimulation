@@ -1,0 +1,23 @@
+!/*********************  Prototypes  ***********************/
+interface 
+integer function MainWndProc ( hwnd, mesg, wParam, longParam )
+!MS$ ATTRIBUTES STDCALL, ALIAS : '_MainWndProc@16' :: MainWndProc 
+integer hwnd 
+integer mesg  
+integer wParam
+integer longParam 
+end function 
+end interface
+
+interface 
+integer*4 function  AboutDlgProc( hwnd, mesg, wParam, longParam )
+!MS$ ATTRIBUTES STDCALL, ALIAS : '_AboutDlgProc@16' :: AboutDlgProc
+integer hwnd 
+integer mesg  
+integer wParam
+integer longParam 
+end function 
+end interface
+
+
+   

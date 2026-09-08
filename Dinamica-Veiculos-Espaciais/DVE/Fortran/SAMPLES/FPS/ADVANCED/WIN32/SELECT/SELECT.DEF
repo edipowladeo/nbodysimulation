@@ -1,0 +1,12 @@
+LIBRARY   Select
+
+
+CODE      PRELOAD MOVEABLE DISCARDABLE
+DATA      PRELOAD SINGLE
+
+EXPORTS
+    _StartSelection@16      @2
+    _UpdateSelection@16     @3
+    _EndSelection@8         @4
+    _ClearSelection@12      @5
+

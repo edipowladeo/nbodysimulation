@@ -1,0 +1,15 @@
+!/************************************************************************
+!*                         FUNCTION PROTOTYPES
+!\************************************************************************
+interface 
+integer function Syntax( hConsole ) 
+integer     hConsole
+end function Syntax
+end interface 
+
+interface 
+integer function GetConsoleTextAttribute( hConsole ) 
+integer     hConsole
+end function GetConsoleTextAttribute
+end interface
+

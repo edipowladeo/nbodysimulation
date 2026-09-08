@@ -1,0 +1,21 @@
+!//
+!// Forward declarations.
+!//
+
+
+
+interface 
+integer(4) function  About (hwnd, message, wParam, lParam)
+integer*4   hwnd 
+integer*4   message 
+integer*4   wParam 
+integer*4   lParam 
+end function About
+end interface
+
+
+interface 
+subroutine vTest  (pInfo)
+integer*4   pInfo ! Pointer to INFO structure
+end subroutine vTest
+end interface 

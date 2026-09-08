@@ -1,0 +1,26 @@
+
+
+interface 
+subroutine HandlePopupMenu (hwnd, pt)
+!MS$ ATTRIBUTES VALUE :: hwnd
+!MS$ ATTRIBUTES VALUE :: pt
+integer*4   hwnd 
+type(POINT)  pt 
+end subroutine HandlePopupMenu
+end interface
+
+
+interface
+integer(4) function ShrinkBitmap (hwnd, hbm)
+!MS$ ATTRIBUTES VALUE :: hwnd
+!MS$ ATTRIBUTES VALUE :: hbm
+integer(4)      hwnd
+integer(4)      hbm
+end function ShrinkBitmap
+end interface
+
+subroutine HandleCreate (hwnd)
+!MS$ ATTRIBUTES VALUE :: hwnd
+integer(4)      hwnd
+end subroutine HandleCreate
+end interface

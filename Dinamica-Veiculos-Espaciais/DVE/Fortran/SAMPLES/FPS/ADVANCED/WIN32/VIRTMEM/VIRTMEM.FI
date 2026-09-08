@@ -1,0 +1,24 @@
+interface 
+integer(4) function MainWndProc (hwnd, message, wParam, lParam)
+integer*4   hwnd 
+integer*4   message 
+integer*4   wParam 
+integer*4   lParam 
+end function
+
+integer(4) function ShowDlgProc (hDlg, message, wParam, lParam)
+integer*4   hDlg 
+integer*4   message 
+integer*4   wParam 
+integer*4   lParam 
+end function
+
+subroutine ResetMenu ()
+end subroutine
+
+subroutine WERR (who, where)
+character*80    who 
+character*80    where 
+end subroutine
+
+end interface

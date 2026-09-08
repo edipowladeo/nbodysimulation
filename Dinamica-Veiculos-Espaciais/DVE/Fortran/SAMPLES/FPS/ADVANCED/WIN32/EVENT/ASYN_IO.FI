@@ -1,0 +1,13 @@
+interface 
+subroutine ErrorMsg ( psz )
+!MS$ ATTRIBUTES VALUE :: psz
+integer*4   psz 
+end subroutine
+end interface
+
+interface 
+subroutine Do_BackgroundTask ()
+end subroutine
+end interface
+
+

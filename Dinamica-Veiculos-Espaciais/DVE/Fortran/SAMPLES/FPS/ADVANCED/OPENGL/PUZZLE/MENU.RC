@@ -1,0 +1,145 @@
+#include "winres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+CUBEMENU MENU DISCARDABLE 
+BEGIN
+    POPUP "Game"
+    BEGIN
+        MENUITEM "NewCube",                    10
+        MENUITEM "Random",                     11
+        MENUITEM "Recover\tShift+F10",         12
+        MENUITEM "Exit",                       13
+    END
+    POPUP "ViewPoint"
+    BEGIN
+        POPUP "Distance"
+        BEGIN
+            MENUITEM "Increase\tAlt+i",         30
+            MENUITEM "Decrease\tAlt+d",         31
+        END
+        MENUITEM "Cycle/R-Axis\tAlt+R",         21
+        MENUITEM "Cycle/G-Axis\tAlt+G",         22
+        MENUITEM "Cycle/B-Axis\tAlt+B",         23
+        POPUP "CycleSpeed"
+        BEGIN
+            MENUITEM "Slow",                        200
+            MENUITEM "Medium",                      201
+            MENUITEM "Fast",                        202
+        END
+        MENUITEM "ShiftAngle/R-Axis\tAlt+r",          25
+        MENUITEM "ShiftAngle/G-Axis\tAlt+g",          26
+        MENUITEM "ShiftAngle/B-Axis\tAlt+b",          27
+        POPUP "ShiftAngleSize"
+        BEGIN
+            MENUITEM "Small",                       240
+            MENUITEM "Medium",                      241
+            MENUITEM "Large",                       242
+        END
+    END
+    POPUP "Rotate"
+    BEGIN
+        MENUITEM "Red 1\tF1",                   529
+        MENUITEM "Red 2\tF2",                   530
+        MENUITEM "Red 3\tF3",                   531
+        MENUITEM "Red 1/CW\tShift+F1",          533
+        MENUITEM "Red 2/CW\tShift+F2",          534
+        MENUITEM "Red 3/CW\tShift+F3",          535
+        MENUITEM "Green 1\tF4",                 545
+        MENUITEM "Green 2\tF5",                 546
+        MENUITEM "Green 3\tF6",                 547
+        MENUITEM "Green 1/CW\tShift+F4",        549
+        MENUITEM "Green 2/CW\tShift+F5",        550
+        MENUITEM "Green 3/CW\tShift+F6",        551
+        MENUITEM "Blue 1\tF7",                  577
+        MENUITEM "Blue 2\tF8",                  578
+        MENUITEM "Blue 3\tF9",                  579
+        MENUITEM "Blue 1/CW\tShift+F7",         581
+        MENUITEM "Blue 2/CW\tShift+F8",         582
+        MENUITEM "Blue 3/CW\tShift+F9",         583
+        MENUITEM "Undo\tF10",                   500
+    END
+    POPUP "Options"
+    BEGIN
+        MENUITEM "AxisOn/Off\tAlt+a",               40
+        POPUP "RotateSpeed"
+        BEGIN
+            MENUITEM "Slower\tAlt+o",               51
+            MENUITEM "Faster\tAlt+f",               52
+            MENUITEM "Slowest\tAlt+O",              53
+            MENUITEM "Fastest\tAlt+F",              54
+        END
+        POPUP "CubeSize"
+        BEGIN
+            MENUITEM "Smaller\tAlt+s",              32
+            MENUITEM "Larger\tAlt+l",               33
+            MENUITEM "Smallest\tAlt+S", 	    34
+            MENUITEM "Largest\tAlt+L",        	    35
+        END
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+CUBEACCEL ACCELERATORS MOVEABLE PURE 
+BEGIN
+    "R",            21,                     ASCII,  ALT
+    "G",            22,                     ASCII,  ALT
+    "B",            23,                     ASCII,  ALT
+    "r",            25,                     ASCII,  ALT
+    "g",            26,                     ASCII,  ALT
+    "b",            27,                     ASCII,  ALT
+    "i",            30,                     ASCII,  ALT
+    "d",            31,                     ASCII,  ALT
+    "s",            32,                     ASCII,  ALT
+    "l",            33,                     ASCII,  ALT
+    "S",            34,                     ASCII,  ALT
+    "L",            35,                     ASCII,  ALT
+    "a",            40,                     ASCII,  ALT
+    "o",            51,                     ASCII,  ALT
+    "f",            52,                     ASCII,  ALT
+    "O",            53,                     ASCII,  ALT
+    "F",            54,                     ASCII,  ALT
+    VK_F1,          529,                    VIRTKEY 
+    VK_F2,          530,                    VIRTKEY 
+    VK_F3,          531,                    VIRTKEY 
+    VK_F1,          533,                    VIRTKEY, SHIFT
+    VK_F2,          534,                    VIRTKEY, SHIFT
+    VK_F3,          535,                    VIRTKEY, SHIFT
+    VK_F4,          545,                    VIRTKEY 
+    VK_F5,          546,                    VIRTKEY 
+    VK_F6,          547,                    VIRTKEY 
+    VK_F4,          549,                    VIRTKEY, SHIFT
+    VK_F5,          550,                    VIRTKEY, SHIFT
+    VK_F6,          551,                    VIRTKEY, SHIFT
+    VK_F7,          577,                    VIRTKEY 
+    VK_F8,          578,                    VIRTKEY 
+    VK_F9,          579,                    VIRTKEY 
+    VK_F7,          581,                    VIRTKEY, SHIFT
+    VK_F8,          582,                    VIRTKEY, SHIFT
+    VK_F9,          583,                    VIRTKEY, SHIFT
+    VK_F10,         500,                    VIRTKEY
+    VK_F10,         12,                     VIRTKEY, SHIFT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+CUBEICON                ICON    DISCARDABLE     "cube.ico"
+
+
+
+
+
+
+

@@ -1,0 +1,19 @@
+!/*********************  Prototypes  ***********************/
+
+interface 
+integer(4) function MainWndProc( hwnd, mesg, wParam, lParam )
+integer  hwnd 
+integer mesg 
+integer wParam 
+integer lParam 
+end function MainWndProc
+
+integer(4) function AboutDlgProc( hwnd, mesg, wParam, lParam )
+integer  hwnd 
+integer mesg 
+integer wParam 
+integer lParam 
+end function AboutDlgProc
+end interface
+
+ 

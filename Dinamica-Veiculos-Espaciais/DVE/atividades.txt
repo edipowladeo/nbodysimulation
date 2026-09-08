@@ -1,0 +1,16 @@
+obtenha uma orbita molniya para polo sul e norte
+
+verificar regrecao nodal analitica e numerica
+
+obtenha o ground track
+
+grafico do IAA com elevacao igual a 15 graus
+
+
+ 
+. 
+Para orbita mais baixa do starlink , analizar o arrasto
+
+dois corpos e achatamento
+SD = 1 2 
+plotar eog 1:12

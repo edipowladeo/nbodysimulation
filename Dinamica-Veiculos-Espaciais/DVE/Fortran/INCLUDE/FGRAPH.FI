@@ -1,0 +1,1039 @@
+!* fgraph.fi - declare constants and functions for graphics library
+!*
+!*   Copyright (c) 1987-1995 Microsoft Corporation.  All rights reserved.
+!*
+!* Purpose:
+!*   This file declares the graphics library functions and
+!*   the constants that are used with them.
+!*
+
+!* NOTE: When modifying this file, you must follow the following rules to
+!* ensure compatibility with fixed form and free form source:
+!*   1) All comments must start with '!'
+!*   2) All code must be within columns 7 to 72
+!*   3) For continuation, place a '&' in column 73,
+!*      and a '&' in column 6 of the continuation line
+
+$if .not. defined (_MSFORTRAN_)
+$define _MSFORTRAN_ = 100
+$endif
+
+$if .not. defined($MSFLIB$ProgramUnitNumber)
+$define $MSFLIB$ProgramUnitNumber = -1
+$endif
+$if .not. defined($MSFLIB$FIProgUnitNum) 
+$define $MSFLIB$FIProgUnitNum = -2
+$endif
+
+$if .not. defined (__MSFLIB_FLIB_INCLUDE)
+
+!fi2mod:off
+$if _MSFORTRAN_ .LT. 300
+!fi2mod:on
+
+!     User-visible declarations for FORTRAN Graphics Library
+
+      INTERFACE TO FUNCTION arc(x1,y1,x2,y2,x3,y3,x4,y4)
+      INTEGER*2 arc[C,ALIAS:"__arc"],x1,y1,x2,y2,x3,y3,x4,y4
+      END
+
+      INTERFACE TO FUNCTION arc_w(wx1,wy1,wx2,wy2,wx3,wy3,wx4,wy4)
+      INTEGER*2 arc_w[C,ALIAS:"__arc_w"]
+      DOUBLE PRECISION wx1,wy1,wx2,wy2,wx3,wy3,wx4,wy4
+      END
+
+      INTERFACE TO FUNCTION getarcinfo(lpstart,lpend,lppaint)
+      INTEGER*2 getarcinfo[C,ALIAS:"__getarcinfo"]
+      STRUCTURE/xycoord/
+          INTEGER*2 xcoord
+          INTEGER*2 ycoord
+      END STRUCTURE
+      RECORD/xycoord/lpstart[REFERENCE]
+      RECORD/xycoord/lpend[REFERENCE]
+      RECORD/xycoord/lppaint[REFERENCE]
+      END
+
+      INTERFACE TO SUBROUTINE                                           &
+     & clearscreen[C,ALIAS:"__FQclearscreen"](area)
+      INTEGER*2 area
+      END
+
+      INTERFACE TO FUNCTION displaycursor(toggle)
+      INTEGER*2 displaycursor[C,ALIAS:"__FQdisplaycursor"],toggle
+      END
+
+      INTERFACE TO FUNCTION ellipse(control,x1,y1,x2,y2)
+      INTEGER*2 ellipse[C,ALIAS:"__ellipse"],control,x1,y1,x2,y2
+      END
+
+      INTERFACE TO FUNCTION ellipse_w(control,wx1,wy1,wx2,wy2)
+      INTEGER*2 ellipse_w[C,ALIAS:"__ellipse_w"],control
+      DOUBLE PRECISION wx1,wy1,wx2,wy2
+      END
+
+      INTERFACE TO FUNCTION floodfill(x,y,boundary)
+      INTEGER*2 floodfill[C,ALIAS:"__floodfill"],x,y,boundary
+      END
+
+      INTERFACE TO FUNCTION floodfillrgb(x,y,bcolor)
+      INTEGER*2 floodfillrgb[C,ALIAS:"__floodfillrgb"],x,y
+      INTEGER*4 bcolor
+      END
+
+      INTERFACE TO FUNCTION floodfill_w(wx1,wy1,boundary)
+      INTEGER*2 floodfill_w[C,ALIAS:"__floodfill_w"],boundary
+      DOUBLE PRECISION wx1,wy1
+      END
+
+      INTERFACE TO FUNCTION floodfillrgb_w(wx,wy,bcolor)
+      INTEGER*2 floodfillrgb_w[C,ALIAS:"__floodfillrgb_w"]
+      DOUBLE PRECISION wx,wy
+      INTEGER*4 bcolor
+      END
+
+      INTERFACE TO FUNCTION getactivepage()
+      INTEGER*2 getactivepage[C,ALIAS:"__getactivepage"]
+      END
+
+      INTERFACE TO FUNCTION getbkcolor()
+      INTEGER*4 getbkcolor[C,ALIAS:"__getbkcolor"]
+      END
+
+      INTERFACE TO FUNCTION getcolor()
+      INTEGER*2 getcolor[C,ALIAS:"__getcolor"]
+      END
+
+      INTERFACE TO SUBROUTINE                                           &
+     & getcurrentposition[ALIAS:"__f_getcurrentposition@4"](s)
+      STRUCTURE/xycoord/
+          INTEGER*2 xcoord
+          INTEGER*2 ycoord
+      END STRUCTURE
+      RECORD/xycoord/s[REFERENCE]
+      END
+
+      INTERFACE TO SUBROUTINE                                           &
+     & getcurrentposition_w[ALIAS:"__f_getcurrentposition_wxy@4"](s)
+      STRUCTURE/wxycoord/
+          DOUBLE PRECISION wx
+          DOUBLE PRECISION wy
+      END STRUCTURE
+      RECORD/wxycoord/s[REFERENCE]
+      END
+
+      INTERFACE TO SUBROUTINE                                           &
+     & getfillmask[C,ALIAS:"__getfillmask"](mask)
+      INTEGER*1 mask[REFERENCE](8)
+      END
+
+      INTERFACE TO SUBROUTINE                                           &
+     & getimage[C,ALIAS:"__getimage"](x1,y1,x2,y2,image)
+      INTEGER*2 x1,y1,x2,y2
+      INTEGER*1 image[REFERENCE](*)
+      END
+
+      INTERFACE TO SUBROUTINE                                           &
+     & getimage_w[C,ALIAS:"__getimage_w"](wx1,wy1,wx2,wy2,image)
+      DOUBLE PRECISION wx1,wy1,wx2,wy2
+      INTEGER*1 image[REFERENCE](*)
+      END
+
+      INTERFACE TO FUNCTION getlinestyle()
+      INTEGER*2 getlinestyle[C,ALIAS:"__getlinestyle"]
+      END
+
+$if _MSFORTRAN_ .lt. 300
+      INTERFACE TO SUBROUTINE                                           &
+     & getphyscoord[ALIAS:"__f_getphyscoord@12"](x,y,s)
+      INTEGER*2 x,y
+      STRUCTURE/xycoord/
+          INTEGER*2 xcoord
+          INTEGER*2 ycoord
+      END STRUCTURE
+      RECORD/xycoord/s[REFERENCE]
+      END
+$else
+!fi2mod:notrans
+      INTERFACE GETPHYSCOORD
+      SUBROUTINE $$MSFLIB$GETPHYSCOORD$22                               &
+     & [alias:'__f_getphyscoord@12'](x,y,s)
+      INTEGER*2 x
+      INTEGER*2 y
+      STRUCTURE/xycoord/
+          INTEGER*2 xcoord
+          INTEGER*2 ycoord
+      END STRUCTURE
+      RECORD/xycoord/s[REFERENCE]
+      END SUBROUTINE
+      SUBROUTINE $$MSFLIB$GETPHYSCOORD$24                               &
+     & [alias:'__f_getphyscoord@12'](x,y,s)
+      INTEGER*2 x
+      INTEGER*4 y
+      STRUCTURE/xycoord/
+          INTEGER*2 xcoord
+          INTEGER*2 ycoord
+      END STRUCTURE
+      RECORD/xycoord/s[REFERENCE]
+      END SUBROUTINE
+      SUBROUTINE $$MSFLIB$GETPHYSCOORD$42                               &
+     & [alias:'__f_getphyscoord@12'](x,y,s)
+      INTEGER*4 x
+      INTEGER*2 y
+      STRUCTURE/xycoord/
+          INTEGER*2 xcoord
+          INTEGER*2 ycoord
+      END STRUCTURE
+      RECORD/xycoord/s[REFERENCE]
+      END SUBROUTINE
+      SUBROUTINE $$MSFLIB$GETPHYSCOORD$44                               &
+     & [alias:'__f_getphyscoord@12'](x,y,s)
+      INTEGER*4 x
+      INTEGER*4 y
+      STRUCTURE/xycoord/
+          INTEGER*2 xcoord
+          INTEGER*2 ycoord
+      END STRUCTURE
+      RECORD/xycoord/s[REFERENCE]
+      END SUBROUTINE
+      END INTERFACE
+!fi2mod:trans
+$endif
+
+
+
+      INTERFACE TO FUNCTION getpixel(x,y)
+      INTEGER*2 getpixel[C,ALIAS:"__getpixel"],x,y
+      END
+
+      INTERFACE TO FUNCTION getpixel_w(wx,wy)
+      INTEGER*2 getpixel_w[C,ALIAS:"__getpixel_w"]
+      DOUBLE PRECISION wx,wy
+      END
+
+      INTERFACE TO SUBROUTINE                                           &
+     & getpixels[C, ALIAS:"__getpixels"](n, x, y, c)
+      INTEGER*4 n                 ! input : size of arrays
+      INTEGER*2 x[REFERENCE](*)   ! input : x coordinates
+      INTEGER*2 y[REFERENCE](*)   ! input : y coordinates
+      INTEGER*2 c[REFERENCE](*)   ! input : palette indices
+      END
+
+      INTERFACE TO FUNCTION gettextcolor()
+      INTEGER*2 gettextcolor[C,ALIAS:"__gettextcolor"]
+      END
+
+      INTERFACE TO FUNCTION gettextcursor()
+      INTEGER*2 gettextcursor[C,ALIAS:"__gettextcursor"]
+      END
+
+      INTERFACE TO SUBROUTINE                                           &
+     & gettextposition[ALIAS:"__fq_gettextposition@4"](s)
+      STRUCTURE/rccoord/
+          INTEGER*2 row
+          INTEGER*2 col
+      END STRUCTURE
+      RECORD/rccoord/s[REFERENCE]
+      END
+
+      INTERFACE TO SUBROUTINE                                           &
+     & gettextwindow[C,ALIAS:"__gettextwindow"](r1,c1,r2,c2)
+      INTEGER*2 r1[REFERENCE],c1[REFERENCE]
+      INTEGER*2 r2[REFERENCE],c2[REFERENCE]
+      END
+
+      INTERFACE TO SUBROUTINE                                           &
+     & getvideoconfig[C,ALIAS:"__getvideoconfig"](s)
+      STRUCTURE/videoconfig/
+          INTEGER*2 numxpixels       ! number of pixels on X axis
+          INTEGER*2 numypixels       ! number of pixels on Y axis
+          INTEGER*2 numtextcols      ! number of text columns available
+          INTEGER*2 numtextrows      ! number of text rows available
+          INTEGER*2 numcolors        ! number of actual colors
+          INTEGER*2 bitsperpixel     ! number of bits per pixel
+          INTEGER*2 numvideopages    ! number of available video pages
+          INTEGER*2 mode             ! current video mode
+          INTEGER*2 adapter          ! active display adapter
+          INTEGER*2 monitor          ! active display monitor
+          INTEGER*2 memory           ! adapter video memory in K bytes
+      END STRUCTURE
+      RECORD/videoconfig/s[REFERENCE]
+      END
+
+$if _MSFORTRAN_ .lt. 300
+      INTERFACE TO SUBROUTINE                                           &
+     & getviewcoord[ALIAS:"__f_getviewcoord@12"](x,y,s)
+      INTEGER*2 x,y
+      STRUCTURE/xycoord/
+          INTEGER*2 xcoord
+          INTEGER*2 ycoord
+      END STRUCTURE
+      RECORD/xycoord/s[REFERENCE]
+      END
+$else
+!fi2mod:notrans
+      INTERFACE GETVIEWCOORD
+      SUBROUTINE $$MSFLIB$GETVIEWCOORD$22                               &
+     & [alias:'__f_getviewcoord@12'](x,y,s)
+      INTEGER*2 x
+      INTEGER*2 y
+      STRUCTURE/xycoord/
+          INTEGER*2 xcoord
+          INTEGER*2 ycoord
+      END STRUCTURE
+      RECORD/xycoord/s[REFERENCE]
+      END SUBROUTINE
+      SUBROUTINE $$MSFLIB$GETVIEWCOORD$24                               &
+     & [alias:'__f_getviewcoord@12'](x,y,s)
+      INTEGER*2 x
+      INTEGER*4 y
+      STRUCTURE/xycoord/
+          INTEGER*2 xcoord
+          INTEGER*2 ycoord
+      END STRUCTURE
+      RECORD/xycoord/s[REFERENCE]
+      END SUBROUTINE
+      SUBROUTINE $$MSFLIB$GETVIEWCOORD$42                               &
+     & [alias:'__f_getviewcoord@12'](x,y,s)
+      INTEGER*4 x
+      INTEGER*2 y
+      STRUCTURE/xycoord/
+          INTEGER*2 xcoord
+          INTEGER*2 ycoord
+      END STRUCTURE
+      RECORD/xycoord/s[REFERENCE]
+      END SUBROUTINE
+      SUBROUTINE $$MSFLIB$GETVIEWCOORD$44                               &
+     & [alias:'__f_getviewcoord@12'](x,y,s)
+      INTEGER*4 x
+      INTEGER*4 y
+      STRUCTURE/xycoord/
+          INTEGER*2 xcoord
+          INTEGER*2 ycoord
+      END STRUCTURE
+      RECORD/xycoord/s[REFERENCE]
+      END SUBROUTINE
+      END INTERFACE
+!fi2mod:trans
+$endif
+
+
+      INTERFACE TO SUBROUTINE                                           &
+     & getviewcoord_w[ALIAS:"__f_getviewcoord_w@12"](wx,wy,s)
+      DOUBLE PRECISION wx,wy
+      STRUCTURE/xycoord/
+          INTEGER*2 xcoord
+          INTEGER*2 ycoord
+      END STRUCTURE
+      RECORD/xycoord/s[REFERENCE]
+      END
+
+      INTERFACE TO FUNCTION getvisualpage()
+      INTEGER*2 getvisualpage[C,ALIAS:"__getvisualpage"]
+      END
+
+$if _MSFORTRAN_ .lt. 300
+      INTERFACE TO SUBROUTINE                                           &
+     & getwindowcoord[ALIAS:"__f_getwindowcoord@12"](x,y,s)
+      INTEGER*2 x,y
+      STRUCTURE/wxycoord/
+        DOUBLE PRECISION wx
+        DOUBLE PRECISION wy
+      END STRUCTURE
+      RECORD/wxycoord/s[REFERENCE]
+      END
+$else
+!fi2mod:notrans
+      INTERFACE GETWINDOWCOORD
+      SUBROUTINE $$MSFLIB$GETWINDOWCOORD$22                             &
+     & [alias:'__f_getwindowcoord@12'](x,y,s)
+      INTEGER*2 x
+      INTEGER*2 y
+      STRUCTURE/wxycoord/
+         DOUBLE PRECISION wx
+        DOUBLE PRECISION wy
+      END STRUCTURE
+      RECORD/wxycoord/s[REFERENCE]
+      END SUBROUTINE
+      SUBROUTINE $$MSFLIB$GETWINDOWCOORD$24                             &
+     & [alias:'__f_getwindowcoord@12'](x,y,s)
+      INTEGER*2 x
+      INTEGER*4 y
+      STRUCTURE/wxycoord/
+         DOUBLE PRECISION wx
+        DOUBLE PRECISION wy
+      END STRUCTURE
+      RECORD/wxycoord/s[REFERENCE]
+      END SUBROUTINE
+      SUBROUTINE $$MSFLIB$GETWINDOWCOORD$42                             &
+     & [alias:'__f_getwindowcoord@12'](x,y,s)
+      INTEGER*4 x
+      INTEGER*2 y
+      STRUCTURE/wxycoord/
+        DOUBLE PRECISION wx
+        DOUBLE PRECISION wy
+      END STRUCTURE
+      RECORD/wxycoord/s[REFERENCE]
+      END SUBROUTINE
+      SUBROUTINE $$MSFLIB$GETWINDOWCOORD$44                             &
+     & [alias:'__f_getwindowcoord@12'](x,y,s)
+      INTEGER*4 x
+      INTEGER*4 y
+      STRUCTURE/wxycoord/
+        DOUBLE PRECISION wx
+        DOUBLE PRECISION wy
+      END STRUCTURE
+      RECORD/wxycoord/s[REFERENCE]
+      END SUBROUTINE
+      END INTERFACE
+!fi2mod:trans
+$endif
+
+
+
+      INTERFACE TO FUNCTION getwritemode()
+      INTEGER*2 getwritemode[C,ALIAS:"__getwritemode"]
+      END
+
+      INTERFACE TO FUNCTION grstatus()
+      INTEGER*2 grstatus[C,ALIAS:"__grstatus"]
+      END
+
+      INTERFACE TO FUNCTION imagesize(x1,y1,x2,y2)
+      INTEGER*4 imagesize[C,ALIAS:"__imagesize"]
+      INTEGER*2 x1,y1,x2,y2
+      END
+
+      INTERFACE TO FUNCTION imagesize_w(wx1,wy1,wx2,wy2)
+      INTEGER*4 imagesize_w[C,ALIAS:"__imagesize_w"]
+      DOUBLE PRECISION wx1,wy1,wx2,wy2
+      END
+
+      INTERFACE TO FUNCTION lineto(x,y)
+      INTEGER*2 lineto[C,ALIAS:"__lineto"],x,y
+      END
+
+      INTERFACE TO FUNCTION lineto_w(wx,wy)
+      INTEGER*2 lineto_w[C,ALIAS:"__lineto_w"]
+      DOUBLE PRECISION wx,wy
+      END
+
+      INTERFACE TO INTEGER*4 FUNCTION                                   &
+     & loadimage[ALIAS:"__f_loadimage@16"](fname,x,y)
+      CHARACTER*(*) fname[REFERENCE]
+      INTEGER*4 x,y
+      END
+
+      INTERFACE TO INTEGER*4 FUNCTION                                   &
+     & loadimage_w[C, ALIAS:"__loadimage_w"](fname,wx,wy)
+      CHARACTER*(*) fname[REFERENCE]
+      DOUBLE PRECISION wx, wy
+      END
+
+$if _MSFORTRAN_ .lt. 300
+      INTERFACE TO SUBROUTINE                                           &
+     & moveto[ALIAS:"__f_moveto@12"](x,y,s)
+      INTEGER*2 x,y
+      STRUCTURE/xycoord/
+          INTEGER*2 xcoord
+          INTEGER*2 ycoord
+      END STRUCTURE
+      RECORD/xycoord/s[REFERENCE]
+      END
+$else
+!fi2mod:notrans
+      INTERFACE MOVETO
+      SUBROUTINE $$MSFLIB$MOVETO$22[alias:'__f_moveto@12'](x,y,s)
+      INTEGER*2 x
+      INTEGER*2 y
+      STRUCTURE/xycoord/
+          INTEGER*2 xcoord
+          INTEGER*2 ycoord
+      END STRUCTURE
+      RECORD/xycoord/s[REFERENCE]
+      END SUBROUTINE
+      SUBROUTINE $$MSFLIB$MOVETO$24[alias:'__f_moveto@12'](x,y,s)
+      INTEGER*2 x
+      INTEGER*4 y
+      STRUCTURE/xycoord/
+          INTEGER*2 xcoord
+          INTEGER*2 ycoord
+      END STRUCTURE
+      RECORD/xycoord/s[REFERENCE]
+      END SUBROUTINE
+      SUBROUTINE $$MSFLIB$MOVETO$42[alias:'__f_moveto@12'](x,y,s)
+      INTEGER*4 x
+      INTEGER*2 y
+      STRUCTURE/xycoord/
+          INTEGER*2 xcoord
+          INTEGER*2 ycoord
+      END STRUCTURE
+      RECORD/xycoord/s[REFERENCE]
+      END SUBROUTINE
+      SUBROUTINE $$MSFLIB$MOVETO$44[alias:'__f_moveto@12'](x,y,s)
+      INTEGER*4 x
+      INTEGER*4 y
+      STRUCTURE/xycoord/
+          INTEGER*2 xcoord
+          INTEGER*2 ycoord
+      END STRUCTURE
+      RECORD/xycoord/s[REFERENCE]
+      END SUBROUTINE
+      END INTERFACE
+!fi2mod:trans
+$endif
+
+      INTERFACE TO SUBROUTINE                                           &
+     & moveto_w[ALIAS:"__f_moveto_w@12"](wx,wy,s)
+      DOUBLE PRECISION wx,wy
+      STRUCTURE/wxycoord/
+          DOUBLE PRECISION wx
+          DOUBLE PRECISION wy
+      END STRUCTURE
+      RECORD/wxycoord/s[REFERENCE]
+      END
+
+      INTERFACE TO SUBROUTINE                                           &
+     & outtext[ALIAS:"__fq_outtext@8"](text)
+      CHARACTER*(*) text[REFERENCE]
+      END
+
+      INTERFACE TO FUNCTION pie(i,x1,y1,x2,y2,x3,y3,x4,y4)
+      INTEGER*2 pie[C,ALIAS:"__pie"],i,x1,y1,x2,y2,x3,y3,x4,y4
+      END
+
+      INTERFACE TO FUNCTION pie_w(i,wx1,wy1,wx2,wy2,wx3,wy3,wx4,wy4)
+      INTEGER*2 pie_w[C,ALIAS:"__pie_w"],i
+      DOUBLE PRECISION wx1,wy1,wx2,wy2,wx3,wy3,wx4,wy4
+      END
+
+      INTERFACE TO FUNCTION polygon(control,lppoints,cpoints)
+      INTEGER*2 polygon[C,ALIAS:"__polygon"],control,cpoints
+      STRUCTURE/xycoord/
+          INTEGER*2 xcoord
+          INTEGER*2 ycoord
+      END STRUCTURE
+      RECORD/xycoord/lppoints[REFERENCE](*)
+      END
+
+      INTERFACE TO FUNCTION polygon_w(control,lppoints,cpoints)
+      INTEGER*2 polygon_w[C,ALIAS:"__polygon_w"],control,cpoints
+      STRUCTURE/wxycoord/
+          DOUBLE PRECISION wx
+          DOUBLE PRECISION wy
+      END STRUCTURE
+      RECORD/wxycoord/lppoints[REFERENCE](*)
+      END
+
+      INTERFACE TO SUBROUTINE                                           &
+     & putimage[C,ALIAS:"__putimage"](x,y,image,action)
+      INTEGER*2 x,y,action
+      INTEGER*1 image[REFERENCE](*)
+      END
+
+      INTERFACE TO SUBROUTINE                                           &
+     & putimage_w[C,ALIAS:"__putimage_w"](wx,wy,image,action)
+      DOUBLE PRECISION wx,wy
+      INTEGER*1 image[REFERENCE](*)
+      INTEGER*2 action
+      END
+
+      INTERFACE TO FUNCTION rectangle(control,x1,y1,x2,y2)
+      INTEGER*2 rectangle[C,ALIAS:"__rectangle"]
+      INTEGER*2 control,x1,y1,x2,y2
+      END
+
+      INTERFACE TO FUNCTION rectangle_w(control,wx1,wy1,wx2,wy2)
+      INTEGER*2 rectangle_w[C,ALIAS:"__rectangle_w"],control
+      DOUBLE PRECISION wx1,wy1,wx2,wy2
+      END
+
+      INTERFACE TO FUNCTION remappalette(index,color)
+      INTEGER*4 remappalette[C,ALIAS:"__remappalette"],color
+      INTEGER*2 index
+      END
+
+      INTERFACE TO FUNCTION remappalettergb(index,color)
+      INTEGER*4 remappalettergb[C,ALIAS:"__remappalettergb"],color
+      INTEGER*2 index
+      END
+
+
+      INTERFACE TO FUNCTION remapallpalette(colors)
+      INTEGER*2 remapallpalette[C,ALIAS:"__remapallpalette"]
+      INTEGER*4 colors[REFERENCE](*)
+      END
+
+      INTERFACE TO FUNCTION remapallpalettergb(colors)
+      INTEGER*2 remapallpalettergb[C,ALIAS:"__remapallpalettergb"]
+      INTEGER*4 colors[REFERENCE](*)
+      END
+
+
+      INTERFACE TO INTEGER*4 FUNCTION                                   &
+     & saveimage[ALIAS:"__f_saveimage@24"](fname,x1,y1,x2,y2)
+      CHARACTER*(*) fname[REFERENCE]
+      INTEGER*4 x1,y1,x2,y2
+      END
+
+      INTERFACE TO INTEGER*4 FUNCTION                                   &
+     & saveimage_w[C, ALIAS:"__saveimage_w"](fname,wx1,wy1,wx2,wy2)
+      CHARACTER*(*) fname[REFERENCE]
+      DOUBLE PRECISION wx1,wy1,wx2,wy2
+      END
+
+      INTERFACE TO SUBROUTINE                                           &
+     & scrolltextwindow[C,ALIAS:"__FQscrolltextwindow"](rows)
+      INTEGER*2 rows
+      END
+
+      INTERFACE TO FUNCTION selectpalette(number)
+      INTEGER*2 selectpalette[C,ALIAS:"__selectpalette"],number
+      END
+
+      INTERFACE TO FUNCTION setactivepage(page)
+      INTEGER*2 setactivepage[C,ALIAS:"__setactivepage"],page
+      END
+
+      INTERFACE TO FUNCTION setbkcolor(color)
+      INTEGER*4 setbkcolor[C,ALIAS:"__setbkcolor"],color
+      END
+
+      INTERFACE TO SUBROUTINE                                           &
+     & setcliprgn[C,ALIAS:"__setcliprgn"](x1,y1,x2,y2)
+      INTEGER*2 x1,y1,x2,y2
+      END
+
+      INTERFACE TO FUNCTION setcolor(color)
+      INTEGER*2 setcolor[C,ALIAS:"__setcolor"]
+      INTEGER*2 color
+      END
+
+      INTERFACE TO SUBROUTINE                                           &
+     & setfillmask[C,ALIAS:"__setfillmask"](mask)
+      INTEGER*1 mask[REFERENCE](8)
+      END
+
+      INTERFACE TO SUBROUTINE                                           &
+     & setlinestyle[C,ALIAS:"__setlinestyle"](mask)
+      INTEGER*2 mask
+      END
+
+      INTERFACE TO FUNCTION setpixel(x,y)
+      INTEGER*2 setpixel[C,ALIAS:"__setpixel"],x,y
+      END
+
+      INTERFACE TO FUNCTION setpixel_w(wx,wy)
+      INTEGER*2 setpixel_w[C,ALIAS:"__setpixel_w"]
+      DOUBLE PRECISION wx,wy
+      END
+
+      INTERFACE TO SUBROUTINE                                           &
+     & setpixels[C, ALIAS:"__setpixels"](n, x, y, c)
+      INTEGER*4 n                 ! input : size of arrays
+      INTEGER*2 x[REFERENCE](*)   ! input : x coordinates
+      INTEGER*2 y[REFERENCE](*)   ! input : y coordinates
+      INTEGER*2 c[REFERENCE](*)   ! input : palette indices
+      END
+
+      INTERFACE TO FUNCTION settextcolor(index)
+      INTEGER*2 settextcolor[C,ALIAS:"__settextcolor"],index
+      END
+
+      INTERFACE TO FUNCTION settextcursor(attr)
+      INTEGER*2 settextcursor[C,ALIAS:"__settextcursor"],attr
+      END
+
+$if _MSFORTRAN_ .lt. 300
+      INTERFACE TO SUBROUTINE                                           &
+     & settextposition[ALIAS:"__fq_settextposition@12"](row, col, s)
+      INTEGER*2 row,col
+      STRUCTURE/rccoord/
+          INTEGER*2 row
+          INTEGER*2 col
+      END STRUCTURE
+      RECORD/rccoord/s[REFERENCE]
+      END
+$else
+!fi2mod:notrans
+      INTERFACE SETTEXTPOSITION
+      SUBROUTINE $$MSFLIB$SETTEXTPOSITION$22                            &
+     & [alias:'__fq_settextposition@12'](row, col, s)
+      INTEGER*2 row
+      INTEGER*2 col
+      STRUCTURE/rccoord/
+          INTEGER*2 row
+          INTEGER*2 col
+      END STRUCTURE
+      RECORD/rccoord/s[REFERENCE]
+      END SUBROUTINE
+      SUBROUTINE $$MSFLIB$SETTEXTPOSITION$24                            &
+     & [alias:'__fq_settextposition@12'](row, col, s)
+      INTEGER*2 row
+      INTEGER*4 col
+      STRUCTURE/rccoord/
+          INTEGER*2 row
+          INTEGER*2 col
+      END STRUCTURE
+      RECORD/rccoord/s[REFERENCE]
+      END SUBROUTINE
+      SUBROUTINE $$MSFLIB$SETTEXTPOSITION$42                            &
+     & [alias:'__fq_settextposition@12'](row, col, s)
+      INTEGER*4 row
+      INTEGER*2 col
+      STRUCTURE/rccoord/
+          INTEGER*2 row
+          INTEGER*2 col
+      END STRUCTURE
+      RECORD/rccoord/s[REFERENCE]
+      END SUBROUTINE
+      SUBROUTINE $$MSFLIB$SETTEXTPOSITION$44                            &
+     & [alias:'__fq_settextposition@12'](row, col, s)
+      INTEGER*4 row
+      INTEGER*4 col
+      STRUCTURE/rccoord/
+          INTEGER*2 row
+          INTEGER*2 col
+      END STRUCTURE
+      RECORD/rccoord/s[REFERENCE]
+      END SUBROUTINE
+      END INTERFACE
+!fi2mod:trans
+$endif
+
+
+      INTERFACE TO FUNCTION settextrows(rows)
+      INTEGER*2 settextrows[C,ALIAS:"__settextrows"],rows
+      END
+
+      INTERFACE TO SUBROUTINE                                           &
+     & settextwindow[C,ALIAS:"__settextwindow"](r1,c1,r2,c2)
+      INTEGER*2 r1,c1,r2,c2
+      END
+
+      INTERFACE TO FUNCTION setvideomode(mode)
+      INTEGER*2 setvideomode[C,ALIAS:"__setvideomode"],mode
+      END
+
+      INTERFACE TO FUNCTION setvideomoderows(mode,rows)
+      INTEGER*2 setvideomoderows[C,ALIAS:"__setvideomoderows"]
+      INTEGER*2 mode,rows
+      END
+
+$if _MSFORTRAN_ .lt. 300
+      INTERFACE TO SUBROUTINE                                           &
+     & setvieworg[ALIAS:"__f_setvieworg@12"](x,y,s)
+      INTEGER*2 x,y
+      STRUCTURE/xycoord/
+          INTEGER*2 xcoord
+          INTEGER*2 ycoord
+      END STRUCTURE
+      RECORD/xycoord/s[REFERENCE]
+      END
+$else
+!fi2mod:notrans
+      INTERFACE SETVIEWORG
+      SUBROUTINE $$MSFLIB$SETVIEWORG$22                                 &
+     & [alias:'__f_setvieworg@12'](x,y,s)
+      INTEGER*2 x
+      INTEGER*2 y
+      STRUCTURE/xycoord/
+          INTEGER*2 xcoord
+          INTEGER*2 ycoord
+      END STRUCTURE
+      RECORD/xycoord/s[REFERENCE]
+      END SUBROUTINE
+      SUBROUTINE $$MSFLIB$SETVIEWORG$24                                 &
+     & [alias:'__f_setvieworg@12'](x,y,s)
+      INTEGER*2 x
+      INTEGER*4 y
+      STRUCTURE/xycoord/
+          INTEGER*2 xcoord
+          INTEGER*2 ycoord
+      END STRUCTURE
+      RECORD/xycoord/s[REFERENCE]
+      END SUBROUTINE
+      SUBROUTINE $$MSFLIB$SETVIEWORG$42                                 &
+     & [alias:'__f_setvieworg@12'](x,y,s)
+      INTEGER*4 x
+      INTEGER*2 y
+      STRUCTURE/xycoord/
+          INTEGER*2 xcoord
+          INTEGER*2 ycoord
+      END STRUCTURE
+      RECORD/xycoord/s[REFERENCE]
+      END SUBROUTINE
+      SUBROUTINE $$MSFLIB$SETVIEWORG$44                                 &
+     & [alias:'__f_setvieworg@12'](x,y,s)
+      INTEGER*4 x
+      INTEGER*4 y
+      STRUCTURE/xycoord/
+          INTEGER*2 xcoord
+          INTEGER*2 ycoord
+      END STRUCTURE
+      RECORD/xycoord/s[REFERENCE]
+      END SUBROUTINE
+      END INTERFACE
+!fi2mod:trans
+$endif
+
+      INTERFACE TO SUBROUTINE                                           &
+     & setviewport[C,ALIAS:"__setviewport"](x1,y1,x2,y2)
+      INTEGER*2 x1,y1,x2,y2
+      END
+
+      INTERFACE TO FUNCTION setvisualpage(page)
+      INTEGER*2 setvisualpage[C,ALIAS:"__setvisualpage"],page
+      END
+
+      INTERFACE TO FUNCTION setwindow(finvert,wx1,wy1,wx2,wy2)
+      INTEGER*2 setwindow[C,ALIAS:"__setwindow"]
+      LOGICAL*2 finvert
+      DOUBLE PRECISION wx1,wy1,wx2,wy2
+      END
+
+      INTERFACE TO FUNCTION setwritemode(wmode)
+      INTEGER*2 setwritemode[C,ALIAS:"__setwritemode"],wmode
+      END
+
+      INTERFACE TO FUNCTION wrapon(option)
+      INTEGER*2 wrapon[C,ALIAS:"__wrapon"],option
+      END
+
+! FONTS
+
+      INTERFACE TO FUNCTION getfontinfo(fi)
+      INTEGER*2 getfontinfo[ALIAS:"__f_getfontinfo@4"]
+      STRUCTURE/fontinfo/
+          INTEGER*4 type        ! b0 set = vector,clear = bit map
+          INTEGER*4 ascent      ! pix dist from top to baseline
+          INTEGER*4 pixwidth    ! character width in pixels, 0=prop
+          INTEGER*4 pixheight   ! character height in pixels
+          INTEGER*4 avgwidth    ! average character width in pixels
+          CHARACTER*81 filename ! file name including path
+          CHARACTER*32 facename ! font name
+          LOGICAL*1 italic      ! .true. - font  is italic
+          LOGICAL*1 emphasized  ! .true. - font is  emphasized (bold)
+          LOGICAL*1 underline   ! .true. - font is underline
+      END STRUCTURE
+      RECORD/fontinfo/fi[REFERENCE]
+      END
+
+      INTERFACE TO FUNCTION getgtextextent(text)
+      INTEGER*2 getgtextextent[ALIAS:"__f_getgtextextent@8"]
+      CHARACTER*(*) text[REFERENCE]
+      END
+
+      INTERFACE TO SUBROUTINE                                           &
+     & getgtextvector[ALIAS:"__f_getgtextvector@8"](x,y)
+      INTEGER*2 x[REFERENCE],y[REFERENCE]
+      END
+
+      INTERFACE TO SUBROUTINE                                           &
+     & outgtext[ALIAS:"__f_outgtext@8"](text)
+      CHARACTER*(*) text[REFERENCE]
+      END
+
+      INTERFACE TO FUNCTION registerfonts(filename)
+      INTEGER*2 registerfonts[ALIAS:"__f_registerfonts@8"]
+      CHARACTER*(*) filename[REFERENCE]
+      END
+
+      INTERFACE TO FUNCTION initializefonts()
+      INTEGER*2 initializefonts[ALIAS:"__initializefonts"]
+      END
+
+      INTERFACE TO FUNCTION setfont(options)
+      INTEGER*2 setfont[ALIAS:"__f_setfont@8"]
+      CHARACTER*(*) options[REFERENCE]
+      END
+
+      INTERFACE TO SUBROUTINE                                           &
+     & settextfont[ALIAS:"__f_settextfont@4"] (fontname)
+      CHARACTER*(*) fontname[REFERENCE]
+      END
+
+
+      INTERFACE TO SUBROUTINE                                           &
+     & setgtextvector[C,ALIAS:"__setgtextvector"](x,y)
+      INTEGER*2 x,y
+      END
+
+      INTERFACE TO SUBROUTINE                                           &
+     & unregisterfonts[C,ALIAS:"__unregisterfonts"]()
+      END
+
+      INTERFACE TO SUBROUTINE                                           &
+     & setgtextrotation[C,ALIAS:"__setgtextrotation"](degrees)
+      INTEGER*4 degrees
+      END
+
+      INTERFACE TO FUNCTION getgtextrotation()
+      INTEGER*4 getgtextrotation[C,ALIAS:"__getgtextrotation"]
+      END
+
+      INTERFACE TO FUNCTION getcolorrgb()
+      INTEGER*4 getcolorrgb[C,ALIAS:"__getcolorrgb"]
+      END
+
+      INTERFACE TO FUNCTION getbkcolorrgb()
+      INTEGER*4 getbkcolorrgb[C,ALIAS:"__getbkcolorrgb"]
+      END
+
+      INTERFACE TO FUNCTION gettextcolorrgb()
+      INTEGER*4 gettextcolorrgb[C,ALIAS:"__gettextcolorrgb"]
+      END
+
+      INTERFACE TO FUNCTION getpixelrgb(x,y)
+      INTEGER*4 getpixelrgb[C,ALIAS:"__getpixelrgb"]
+      INTEGER*2 x
+      INTEGER*2 y
+      END
+
+      INTERFACE TO FUNCTION getpixelrgb_w(wx, wy)
+      INTEGER*4 getpixelrgb_w[C,ALIAS:"__getpixelrgb_w"]
+      REAL*8          wx
+      REAL*8          wy
+      END
+
+      INTERFACE TO SUBROUTINE                                           &
+     & setpixelsrgb[C,ALIAS:"__setpixelsrgb"](n,x,y,color)
+      INTEGER*4 n
+      INTEGER*2 x [REFERENCE](*)
+      INTEGER*2 y [REFERENCE](*)
+      INTEGER*4 color [REFERENCE](*)
+      END
+
+      INTERFACE TO SUBROUTINE                                           &
+     & getpixelsrgb[C,ALIAS:"__getpixelsrgb"](n,x,y,color)
+      INTEGER*4 n
+      INTEGER*2 x [REFERENCE](*)
+      INTEGER*2 y [REFERENCE](*)
+      INTEGER*4 color [REFERENCE](*)
+      END
+
+      INTERFACE TO FUNCTION setcolorrgb(color)
+      INTEGER*4 setcolorrgb[C,ALIAS:"__setcolorrgb"]
+      INTEGER*4 color
+      END
+
+      INTERFACE TO FUNCTION setbkcolorrgb(color)
+      INTEGER*4 setbkcolorrgb[C,ALIAS:"__setbkcolorrgb"]
+      INTEGER*4 color
+      END
+
+      INTERFACE TO FUNCTION setpixelrgb(x,y,color)
+      INTEGER*4 setpixelrgb[C,ALIAS:"__setpixelrgb"]
+      INTEGER*2 x
+      INTEGER*2 y
+      INTEGER*4 color
+      END
+
+      INTERFACE TO FUNCTION setpixelrgb_w(x,y,color)
+      INTEGER*4 setpixelrgb_w[C,ALIAS:"__setpixelrgb_w"]
+      REAL*8          x
+      REAL*8          y
+      INTEGER*4       color
+      END
+
+      INTERFACE TO FUNCTION settextcolorrgb(color)
+      INTEGER*4 settextcolorrgb[C,ALIAS:"__settextcolorrgb"]
+      INTEGER*4 color
+      END
+
+      INTERFACE TO FUNCTION rgbtointeger(red,green,blue)
+      INTEGER*4 rgbtointeger[C,ALIAS:"__rgbtointeger"]
+      INTEGER*4 red,green,blue
+      END
+
+      INTERFACE TO SUBROUTINE                                           &
+     & integertorgb[C,ALIAS:"__integertorgb"] (rgb, red, green, blue)
+      INTEGER*4 rgb
+      INTEGER*4 red    [REFERENCE]
+      INTEGER*4 green  [REFERENCE]
+      INTEGER*4 blue   [REFERENCE]
+      END
+
+      INTERFACE TO SUBROUTINE                                           &
+     & setdblclkinterval[C,ALIAS:"_setdblclkintervalqq"](interval)
+      INTEGER interval
+      END
+
+      INTERFACE TO FUNCTION unregistermouseevent(Unit,MouseEvents)
+      INTEGER unregistermouseevent[C,ALIAS:"_unregistermouseeventqq"]
+      INTEGER Unit
+      INTEGER MouseEvents
+      END
+
+      INTERFACE TO FUNCTION registermouseevent(Unit,MouseEvents,        &
+     & CallBackRoutine)
+      INTEGER registermouseevent[C,ALIAS:"_registermouseeventqq"]
+      INTEGER Unit
+      INTEGER MouseEvents
+      EXTERNAL CallBackRoutine
+      END
+
+      INTERFACE TO FUNCTION waitonmouseevent(MouseEvents,KeyState,x,y)
+      INTEGER waitonmouseevent[C,ALIAS:"_waitonmouseeventqq"]
+      INTEGER MouseEvents
+      INTEGER KeyState [REFERENCE]
+      INTEGER x [REFERENCE]
+      INTEGER y [REFERENCE]
+      END
+
+      INTERFACE TO SUBROUTINE                                           &
+     & setframewindow[C,ALIAS:"__setframewindow"](X,Y,width,height)
+      INTEGER X
+      INTEGER Y
+      INTEGER width
+      INTEGER height
+      END
+
+      INTERFACE TO SUBROUTINE                                           &
+     & setmessageqq[C,ALIAS:"__f_setmessageqq"](msg, id)
+      CHARACTER*(*) msg[reference]
+      INTEGER*4     id
+      END
+
+      INTERFACE TO SUBROUTINE                                           &
+     & setstatusmessage[C,ALIAS:"__f_setstatusmessage@8"](msg, id)
+      CHARACTER*(*) msg[reference]
+      INTEGER*4     id
+      END
+
+! We only include the following code once inside the same program unit.
+! This code is shared with flib.fi.
+$if _MSFORTRAN_ .lt. 300   ! if using /4fps1, DO NOT include the code below
+$undefine $MSFLIB$FIProgUnitNum
+$define $MSFLIB$FIProgUnitNum = -1
+$endif
+$if $MSFLIB$FIProgUnitNum .ne. $MSFLIB$ProgramUnitNumber
+$undefine $MSFLIB$FIProgUnitNum
+$define $MSFLIB$FIProgUnitNum = $MSFLIB$ProgramUnitNumber
+
+      INTERFACE TO FUNCTION INCHARQQ()
+      INTEGER*2 INCHARQQ[C,ALIAS:"__inchar"]
+      END
+
+      INTERFACE TO FUNCTION WGOPENQQ(name)
+      INTEGER*4 WGOPENQQ[C,ALIAS:"__wgopen"]
+      CHARACTER*(*) name
+      END
+
+      INTERFACE TO FUNCTION WGCLOSEQQ(handle)
+      INTEGER*4 WGCLOSEQQ[C,ALIAS:"__wgclose"], handle
+      END
+
+      INTERFACE TO FUNCTION WGSETACTIVEQQ(handle)
+      INTEGER*4 WGSETACTIVEQQ[C,ALIAS:"__wgsetactive"], handle
+      END
+
+      INTERFACE TO FUNCTION WGGETACTIVEQQ()
+      INTEGER*4 WGGETACTIVEQQ[C,ALIAS:"__wggetactive"]
+      END
+$endif
+
+!fi2mod:off
+$endif  ! $if _MSFORTRAN_ .LT. 300
+!fi2mod:on
+
+$endif  ! $if .not. defined (__MSFLIB_FLIB_INCLUDE)

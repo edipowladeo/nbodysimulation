@@ -1,0 +1,31 @@
+
+//-----------------------------------------------------------------------------
+// This is a part of the Microsoft Source Code Samples. 
+// Copyright (C) 1993 Microsoft Corporation.
+// All rights reserved. 
+//  
+// This source code is only intended as a supplement to 
+// Microsoft Development Tools and/or WinHelp documentation.
+// See these sources for detailed information regarding the 
+// Microsoft samples programs.
+//-----------------------------------------------------------------------------
+
+#include "winres.h"
+#include "angle.h"
+
+AngleIcon  ICON   angle.ico
+
+
+100 DIALOG 0, 0, 295, 36
+STYLE WS_CHILD | WS_BORDER
+FONT 8, "Helv"
+BEGIN
+    LTEXT         "AngleArc (hdc,      X,      Y,      nRadius, eStartAngle, eSweepAngle);",
+                  10, 11, 4, 230, 11
+    EDITTEXT      DID_X, 61, 16, 22, 12, ES_AUTOHSCROLL
+    EDITTEXT      DID_Y, 88, 16, 22, 12, ES_AUTOHSCROLL
+    EDITTEXT      DID_RADIUS, 116, 16, 22, 12, ES_AUTOHSCROLL
+    EDITTEXT      DID_START, 148, 16, 34, 12, ES_AUTOHSCROLL
+    EDITTEXT      DID_SWEEP, 191, 16, 34, 12, ES_AUTOHSCROLL
+    DEFPUSHBUTTON "Draw", DID_DRAW, 250, 0, 44, 36
+END

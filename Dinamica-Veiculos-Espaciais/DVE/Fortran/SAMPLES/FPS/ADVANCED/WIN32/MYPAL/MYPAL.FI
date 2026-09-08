@@ -1,0 +1,12 @@
+interface 
+subroutine ShowColor(HWND, HDC)
+integer*4 HWND, HDC
+end
+
+subroutine setptrtorgpt [STDCALL, ALIAS:"_setptrtoRGPT@8"](x, y)
+integer*4 x , y
+end
+
+
+
+end interface

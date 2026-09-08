@@ -1,0 +1,14 @@
+! function prototypes 
+interface 
+subroutine DrawBitmap (HDC, HBITMAP)
+integer*4 HDC, HBITMAP
+end subroutine
+end interface
+
+interface 
+integer*4 function GetBitmap (HDC, HANDLE, B)
+integer*4 HDC, HANDLE
+logical*4 B
+end function
+end interface
+
