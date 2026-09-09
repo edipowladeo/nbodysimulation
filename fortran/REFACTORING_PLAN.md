@@ -92,3 +92,7 @@ próprios. Compatibilidade com o legado não constitui validação física.
 
 Extração de P2: [Densidade atmosférica US76](REFACTORING_ATMOSPHERE_DENSITY.md),
 concluída e validada na rodada 12 (unitários e regressão 27/27 byte a byte).
+
+Configuração de P2: fpm/test-drive concluídos na rodada 13, com dependências
+fixadas, quatro suítes compartilhadas e regressão 27/27 byte a byte.
+Detalhes e comando em [fpm e test-drive](REFACTORING_FPM.md).

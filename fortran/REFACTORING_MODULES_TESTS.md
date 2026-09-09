@@ -41,3 +41,10 @@ Executor unitário disponível: `powershell -NoProfile -ExecutionPolicy Bypass -
   Extração validada com 54 amostras do legado, suíte unitária e regressão
   27/27 byte a byte; o item de densidade acima está atendido quanto à
   compatibilidade legada. Validação física do modelo não foi realizada.
+
+## Rodada 13 — fpm e test-drive
+
+- [x] Configurar fpm e test-drive: [detalhamento](REFACTORING_FPM.md).
+  Biblioteca, candidato e quatro suítes com alvos explícitos e dependência
+  fixada; executor independente preservado. Testes e regressão 27/27 byte
+  a byte aprovados. O item de configuração acima está atendido nesta rodada.

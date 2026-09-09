@@ -1,7 +1,13 @@
-program test_atmosphere_density
+module test_atmosphere_density
+  implicit none
+  private
+  public :: run_test_atmosphere_density
+contains
+subroutine run_test_atmosphere_density(failures)
   use atmosphere_density, only: us76_density
   use, intrinsic :: ieee_arithmetic, only: ieee_is_finite
   implicit none
+  integer, intent(out) :: failures
   double precision :: h,R,de,first
   double precision, parameter :: boundaries(18) = &
     [0D0,11D0,20D0,32D0,47D0,51D0,71D0,86D0,91D0,100D0,110D0,120D0,150D0,200D0,300D0,500D0,750D0,1000D0]
@@ -64,6 +70,7 @@ program test_atmosphere_density
     3.55945126846096438D-015, &
     -1.23000000000000000D+002 ]
   integer :: i,j,k
+  failures = 0
   k=0
   do i=1,size(boundaries)
     do j=-1,1
@@ -74,18 +81,19 @@ program test_atmosphere_density
       k=k+1
       if (de /= expected(k)) then
         print *, 'FAIL: boundary, side, actual, expected', boundaries(i),j,de,expected(k)
-        stop 1
+        failures = failures + 1
       endif
       if (h >= 0D0 .and. h <= 1000D0) then
-        if (.not. ieee_is_finite(de) .or. de <= 0D0) stop 2
+        if (.not. ieee_is_finite(de) .or. de <= 0D0) failures = failures + 1
       endif
     enddo
   enddo
   call us76_density(10D0,6371200D0,first)
   call us76_density(10D0,12742400D0,de)
-  if (de /= first/2) stop 3
+  if (de /= first/2) failures = failures + 1
   call us76_density(100D0,6371200D0,first)
   call us76_density(100D0,12742400D0,de)
-  if (de /= first) stop 4
-  print *, 'PASS: US76 density (54 boundary samples, domain sentinel, effective R)'
-end program
+  if (de /= first) failures = failures + 1
+  if (failures == 0) print *, 'PASS: US76 density (54 boundary samples, domain sentinel, effective R)'
+end subroutine run_test_atmosphere_density
+end module test_atmosphere_density

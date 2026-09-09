@@ -1,0 +1,28 @@
+name = "us76-simulation"
+version = "0.1.0"
+
+[build]
+auto-executables = false
+auto-tests = false
+auto-examples = false
+
+[fortran]
+implicit-typing = true
+implicit-external = true
+source-form = "free"
+
+[library]
+source-dir = "fortran/src"
+
+[[executable]]
+name = "us76"
+source-dir = "fortran"
+main = "traj_us76_30dias_420000kg_updated.f90"
+
+[[test]]
+name = "unit-tests"
+source-dir = "fortran/unit"
+main = "tester.f90"
+
+[test.dependencies]
+test-drive = { git = "https://github.com/fortran-lang/test-drive.git", rev = "fd66b4bca683c5fa5d92536075734f0792824d37" }

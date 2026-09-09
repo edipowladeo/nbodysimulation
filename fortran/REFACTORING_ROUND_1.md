@@ -67,3 +67,8 @@ rotinas extraídas complementam a regressão e devem passar antes do commit.
 - Rodada 12: [densidade atmosférica US76](REFACTORING_ATMOSPHERE_DENSITY.md),
   testes unitários e regressão 27/27 byte a byte aprovados em 2026-09-09.
   Relatório: `build/regression-20260909-134016-8fefa99fe331434398cf8559682b064c/regression.json`.
+
+- Rodada 13: [fpm e test-drive](REFACTORING_FPM.md), manifesto
+  com alvos explícitos e dependência fixada. Quatro suítes aprovadas nos dois
+  executores; regressão 27/27 byte a byte em 2026-09-09.
+  Relatório: `build/regression-20260909-182623-871c5fab69b64c5fb00bcb56ff90dd86/regression.json`.
