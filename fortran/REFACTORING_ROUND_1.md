@@ -27,6 +27,9 @@ rotinas extraídas complementam a regressão e devem passar antes do commit.
 
 ## Acompanhamento
 
+- Rodada 5: [normalização de tempo](REFACTORING_TIME_NORMALIZATION.md), testes
+  unitários e regressão de 1, 5 e 30 dias aprovados, 27/27 byte a byte.
+
 - Rodada 2: nomes e caminhos organizados, commit `1371e4d`, regressão 27/27.
 - Rodada 3 isolada: cobertura SD1–SD7, commit `5306de5` no branch
   `investigation/round-1-sd-coverage`; análise vinculada em [Cenários](REFACTORING_SCENARIOS.md).

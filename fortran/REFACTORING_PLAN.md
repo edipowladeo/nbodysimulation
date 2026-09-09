@@ -55,6 +55,7 @@ quanto na futura migração para Kotlin ou Rust.
 Detalhamento adicional de P1: [Diagnóstico numérico](REFACTORING_NUMERIC_DIAGNOSTICS.md).
 Cobertura e organização: [Cenários SD1 a SD7](REFACTORING_SCENARIOS.md).
 Extração de P2: [Transformações de coordenadas](REFACTORING_COORDINATE_TRANSFORMS.md).
+Extração de P2: [Normalização do tempo](REFACTORING_TIME_NORMALIZATION.md).
 P2 prossegue com a proteção byte a byte de SD6; a ampliação de P1 foi isolada
 por falhas de inicialização no legado, conforme o detalhamento de cenários.
 

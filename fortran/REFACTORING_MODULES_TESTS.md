@@ -4,6 +4,7 @@ Plano principal: [REFACTORING_PLAN.md](REFACTORING_PLAN.md).
 Estado: em andamento. Prioridade: P2.
 
 Primeira extração e testes: [Transformações de coordenadas](REFACTORING_COORDINATE_TRANSFORMS.md).
+Segunda extração: [Normalização do tempo](REFACTORING_TIME_NORMALIZATION.md).
 Executor unitário disponível: `powershell -NoProfile -ExecutionPolicy Bypass -File fortran/test-unit.ps1`.
 
 - [ ] Organizar biblioteca de cálculo separada do executável e dos testes.

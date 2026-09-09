@@ -20,6 +20,7 @@
           !       observador.
           !-----------------------------------------------------------------------------------
           use coordinate_transforms, only: translate_to_ecliptic
+          use time_normalization, only: days_to_normalized_time, normalized_time_to_days
           Implicit none
 
           Logical FIXED
@@ -164,7 +165,7 @@
 
           NV           = 12
           LL           = 12
-          TFINAL       = (2*PI/TN)*TINTE
+          TFINAL       = days_to_normalized_time(TINTE,TN,PI)
           PASSO        = 1.0D-6
           OUTPUT_STEP  = 1.0D-6
           FIXED        = .false.    !.true.
@@ -241,7 +242,7 @@
 
           Call RA15(X,V,TFINAL,PASSO,LL,NV,NCLASS,OUTPUT_STEP,FIXED,TINST,Cd,Ad,B,Phi,Lab,M1,M2,M3,M4,Elev,PERT)
 
-          TA   = (TN*TINST)/(2*PI)
+          TA   = normalized_time_to_days(TINST,TN,PI)
 
           Print*, '                                     '
           Print*, 'Tempo de estabilidade =',TA,' Dias'
@@ -634,6 +635,7 @@
           End
 
           Subroutine Force(P,V,T,F,Cd,Ad,Be,M1,M2,M3,M4,PERT)
+              use time_normalization, only: normalized_time_to_days
 
               Implicit None
 
@@ -745,7 +747,7 @@
               R243 = R24*R24*R24
               R343 = R34*R34*R34
               !-----------------------------------------------------------------------------------
-              TA   = (TN*T)/(2*PI)					      !Dias
+              TA   = normalized_time_to_days(T,TN,PI)					      !Dias
               !-----------------------------------------------------------------------------------
               !     Componentes da posição e velocidade da partícula no sistema geocêntrico
               !     equatorial ECI-equatorial que alimentarão as subroutines:
@@ -809,7 +811,7 @@
               !-----------------------------------------------------------------------------------
               !     Testes de colisão com a Terra e a Lua
 
-              TE   = (TN*T)/(2*PI)*24					      !Dias
+              TE   = normalized_time_to_days(T,TN,PI)*24					      !Dias
 
               If(R24 <= Rem)then
                   Print*,'                                       '
