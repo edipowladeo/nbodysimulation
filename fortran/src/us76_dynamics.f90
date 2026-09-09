@@ -1,261 +1,12 @@
- !	Este programa calcula trajetórias nos problemas de 2, 3 e 4 corpos.  As !     equações de movimento (12 ao todo) estão escritas no sistema de coorde-
-          !     nadas cuja origem está no centro de massa do corpo 1 (Sol) em t = 0.HCI
-          !     O programa utiliza o integrador RADAU15.O sistema é normalizado seguin-
-          !     do os parâmetros da normalização do PR3C (384400km = 1 unidade de  com-
-          !     primento,..).
-          !     Tem subroutinas para: Potencial Gravitacional, Arrasto (USS76) e PRS.
-
-          !     Otimzado para órbitas terrestres - entradas: elementos orbitais.
-
-          !     Sistemas de coordenadas considerados:
-          !     - ECI geocêntrico equatorial inercial, no qual os elementos orbitais os-
-          !       culadores são calculadas.
-          !     - ECI geocêntrico eclíptico incercial, intermediário para o HCI.
-          !     - HCI heliocêntrico eclíptico inercial, no qual as equações de movimento
-          !       são resolvidas.
-          !     - ECHF geocêntrico fixo à Terra, no qual longitude, latitude, altitude e
-          !       velocidade são calculados para alimentar as equações do Potencial Gra-
-          !       vitacional e arrasto.
-          !     - THC topocêntrico horizontal, no qual  está  localizado um  ponto/radar
-          !       observador.
-          !-----------------------------------------------------------------------------------
-          Implicit none
-
-          Logical FIXED
-          Integer NV,NCLASS,LL,SD,PERT
-          Double precision X(12),V(12),TFINAL,PASSO,OUTPUT_STEP,TINST
-          Double precision TINTE,TA,UC,TN,PI,FV,G,Ec
-          Double precision M1,Mi1         								  !Sol
-          Double precision M2,Mi2,a2,e2,i2,W2,OM2,f2,an2,Ro2,Vo2,P2         !Terra
-          Double precision M3,Mi3,a3,e3,i3,W3,OM3,f3,an3,Ro3,Vo3,P3,X3o,Y3o,&!Lua
-          &                 Z3o,Vx3o,Vy3o,Vz3o
-          Double precision M4,Mi4,a4,e4,i4,W4,OM4,f4,an4,Ro4,Vo4,P4,Cd,Ad,B,&!Sonda
-          &                 Phi,Lab,Elev,Pe4,X4o,Y4o,Z4o,Vx4o,Vy4o,Vz4o
-          !-----------------------------------------------------------------------------------
-          !     Início da área de trabalho - inserção das condições iniciais.
-          !-----------------------------------------------------------------------------------
-          !     Tempo de integração
-
-          TINTE    =   30.000000D+00        !Tempo de voo da nave. Em dias.
-
-          !     Definição do Sistema Dinâmico Considerado através da variável SD:
-
-          !     SD = 1 Problema de 2 corpos Terra-espaçonave (Prob. Kepler) - só Gravitacional;
-          !     SD = 2 Problema de 4 corpos Sol-Terra-Lua-espaçonave - só gravitacional;
-          !     SD = 3 Problema de 2 corpos Terra-espaçonave + Pot. gravitacional expandido;
-          !     SD = 4 Problema de 2 corpos Terra-espaçonave + Arrasto;
-          !     SD = 5 Problema de 2 corpos Terra-espaçonave + Pressão de radiação solar;
-          !     SD = 6 Problema de 4 corpos Sol-Terra-Lua-espaçonave + todas as perturbações;
-          !     SD = 7 Problema Restrito de três corps Terra-Lua-partícula;
-          !     SD = 8 Problema Restrito de três corps Sol-Terra-partícula.
-
-          SD   =  6
-
-          !     Característica da espaçonave
-
-          M4   =       420.000000D+03        !Em kg     Massa da nave
-          Cd   =         2.200000D+00		   !Coeficiente de arrasto
-          Ad   =      2000.000000D+00        !Área do satélite m2
-          B    =         1.000000D+00		   !Coeficiente de reflexão [-1,1]
-
-          Elev =        15.000000D+00        !Graus para cálculo da ACI
-
-          !     Características da órbita
-
-          a4   =         6.795741282439726D+03       !Semieixo maior, em km
-          e4   =         1.097222956052679D-03	   !Escentricidade
-          i4   =         4.266484263349782D+01       !Inclinação r/ equador EVITE i4 = 180
-          OM4  =	       7.815079434823826D+01       !Nodo ascendente graus2
-          W4   =         6.742905981365995D+01       !Argumento do pericentro graus
-          f4   =         3.215091643182321D+02       !Anomalia verdadeira graus
-
-          !     Posição da origem do sistema topocêntrico
-
-          Phi  =        40.000000D+00        !Latitude da origem do TPH
-          Lab  =        15.000000D+00        !Longitude da origem do TPH
-          !-----------------------------------------------------------------------------------
-          !     Fim da área de trabalho
-          !-----------------------------------------------------------------------------------
-          Ec   =        23.450000D+00        !Ecliptica (graus)
-          !-----------------------------------------------------------------------------------
-          !     Massas dos Corpos:
-
-          M2      =  5.972400D+24		       !Em kg
-
-          If(SD == 1) then
-              NCLASS  = -2
-              M1      =  0
-              M3      =  0
-              PERT    =  0
-          Else If(SD == 2) then
-              NCLASS  = -2
-              M1      =  1.988500D+30			   !kg
-              M3      =  7.346000D+22            !kg
-              PERT    =  0
-          Else If(SD == 3) then
-              NCLASS  = -2
-              M1      =  0
-              M3      =  0
-              PERT    =  1
-          Else IF(SD == 4) then
-              NCLASS  = +2
-              M1      =  0
-              M3      =  0
-              PERT    =  2
-          Else If(SD == 5) then
-              NCLASS  = -2
-              M1      =  0
-              M3      =  0
-              PERT    =  3
-          Else IF(SD == 6) then
-              NCLASS  = +2
-              M1      =  1.988500D+30			   !kg
-              M3      =  7.346000D+22            !kg
-              PERT    =  4
-          Else IF(SD == 7) then
-              NCLASS  = -2
-              M1      =  0      			       !kg
-              M3      =  7.346000D+22            !kg
-              PERT    =  0
-          Endif
-          !-----------------------------------------------------------------------------------
-          !     Corpo 2 (Terra) em relação ao corpo 1 (Sol):
-
-          a2   = 149597870.700000D+00		   !Em km
-          e2   =         0.000000D+00
-          i2   =         0.000000D+00        !Em graus
-          W2   =         0.000000D+00        !Em graus
-          OM2  =		   0.000000D+00        !Em graus
-          f2   =         0.000000D+00        !Em graus
-          !-----------------------------------------------------------------------------------
-          !     Corpo 3 (Lua) em relação ao corpo 2 (Terra)
-
-          a3   =    384400.000000D+00        !Em km
-          e3   =         0.000000D+00
-          i3   =        22.000000D+00        !Graus em relação ao equador
-          W3   =         0.000000D+00        !Graus
-          OM3  =         0.000000D+00        !Graus
-          f3   =       180.000000D+00        !Graus
-          !-----------------------------------------------------------------------------------
-          !	Parâmetros de Normalização referentes ao sistema Terra-Lua
-
-          UC   =    384400.0000000D+00       !Fator de conv. comprimento
-          FV   =         0.9773668D+00	   !Fator de conv. velocidades
-          TN   =        27.3216600D+00       !Fator de conv. de tempo (dias)
-          G    =         6.6740800D-20       !Constante de Gravitação Universal p/km
-          PI   =      DAcos(-1.00D+00)
-          !-----------------------------------------------------------------------------------
-          !     Normalizando (Atenção, Mi1, Mi2 e Mi3 não podem ser nulos)
-
-          Mi1  = (1.988500D+30)/(M2 + 7.346000D+22)
-          Mi2  =             M2/(M2 + 7.346000D+22)
-          Mi3  = (7.346000D+22)/(M2 + 7.346000D+22)
-          Mi4  =             M4/(M2 + 7.346000D+22)
-
-          an2  = a2/UC
-          an3  = a3/UC
-          an4  = a4/UC
-          !-----------------------------------------------------------------------------------
-          !	A partir daqui, distâncias, velocidades e tempos estão normalizados.
-          !-----------------------------------------------------------------------------------
-          !     Valores relativos ao uso do integrador. Maiores detalhes veja descrição
-          !     nos comentários da subrotina RADAU15:
-
-          NV           = 12
-          LL           = 12
-          TFINAL       = (2*PI/TN)*TINTE
-          PASSO        = 1.0D-6
-          OUTPUT_STEP  = 1.0D-6
-          FIXED        = .false.    !.true.
-          !-----------------------------------------------------------------------------------
-          !     Condições iniciais no sistema Inercial heliocêntrico:
-
-          !     Corpo 1 (Sol):
-
-          X(1)  =  0.00000D+00
-          X(2)  =  0.00000D+00
-          X(3)  =  0.00000D+00
-
-          V(1)  =  0.00000D+00
-          V(2)  =  0.00000D+00
-          V(3)  =  0.00000D+00
-          !-----------------------------------------------------------------------------------
-          !     Corpo 2 (Terra):
-
-          P2    =	 an2*(1-(e2**2))
-          Ro2   =  P2/(1+e2*Dcosd(f2))
-          Vo2   =  Dsqrt(Mi1*( (2/Ro2) - (1/an2) ))
-
-          X(4)  =  X(1) + Ro2*( Dcosd(OM2)*Dcosd(w2 + f2)              - Dsind(OM2)*Dsind(w2 + f2)*Dcosd(i2) )
-          X(5)  =  X(2) + Ro2*( Dsind(OM2)*Dcosd(w2 + f2)              + Dcosd(OM2)*Dsind(w2 + f2)*Dcosd(i2) )
-          X(6)  =  X(3) + Ro2*( Dsind(w2 + f2)*Dsind(i2) )
-
-          V(4)  =  V(1)        - Dsqrt(Mi1/P2)*( Dcosd(OM2)*(Dsind(w2+f2) + e2*Dsind(w2))+ Dsind(OM2)*Dcosd(i2)*(Dcosd(w2+f2) + e2*Dcosd(w2)) )
-          V(5)  =  V(2)        - Dsqrt(Mi1/P2)*( Dsind(OM2)*(Dsind(w2+f2) + e2*Dsind(w2))- Dcosd(OM2)*Dcosd(i2)*(Dcosd(w2+f2) + e2*Dcosd(w2)) )
-          V(6)  =  V(3)        + Dsqrt(Mi1/P2)*( Dsind(i2)*(Dcosd(w2+f2) + e2*Dcosd(w2)))
-          !-----------------------------------------------------------------------------------
-          !     Corpo 3 (MUITO CUIDADO AQUI):
-
-          P3    =  an3*(1-(e3**2))
-          Ro3   =  P3/(1+e3*Dcosd(f3))
-          Vo3   =  Dsqrt(Mi2*( (2/Ro3) - (1/an3) ))
-
-          X3o   =  Ro3*(Dcosd(OM3)*Dcosd(w3 + f3)         - Dsind(OM3)*Dcosd(i3)*Dsind(w3 + f3))
-          Y3o   =  Ro3*(Dsind(OM3)*Dcosd(w3 + f3)         + Dcosd(OM3)*Dcosd(i3)*Dsind(w3 + f3))
-          Z3o   =  Ro3*Dsind(i3)*Dsind(w3 + f3)
-
-          Vx3o  = - Dsqrt(Mi2/P3)*( Dcosd(OM3)*(Dsind(w3+f3) + e3*Dsind(w3))        + Dsind(OM3)*Dcosd(i3)*(Dcosd(w3+f3) + e3*Dcosd(w3)) )
-          Vy3o  = - Dsqrt(Mi2/P3)*( Dsind(OM3)*(Dsind(w3+f3) + e3*Dsind(w3))        - Dcosd(OM3)*Dcosd(i3)*(Dcosd(w3+f3) + e3*Dcosd(w3)) )
-          Vz3o  =   Dsqrt(Mi2/P3)*( Dsind(i3)*(Dcosd(w3+f3) + e3*Dcosd(w3)))
-
-          X(7)  =  X(4) + X3o
-          X(8)  =  X(5) + Y3o*Dcosd(Ec) + Z3o*Dsind(Ec)
-          X(9)  =  X(6) - Y3o*Dsind(Ec) + Z3o*Dcosd(Ec)
-
-          V(7)  =  V(4) + Vx3o
-          V(8)  =  V(5) + Vy3o*Dcosd(Ec) + Vz3o*Dsind(Ec)
-          V(9)  =  V(9) - Vy3o*Dsind(Ec) + Vz3o*Dcosd(Ec)
-          !-----------------------------------------------------------------------------------
-          !     Corpo 4 (Sonda):
-
-          P4    =  an4*(1-(e4**2))
-          Ro4   =  P4/(1+e4*Dcosd(f4))
-          Vo4   =  Dsqrt(Mi2*( (2/Ro4) - (1/an4) ))
-
-          X4o   =  Ro4*(Dcosd(OM4)*Dcosd(w4 + f4)         - Dsind(OM4)*Dcosd(i4)*Dsind(w4 + f4))
-          Y4o   =  Ro4*(Dsind(OM4)*Dcosd(w4 + f4)         + Dcosd(OM4)*Dcosd(i4)*Dsind(w4 + f4))
-          Z4o   =  Ro4*Dsind(i4)*Dsind(w4 + f4)
-
-          Vx4o  =	- Dsqrt(Mi2/P4)*( Dcosd(OM4)*(Dsind(w4+f4) + e4*Dsind(w4))        + Dsind(OM4)*Dcosd(i4)*(Dcosd(w4+f4) + e4*Dcosd(w4)) )
-          Vy4o  =	- Dsqrt(Mi2/P4)*( Dsind(OM4)*(Dsind(w4+f4) + e4*Dsind(w4))        - Dcosd(OM4)*Dcosd(i4)*(Dcosd(w4+f4) + e4*Dcosd(w4)) )
-          Vz4o  =   Dsqrt(Mi2/P4)*( Dsind(i4)*(Dcosd(w4+f4) + e4*Dcosd(w4)))
-
-          X(10) =  X(4) + X4o
-          X(11) =  X(5) + Y4o*Dcosd(Ec) + Z4o*Dsind(Ec)
-          X(12) =  X(6) - Y4o*Dsind(Ec) + Z4o*Dcosd(Ec)
-
-          V(10) =  V(4) + Vx4o
-          V(11) =  V(5) +	Vy4o*Dcosd(Ec) + Vz4o*Dsind(Ec)
-          V(12) =  V(6) -	Vy4o*Dsind(Ec) + Vz4o*Dcosd(Ec)
-          !-----------------------------------------------------------------------------------
-          Print*, 'Por favor, espere, estou calculando... '
-
-          Pe4  = (2*PI*Dsqrt((an4**3)/Mi2))*(TN/(2*PI))
-
-          Call RA15(X,V,TFINAL,PASSO,LL,NV,NCLASS,OUTPUT_STEP,FIXED,TINST,Cd,Ad,B,Phi,Lab,M1,M2,M3,M4,Elev,PERT)
-
-          TA   = (TN*TINST)/(2*PI)
-
-          Print*, '                                     '
-          Print*, 'Tempo de estabilidade =',TA,' Dias'
-
-          Stop
-
-          End
-
+module us76_dynamics
+  implicit none
+  private
+  public :: RA15, Output, Force, PotGrav, Arrasto, PRS
+contains
           Subroutine Output(X,V,TM,Phi,Lab,Elev)
 
               Implicit None
+              intent(in) :: X,V,TM,Phi,Lab,Elev
 
               Double precision X(12),V(12),TM,PI,UC,FV,TN,G,TA,TB,Lab,Phi,Phia
               Double precision M2,Mi2,M3,EC,Rem,OME,WE
@@ -637,8 +388,11 @@
           End
 
           Subroutine Force(P,V,T,F,Cd,Ad,Be,M1,M2,M3,M4,PERT)
+              use time_normalization, only: normalized_time_to_days
 
               Implicit None
+              intent(in) :: P,V,T,Cd,Ad,Be,M1,M2,M3,M4,PERT
+              intent(out) :: F
 
               Integer PERT
               Double precision P(12),V(12),T,F(12),PI,UC,TA,TE,FC,TN
@@ -748,7 +502,7 @@
               R243 = R24*R24*R24
               R343 = R34*R34*R34
               !-----------------------------------------------------------------------------------
-              TA   = (TN*T)/(2*PI)					      !Dias
+              TA   = normalized_time_to_days(T,TN,PI)					      !Dias
               !-----------------------------------------------------------------------------------
               !     Componentes da posição e velocidade da partícula no sistema geocêntrico
               !     equatorial ECI-equatorial que alimentarão as subroutines:
@@ -812,7 +566,7 @@
               !-----------------------------------------------------------------------------------
               !     Testes de colisão com a Terra e a Lua
 
-              TE   = (TN*T)/(2*PI)*24					      !Dias
+              TE   = normalized_time_to_days(T,TN,PI)*24					      !Dias
 
               If(R24 <= Rem)then
                   Print*,'                                       '
@@ -829,6 +583,8 @@
           Subroutine PotGrav(M2,Xg,Yg,Zg,Vxg,Vyg,Vzg,TA,Acx,Acy,Acz)
 
               Implicit None
+              intent(in) :: M2,Xg,Yg,Zg,Vxg,Vyg,Vzg,TA
+              intent(out) :: Acx,Acy,Acz
 
               Double precision M2,Mip,Xg,Yg,Zg,Vxg,Vyg,Vzg,TA,  AGpx,AGpy,AGpz,Acx,Acy,Acz,Ahx,Ahy,Ahz,Vx,Vy,Vz,ae,UC,FC,FV
               Double precision J2,J3,J4,J5,J6,J7,C22,S22,J22,L22, C31,S31, J31,L31,C32,S32,J32,L32,C33,S33,J33,L33,C42,S42,J42,L42,C44,S44,J44,L44,L
@@ -1045,11 +801,15 @@
           End
 
           Subroutine Arrasto(Xg,Yg,Zg,Vxg,Vyg,Vzg,TA,Cd,Ad,M4,Arx,Ary,Arz)
+              use atmosphere_density, only: us76_density
+              use drag_acceleration, only: drag_acceleration_si
 
               Implicit None
+              intent(in) :: Xg,Yg,Zg,Vxg,Vyg,Vzg,TA,Cd,Ad,M4
+              intent(out) :: Arx,Ary,Arz
 
               Double precision Xg,Yg,Zg,Vxg,Vyg,Vzg,V,TA,Cd,Ad,M4,Arx,Ary,Arz,           Ax,Ay,Az,X,Y,Z,Vx,Vy,Vz
-              Double precision R,h,Rem,UC,FV,FC,PI,TMo,P,de,A,B,C,D,E,Ac,Deg,WE,           OME
+              Double precision R,h,Rem,UC,FV,FC,PI,de,Ac,Deg,WE,           OME
               !-----------------------------------------------------------------------------------
               R   =     287.053D+00                          !J/kgK
               Rem =    6371.200D+00                          !km
@@ -1079,141 +839,7 @@
 
               h   =   (Dsqrt(X**2 + Y**2 + Z**2)/1000 - Rem)
 
-              If((h >= 0).and.(h < 86)) then
-
-                  If((h >= 0).and.(h < 11)) then
-
-                      TMo = 288.15 - 6.5*h
-
-                      P   = 101325.0*(( 288.15/(288.15 - 6.5*h) )**(-5.255876923))
-
-                  Else if((h >= 11).and.(h < 20)) then
-
-                      TMo = 216.65
-
-                      P   = 22632.06*(Dexp( -34.1632*(h - 11)/216.65 ))
-
-                  Else if((h >= 20).and.(h < 32)) then
-
-                      TMo = 196.65 + h
-
-                      P   = 5474.889*(( 216.65/(216.65 + (h - 20)) )**(34.1632))
-
-                  Else if((h >= 32).and.(h < 47)) then
-
-                      TMo = 139.05 + 2.8*h
-
-                      P   = 868.0187*(( 228.65/(228.65 + 2.8*(h - 32)) )**(12.20114286))
-
-                  Else if((h >= 47).and.(h < 51)) then
-
-                      TMo = 270.65
-
-                      P   = 110.9063*(Dexp( -34.1632*(h -47)/270.65 ))
-
-                  Else if((h >= 51).and.(h < 71)) then
-
-                      TMo =  413.45 - 2.8*h
-
-                      P   =  66.93887*(( 270.65/(270.65 - 2.8*(h-51)))**(-12.20114286))
-
-                  Else if((h >= 71).and.(h < 86)) then
-
-                      TMo =  356.65 - 2.0*h
-
-                      P   =  3.956420*(( 214.65/(214.65 - 2*(h - 71)) )**(-17.0816))
-
-                  Endif
-
-                  de  = P/(R*TMo)
-
-              Else if((h >= 86).and.(h <= 1000)) then
-
-                  If((h >= 86).and.(h < 91)) then
-
-                      A   =     0.0000000D+00
-                      B   =    -3.3226220D-06
-                      C   =     9.1114600D-04
-                      D   =    -0.2609971D+00
-                      E   = 	  5.9446940D+00
-
-                  Else if((h >= 91).and.(h < 100)) then
-
-                      A   =     0.0000000D+00
-                      B   =     2.8734050D-05
-                      C   =    -0.008492037D+00
-                      D   =     0.6541179D+00
-                      E   =   -23.6201000D+00
-
-                  Else if((h >= 100).and.(h < 110)) then
-
-                      A   =    -1.2407740D-05
-                      B   =     0.005162063D-00
-                      C   =    -0.8048342D-00
-                      D   =    55.5599600D+00
-                      E   = -1443.3380000D+00
-
-                  Else if((h >= 110).and.(h < 120)) then
-
-                      A   =     0.0000000D+00
-                      B   =    -8.8541640D-05
-                      C   =     0.033732540D+00
-                      D   =    -4.3908370D+00
-                      E   =   176.5294000D+00
-
-                  Else if((h >= 120).and.(h < 150)) then
-
-                      A   =     3.6617710D-07
-                      B   =    -2.1543440D-04
-                      C   =     0.048092140D+00
-                      D   =    -4.8847440D+00
-                      E   =   172.3597000D+00
-
-                  Else if((h >= 150).and.(h < 200)) then
-
-                      A   =     1.9060320D-08
-                      B   =    -1.5277990D-05
-                      C   =     0.004724294D+00
-                      D   =    -0.6992340D+00
-                      E   =    20.5092100D+00
-
-                  Else if((h >= 200).and.(h < 300)) then
-
-                      A   =     1.1992820D-09
-                      B   =    -1.4510510D-06
-                      C   =     6.9104740D-04
-                      D   =    -0.1736220D+00
-                      E   =    -5.3216440D+00
-
-                  Else if((h >= 300).and.(h < 500)) then
-
-                      A   =     1.1405640D-10
-                      B   =    -2.1307560D-07
-                      C   =     1.5707620D-04
-                      D   =    -0.070292960D+00
-                      E   =   -12.8984400D+00
-
-                  Else if((h >= 500).and.(h < 750)) then
-
-                      A   =     8.1056310D-12
-                      B   =    -2.3584170D-09
-                      C   =    -2.6351100D-06
-                      D   =    -0.015626080D+00
-                      E   =   -20.0224600D+00
-
-                  Else if((h >= 750).and.(h <= 1000)) then
-
-                      A   =    -3.7011950D-12
-                      B   =    -8.6086110D-09
-                      C   =     5.1188290D-05
-                      D   =    -0.066009980D+00
-                      E   =    -6.1376740D+00
-
-                  Endif
-
-                  de  =   Dexp( A*(h**4) + B*(h**3) + C*(h**2) + D*h + E )
-
-              Endif
+              Call us76_density(h,R,de)
 
               !     Print*, h,de
               Open(11,file='USS76')
@@ -1221,11 +847,7 @@
               !-----------------------------------------------------------------------------------
               !     CUIDADO COM AS UNIDADES: de [kg/m3]; Ad [m2]; Vg [uc/ut]; M4 [kg]
 
-              Ac  = ((0.5)*(de)*Cd*Ad*(V**2))/(M4)                  !m/s2
-
-              Ax  = - (Ac*Vx/V)                                     !m/s2
-              Ay  = - (Ac*Vy/V) 	     				              !m/s2
-              Az  = - (Ac*Vz/V)    					              !m/s2
+              Call drag_acceleration_si(de,Cd,Ad,M4,Vx,Vy,Vz,V,Ac,Ax,Ay,Az)
 
               Deg = Dsqrt( Ax**2 + Ay**2 + Az**2 )                  !m/s2
 
@@ -1244,6 +866,8 @@
           Subroutine PRS(M4,Ad,Be,X12,Y12,Z12,X14,Y14,Z14,Aprx,Apry,Aprz)
 
               Implicit None
+              intent(in) :: M4,Ad,Be,X12,Y12,Z12,X14,Y14,Z14
+              intent(out) :: Aprx,Apry,Aprz
 
               Double precision M4,Ad,X12,Y12,Z12,X12i,Y12i,Z12i,X14,Y14,Z14,           X14i,Y14i,Z14i,R12i,R14i,Aprx,Apry,Aprz,Apx,           Apy,Apz,Ap
               Double precision UC,Po,Be,a12,Rp,D,FC,TETmax,TET,h,Hm,Eps,E
@@ -1312,11 +936,16 @@
           !     the final position-velocity vector.
           !     Integration is in double precision. A 64-bit double-word is assumed.
 
-          IMPLICIT REAL*8 (A-H,O-Z)
+          implicit none
+              intent(in) :: TF,LL,NV,NCLASS,OS,FIXED,Cd,Ad,Be,Phi,Lab,M1,M2,M3,M4,Elev,PERT
+              intent(inout) :: X,V,XL
+              intent(out) :: TINST
+          integer :: j, jd, jdm, k, l, la, lb, lc, ld, le, ll, m, n, nclass, ncount, nf, ni, ns, nv, nw
+          double precision :: a, b, bd, c, d, dir, e, f1, fj, g, gk, h, half, hv, one, os, out, phi, q, r, s, sr, ss, t, t2, temp, tf, tinst, tm, tp, u, v, w, w1, ww, x, xl, y, z, zero
           INTEGER PERT
           REAL*4 TVAL,PW
           REAL*8 Cd,Ad,Be,Lab,M1,M2,M3,M4,Elev
-          DIMENSION X(1),V(1),F1(18),FJ(18),C(21),D(21),R(21),Y(18),Z(18),B(7,18),G(7,18),E(7,18),BD(7,18),H(8),W(7),U(7),NW(8)
+          DIMENSION X(NV),V(NV),F1(18),FJ(18),C(21),D(21),R(21),Y(18),Z(18),B(7,18),G(7,18),E(7,18),BD(7,18),H(8),W(7),U(7),NW(8)
           LOGICAL NPQ,NSF,NPER,NCL,NES,fixed
           DATA NW/0,0,1,3,6,10,15,21/
           DATA ZERO, HALF, ONE,SR/0.0D0, 0.5D0, 1.0D0,1.4D0/
@@ -1607,3 +1236,5 @@
               GO TO 722
 
           END
+
+end module us76_dynamics

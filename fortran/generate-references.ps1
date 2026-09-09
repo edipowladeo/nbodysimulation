@@ -12,13 +12,17 @@ $Compiler = (Resolve-Path $Compiler).Path
 $compilerPath = "$(Split-Path $Compiler);$env:PATH"
 Remove-Item Env:PATH -ErrorAction SilentlyContinue
 $env:Path = $compilerPath
-if (!$Source) { $Source = Join-Path $PSScriptRoot 'legacy_traj_us76_30dias_420000kg.for' }
+if (!$Source) { $Source = Join-Path $PSScriptRoot 'traj_us76_30dias_420000kg_legacy.for' }
 $source = (Resolve-Path $Source).Path
-if ($source -ne (Join-Path $PSScriptRoot 'legacy_traj_us76_30dias_420000kg.for') -and
+if ($source -ne (Join-Path $PSScriptRoot 'traj_us76_30dias_420000kg_legacy.for') -and
     [IO.Path]::GetFullPath($OutputRoot).StartsWith((Join-Path $repoRoot 'tests/reference'), [StringComparison]::OrdinalIgnoreCase)) {
     throw 'Candidate runs must not write into tests/reference.'
 }
 $sourceHash = (Get-FileHash $source -Algorithm SHA256).Hash
+$modules = @()
+if ($source -eq (Join-Path $PSScriptRoot 'traj_us76_30dias_420000kg_updated.f90')) {
+    $modules = @(Get-ChildItem "$PSScriptRoot/src" -Filter '*.f90' | Sort-Object Name | ForEach-Object FullName)
+}
 $encoding = [Text.Encoding]::GetEncoding(28591)
 $original = [IO.File]::ReadAllText($source, $encoding)
 $pattern = '(?m)^(\s*TINTE\s*=\s*)30\.000000D\+00'
@@ -28,7 +32,7 @@ $version = (& $Compiler --version | Out-String).Trim()
 if ($LASTEXITCODE -ne 0) { throw 'Compiler version check failed.' }
 foreach ($day in $Days) {
     if ($day -notin @(1, 5, 30)) { throw 'Supported durations: 1, 5, 30 days.' }
-    $destination = Join-Path $OutputRoot "us76_${day}day"
+    $destination = Join-Path $OutputRoot "us76/420000kg/SD6/${day}Day"
     if (Test-Path $destination) { throw "Reference already exists: $destination. Choose a new OutputRoot." }
     $buildDir = Join-Path $repoRoot "build/reference-us76-${day}day"
     New-Item -ItemType Directory -Force $buildDir | Out-Null
@@ -38,7 +42,7 @@ foreach ($day in $Days) {
     $scenario = [regex]::Replace($original, $pattern, ('${1}' + "$day.000000D+00"))
     [IO.File]::WriteAllText($scenarioSource, $scenario, $encoding)
     $exe = Join-Path $buildDir 'simulation.exe'
-    $compileArgs = $flags + @(('"' + $scenarioSource + '"'), '-o', ('"' + $exe + '"'))
+    $compileArgs = $flags + @('-J', ('"' + $buildDir + '"')) + @($modules | ForEach-Object { '"' + $_ + '"' }) + @(('"' + $scenarioSource + '"'), '-o', ('"' + $exe + '"'))
     $compile = Start-Process -FilePath $Compiler -ArgumentList $compileArgs -WindowStyle Hidden -Wait -PassThru -RedirectStandardError (Join-Path $destination 'compile.log')
     if ($compile.ExitCode -ne 0) { throw "Compilation failed for $day days." }
     $timer = [Diagnostics.Stopwatch]::StartNew()
@@ -72,6 +76,7 @@ foreach ($day in $Days) {
     [ordered]@{
         duration_days=$day; generated_utc=[DateTime]::UtcNow.ToString('o'); compiler=$version
         flags=$flags; source=$source; source_sha256=$sourceHash
+        module_sources=@($modules | ForEach-Object { @{ path=$_; sha256=(Get-FileHash $_).Hash } })
         scenario_source_sha256=(Get-FileHash $scenarioSource).Hash; source_change="TINTE = $day.000000D+00"
         elapsed_seconds=$timer.Elapsed.TotalSeconds; final_time_days=$lastTime; outputs=$outputs
     } | ConvertTo-Json -Depth 6 | Set-Content (Join-Path $destination 'manifest.json') -Encoding UTF8

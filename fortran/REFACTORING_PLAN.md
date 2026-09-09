@@ -5,13 +5,13 @@
 Preparar o simulador para testes unitários e futura migração para Kotlin ou
 Rust, preservando o comportamento numérico a cada alteração estrutural.
 
-- [x] Criar `traj_us76.f90`, cópia byte a byte de `legacy_traj_us76_30dias_420000kg.for`.
+- [x] Criar `traj_us76_30dias_420000kg_updated.f90`, cópia byte a byte de `traj_us76_30dias_420000kg_legacy.for`.
 - [x] Preservar o legado e as referências de 1, 5 e 30 dias em `../tests/reference/gfortran/`.
 - [x] Documentar este plano. A implementação começou pelo executor de regressão P1.
 
 O nome `.f90` identifica o formato livre; não significa que o código já foi
 modernizado. O script `generate-references.ps1` continua usando o arquivo
-`legacy_...for`. As futuras execuções do candidato devem usar `traj_us76.f90`
+`..._legacy.for`. As futuras execuções do candidato devem usar `traj_us76_30dias_420000kg_updated.f90`
 e gravar em `build/`, sem regenerar ou sobrescrever as referências.
 
 ## Mapa do fonte inicial
@@ -30,6 +30,10 @@ As linhas são as da cópia inicial e mudarão durante a refatoração.
 
 ## Prioridades e acompanhamento
 
+Round ativo: [Round 1 — branch, PR e validação por rodada](REFACTORING_ROUND_1.md).
+Todas as próximas rodadas deste round devem usar `refactor/round-1` e o mesmo
+PR aberto, com destino a `main`. Não fazer merge nem encerrar o PR durante o round.
+
 Executar na ordem abaixo. A revisão de precisão é a última etapa; nas etapas
 P1–P6, preservar a precisão efetiva, as expressões e a ordem das operações.
 Ajustes de interfaces/dimensões necessários para a compilação de P2 devem ser
@@ -41,12 +45,24 @@ quanto na futura migração para Kotlin ou Rust.
 | Prioridade | Ponto | Estado | Detalhamento |
 | --- | --- | --- | --- |
 | P1 | Proteção de regressão e comparação com referências | Em andamento | [Regressão](REFACTORING_REGRESSION.md) |
-| P2 | Módulos, interfaces e extração de procedimentos testáveis | Pendente | [Módulos e testes](REFACTORING_MODULES_TESTS.md) |
+| P2 | Módulos, interfaces e extração de procedimentos testáveis | Em andamento | [Módulos e testes](REFACTORING_MODULES_TESTS.md) |
 | P3 | Separação de inputs, configurações, constantes e estado | Pendente | [Configuração e composição](REFACTORING_CONFIGURATION.md) |
 | P4 | Eliminação de todos os GOTOs do candidato | Pendente | [Fluxo estruturado](REFACTORING_CONTROL_FLOW.md) |
 | P5 | Dimensões, inicialização e persistência das variáveis | Pendente | [Correção das declarações e estado](REFACTORING_CORRECTNESS.md) |
 | P6 | Isolamento de I/O e contratos para portabilidade | Pendente | [I/O e portabilidade](REFACTORING_IO_PORTABILITY.md) |
 | P7 — última | Revisão da precisão: usar o máximo da precisão nativa disponível | Pendente | [Precisão numérica](REFACTORING_PRECISION.md) |
+
+Detalhamento adicional de P1: [Diagnóstico numérico](REFACTORING_NUMERIC_DIAGNOSTICS.md).
+Cobertura e organização: [Cenários SD1 a SD7](REFACTORING_SCENARIOS.md).
+Extração de P2: [Transformações de coordenadas](REFACTORING_COORDINATE_TRANSFORMS.md).
+Extração de P2: [Estado orbital relativo](REFACTORING_ORBITAL_STATE.md).
+Extração de P2: [Normalização do tempo](REFACTORING_TIME_NORMALIZATION.md).
+Organização de P2: [Programa e módulo de dinâmica](REFACTORING_DYNAMICS_MODULE.md).
+Interfaces de P2: [Tipos explícitos do RA15](REFACTORING_RADAU_TYPES.md).
+Interfaces de P2: [Contratos dos argumentos](REFACTORING_ARGUMENT_CONTRACTS.md).
+Pré-requisito de P2 antecipado de P5: [Dimensões do RA15](REFACTORING_RADAU_DIMENSIONS.md).
+P2 prossegue com a proteção byte a byte de SD6; a ampliação de P1 foi isolada
+por falhas de inicialização no legado, conforme o detalhamento de cenários.
 
 ## Regra para detalhamento e rastreabilidade
 
@@ -73,3 +89,13 @@ executado, maior erro encontrado e eventuais limitações. Uma diferença
 inesperada interrompe a sequência de refatorações até ser entendida.
 As referências atuais cobrem US76/SD=6; outros modos precisam de casos
 próprios. Compatibilidade com o legado não constitui validação física.
+
+Extração de P2: [Densidade atmosférica US76](REFACTORING_ATMOSPHERE_DENSITY.md),
+concluída e validada na rodada 12 (unitários e regressão 27/27 byte a byte).
+
+Configuração de P2: fpm/test-drive concluídos na rodada 13, com dependências
+fixadas, quatro suítes compartilhadas e regressão 27/27 byte a byte.
+Detalhes e comando em [fpm e test-drive](REFACTORING_FPM.md).
+
+Extração de P2: [Aceleração de arrasto](REFACTORING_DRAG_ACCELERATION.md),
+concluída na rodada 14: magnitude/componentes SI puros, cinco suítes aprovadas nos dois executores e regressão 27/27 byte a byte.
