@@ -1,0 +1,82 @@
+﻿{
+    "duration_days":  1,
+    "generated_utc":  "2026-09-08T23:47:51.8729041Z",
+    "compiler":  "GNU Fortran (MinGW-W64 x86_64-ucrt-posix-seh, built by Brecht Sanders, r1) 16.2.0\r\nCopyright (C) 2026 Free Software Foundation, Inc.\r\nThis is free software; see the source for copying conditions.  There is NO\r\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+    "flags":  [
+                  "-std=legacy",
+                  "-ffree-form",
+                  "-ffree-line-length-none",
+                  "-O0"
+              ],
+    "source":  "fortran/legacy_traj_us76_30dias_420000kg.for",
+    "source_sha256":  "D4FDDCD6FE17EA9045C99183810A6311441A6B1C27761FAB7B95080F5B8FAAB5",
+    "scenario_source_sha256":  "B316E21932994CF41D38B6E618F50622668F3B6F2CC3EF188C017364BB215674",
+    "source_change":  "TINTE = 1.000000D+00",
+    "elapsed_seconds":  3.1279708999999998,
+    "final_time_days":  1,
+    "outputs":  [
+                    {
+                        "name":  "ECEF",
+                        "rows":  385,
+                        "columns":  5,
+                        "bytes":  79310,
+                        "sha256":  "64D481C1246615832CC10856038E8AD076B077339DE499095D0528EEB4A1EDD8"
+                    },
+                    {
+                        "name":  "ECI",
+                        "rows":  385,
+                        "columns":  5,
+                        "bytes":  79310,
+                        "sha256":  "0B64048AEA8BBA0B248DFA9CAAB8C9591D800A4583EB4FEF1AF6A9ED5D92C21C"
+                    },
+                    {
+                        "name":  "EOG",
+                        "rows":  385,
+                        "columns":  15,
+                        "bytes":  179410,
+                        "sha256":  "9AFA9871A90675A9657C31C0D1E5C5E029C7AF82CF17E0AABE64F97CA96B7ABD"
+                    },
+                    {
+                        "name":  "GRT",
+                        "rows":  385,
+                        "columns":  3,
+                        "bytes":  30800,
+                        "sha256":  "0FA09D86D14B0D757D21E86F6ABC15AC2EB5947AC915AEC222174A07664BEF60"
+                    },
+                    {
+                        "name":  "IAA",
+                        "rows":  385,
+                        "columns":  6,
+                        "bytes":  95095,
+                        "sha256":  "A4986037D4C399294F0EEB32528365ED7305418D0F503A5FD7616C035CE1C720"
+                    },
+                    {
+                        "name":  "Lua",
+                        "rows":  385,
+                        "columns":  3,
+                        "bytes":  30800,
+                        "sha256":  "68B4850D022D78CBBBD585430F38067F203C2CAC1D43E8995FD1ECD8E9FBAD51"
+                    },
+                    {
+                        "name":  "TPH",
+                        "rows":  385,
+                        "columns":  9,
+                        "bytes":  107800,
+                        "sha256":  "27B846BDFAFD814100C62F83F3181B1E2677AD5E563443DB11418CA59738C1D3"
+                    },
+                    {
+                        "name":  "USS76",
+                        "rows":  5788,
+                        "columns":  2,
+                        "bytes":  312552,
+                        "sha256":  "C93960E3B6BC3F661950732CC5DE19960CDB5D9F431AB04365D8FEDCDE69D4EB"
+                    },
+                    {
+                        "name":  "V24",
+                        "rows":  385,
+                        "columns":  6,
+                        "bytes":  71995,
+                        "sha256":  "2A5323CF68FDBC0FF774345C241CEC14DF95C67AD6BA04A32E0FB646DBFEB4A4"
+                    }
+                ]
+}

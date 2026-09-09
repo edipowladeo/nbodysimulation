@@ -7,3 +7,10 @@ O código calcula trajetórias gravitacionais de N corpos, com aplicações na s
 A pasta [`Dinamica-Veiculos-Espaciais/`](Dinamica-Veiculos-Espaciais/) foi adicionada ao repositório e contém o material da matéria, incluindo aulas, informações de apoio e o código original em Fortran.
 
 O projeto está na etapa inicial de organização do material de referência. A linguagem de destino do port ainda será definida.
+
+Os códigos da simulação também estão disponíveis na raiz para facilitar o port:
+
+- [`fortran-legacy/`](fortran-legacy/): três fontes únicos, nomeados pelo modelo atmosférico, duração e massa da nave. Veja as [diferenças entre as versões](fortran-legacy/README.md).
+- [`matlab/`](matlab/): cinco MATLAB Live Scripts com cálculos e estudos orbitais.
+
+Essas pastas contêm cópias dos arquivos originais, preservados junto ao material da matéria. Os exemplos e ferramentas do compilador permanecem na pasta da matéria.

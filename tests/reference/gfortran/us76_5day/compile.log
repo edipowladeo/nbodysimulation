@@ -1,0 +1,50 @@
+C:\Users\edipo\repo\nbodysimulation\build\reference-us76-5day\scenario.for:1407:22:
+
+ 1407 |           CALL FORCE (X, V, ZERO, F1,Cd,Ad,Be,M1,M2,M3,M4,PERT)
+      |                      1
+Warning: Actual argument contains too few elements for dummy argument 'p' (1/12) at (1)
+C:\Users\edipo\repo\nbodysimulation\build\reference-us76-5day\scenario.for:1407:25:
+
+ 1407 |           CALL FORCE (X, V, ZERO, F1,Cd,Ad,Be,M1,M2,M3,M4,PERT)
+      |                         1
+Warning: Actual argument contains too few elements for dummy argument 'v' (1/12) at (1)
+C:\Users\edipo\repo\nbodysimulation\build\reference-us76-5day\scenario.for:1426:65:
+
+ 1426 |           IF(fixed.and.DABS(DIR*TM-OUT+OS).le.1.d-8) call OUTPUT(X,V,TM,Phi,Lab,Elev)
+      |                                                                 1
+Warning: Actual argument contains too few elements for dummy argument 'x' (1/12) at (1)
+C:\Users\edipo\repo\nbodysimulation\build\reference-us76-5day\scenario.for:1426:67:
+
+ 1426 |           IF(fixed.and.DABS(DIR*TM-OUT+OS).le.1.d-8) call OUTPUT(X,V,TM,Phi,Lab,Elev)
+      |                                                                   1
+Warning: Actual argument contains too few elements for dummy argument 'v' (1/12) at (1)
+C:\Users\edipo\repo\nbodysimulation\build\reference-us76-5day\scenario.for:1429:26:
+
+ 1429 |               call OUTPUT(X,V,TM,Phi,Lab,Elev)
+      |                          1
+Warning: Actual argument contains too few elements for dummy argument 'x' (1/12) at (1)
+C:\Users\edipo\repo\nbodysimulation\build\reference-us76-5day\scenario.for:1429:28:
+
+ 1429 |               call OUTPUT(X,V,TM,Phi,Lab,Elev)
+      |                            1
+Warning: Actual argument contains too few elements for dummy argument 'v' (1/12) at (1)
+C:\Users\edipo\repo\nbodysimulation\build\reference-us76-5day\scenario.for:1562:26:
+
+ 1562 |               CALL OUTPUT(X,V,TM,Phi,Lab,Elev)
+      |                          1
+Warning: Actual argument contains too few elements for dummy argument 'x' (1/12) at (1)
+C:\Users\edipo\repo\nbodysimulation\build\reference-us76-5day\scenario.for:1562:28:
+
+ 1562 |               CALL OUTPUT(X,V,TM,Phi,Lab,Elev)
+      |                            1
+Warning: Actual argument contains too few elements for dummy argument 'v' (1/12) at (1)
+C:\Users\edipo\repo\nbodysimulation\build\reference-us76-5day\scenario.for:1569:30:
+
+ 1569 |               78  CALL FORCE (X,V,TM,F1,Cd,Ad,Be,M1,M2,M3,M4,PERT)
+      |                              1
+Warning: Actual argument contains too few elements for dummy argument 'p' (1/12) at (1)
+C:\Users\edipo\repo\nbodysimulation\build\reference-us76-5day\scenario.for:1569:32:
+
+ 1569 |               78  CALL FORCE (X,V,TM,F1,Cd,Ad,Be,M1,M2,M3,M4,PERT)
+      |                                1
+Warning: Actual argument contains too few elements for dummy argument 'v' (1/12) at (1)
