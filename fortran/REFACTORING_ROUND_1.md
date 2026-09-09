@@ -72,3 +72,9 @@ rotinas extraídas complementam a regressão e devem passar antes do commit.
   com alvos explícitos e dependência fixada. Quatro suítes aprovadas nos dois
   executores; regressão 27/27 byte a byte em 2026-09-09.
   Relatório: `build/regression-20260909-182623-871c5fab69b64c5fb00bcb56ff90dd86/regression.json`.
+
+- Rodada 14: [aceleração de arrasto](REFACTORING_DRAG_ACCELERATION.md),
+  quatro atribuições extraídas em rotina pura com expressões preservadas.
+  Cinco suítes aprovadas nos executores independente e fpm/test-drive;
+  regressão 27/27 byte a byte em 2026-09-09.
+  Relatório: `build/regression-20260909-191115-37880e6f45f14d6bab99b61d8f559119/regression.json`.

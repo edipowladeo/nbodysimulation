@@ -96,3 +96,6 @@ concluída e validada na rodada 12 (unitários e regressão 27/27 byte a byte).
 Configuração de P2: fpm/test-drive concluídos na rodada 13, com dependências
 fixadas, quatro suítes compartilhadas e regressão 27/27 byte a byte.
 Detalhes e comando em [fpm e test-drive](REFACTORING_FPM.md).
+
+Extração de P2: [Aceleração de arrasto](REFACTORING_DRAG_ACCELERATION.md),
+concluída na rodada 14: magnitude/componentes SI puros, cinco suítes aprovadas nos dois executores e regressão 27/27 byte a byte.

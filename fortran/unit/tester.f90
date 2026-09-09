@@ -3,6 +3,7 @@ program tester
   use testdrive, only: new_unittest, unittest_type, error_type, check, run_testsuite
   use test_atmosphere_density, only: run_test_atmosphere_density
   use test_coordinate_transforms, only: run_test_coordinate_transforms
+  use test_drag_acceleration, only: run_test_drag_acceleration
   use test_orbital_state, only: run_test_orbital_state
   use test_time_normalization, only: run_test_time_normalization
   implicit none
@@ -16,6 +17,7 @@ contains
     tests = [ &
       new_unittest('atmosphere_density', test_atmosphere_density), &
       new_unittest('coordinate_transforms', test_coordinate_transforms), &
+      new_unittest('drag_acceleration', test_drag_acceleration), &
       new_unittest('orbital_state', test_orbital_state), &
       new_unittest('time_normalization', test_time_normalization) ]
   end subroutine
@@ -30,6 +32,12 @@ contains
     integer :: failures
     call run_test_coordinate_transforms(failures)
     call check(error, failures, 0, 'coordinate_transforms checks failed')
+  end subroutine
+  subroutine test_drag_acceleration(error)
+    type(error_type), allocatable, intent(out) :: error
+    integer :: failures
+    call run_test_drag_acceleration(failures)
+    call check(error, failures, 0, 'drag_acceleration checks failed')
   end subroutine
   subroutine test_orbital_state(error)
     type(error_type), allocatable, intent(out) :: error

@@ -48,3 +48,10 @@ Executor unitário disponível: `powershell -NoProfile -ExecutionPolicy Bypass -
   Biblioteca, candidato e quatro suítes com alvos explícitos e dependência
   fixada; executor independente preservado. Testes e regressão 27/27 byte
   a byte aprovados. O item de configuração acima está atendido nesta rodada.
+
+## Rodada 14 — aceleração de arrasto
+
+- [x] Extração validada: [detalhamento](REFACTORING_DRAG_ACCELERATION.md).
+Magnitude e componentes SI isolados; transformações e I/O permanecem em Arrasto.
+Cinco suítes aprovadas nos executores independente e test-drive; regressão
+27/27 byte a byte. Demais acelerações permanecem pendentes.

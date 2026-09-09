@@ -802,6 +802,7 @@ contains
 
           Subroutine Arrasto(Xg,Yg,Zg,Vxg,Vyg,Vzg,TA,Cd,Ad,M4,Arx,Ary,Arz)
               use atmosphere_density, only: us76_density
+              use drag_acceleration, only: drag_acceleration_si
 
               Implicit None
               intent(in) :: Xg,Yg,Zg,Vxg,Vyg,Vzg,TA,Cd,Ad,M4
@@ -846,11 +847,7 @@ contains
               !-----------------------------------------------------------------------------------
               !     CUIDADO COM AS UNIDADES: de [kg/m3]; Ad [m2]; Vg [uc/ut]; M4 [kg]
 
-              Ac  = ((0.5)*(de)*Cd*Ad*(V**2))/(M4)                  !m/s2
-
-              Ax  = - (Ac*Vx/V)                                     !m/s2
-              Ay  = - (Ac*Vy/V) 	     				              !m/s2
-              Az  = - (Ac*Vz/V)    					              !m/s2
+              Call drag_acceleration_si(de,Cd,Ad,M4,Vx,Vy,Vz,V,Ac,Ax,Ay,Az)
 
               Deg = Dsqrt( Ax**2 + Ay**2 + Az**2 )                  !m/s2
 
