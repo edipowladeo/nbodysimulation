@@ -7,10 +7,10 @@ Estado: em andamento. Prioridade: P1.
 - [x] Compilar a cópia inicial com as mesmas flags das referências:
   `-std=legacy -ffree-form -ffree-line-length-none -O0`.
 - [x] Executar 1, 5 e 30 dias e estabelecer a comparação byte a byte dos nove arquivos.
-- [ ] Implementar comparador numérico, preferencialmente em Fortran, conferindo
+- [x] Implementar comparador numérico em Fortran, conferindo
   arquivos presentes, registros, colunas, tempos, valores finitos e diferenças.
-- [ ] Registrar erro absoluto/relativo máximo e primeiro registro divergente
-  por arquivo e coluna. Comparar por `abs(a-b) <= atol + rtol*abs(b)`.
+- [x] Registrar erro absoluto/relativo máximo e primeiro registro divergente
+  por arquivo e coluna. Detalhes: [Diagnóstico numérico](REFACTORING_NUMERIC_DIAGNOSTICS.md).
 - [ ] Definir tolerâncias por grandeza e unidade, respeitando as cinco casas
   decimais de várias saídas; usar distância angular periódica quando aplicável.
   Inicialmente procurar igualdade exata dos números com o mesmo compilador.
@@ -34,8 +34,10 @@ Logs de compilação/execução e manifestos não são saídas numéricas compar
 byte a byte, pois contêm caminhos e tempos de execução.
 
 O `.gitattributes` preserva os bytes dos arquivos de referência em novos checkouts.
-O comparador numérico diagnóstico e as tolerâncias por grandeza continuam
-pendentes; não são utilizados para aprovar uma divergência de bytes.
+O comparador numérico diagnóstico foi implementado em Fortran. As tolerâncias
+por grandeza continuam pendentes; não são utilizadas para aprovar divergências
+de bytes. Qualquer futura análise por `abs(a-b) <= atol + rtol*abs(b)` deve
+justificar tolerâncias e alinhamento temporal antes de interpretar os erros.
 
 Validação em 2026-09-08: **27/27 arquivos idênticos byte a byte**, cenários
 de 1, 5 e 30 dias, gfortran 16.2.0 e flags originais. Candidato sem mudanças

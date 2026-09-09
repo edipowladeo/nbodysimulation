@@ -28,5 +28,8 @@ rotinas extraídas complementam a regressão e devem passar antes do commit.
 - Rodada inicial do branch: registro deste fluxo; cálculos permanecem intactos.
   Validação em 2026-09-08: 1, 5 e 30 dias aprovados, 27/27 arquivos byte a byte.
   Relatório local: `build/regression-20260909-004945-e300c272fa1845cbbde15da0a0b2e1ce/regression.json`.
-- Próximo passo técnico: continuar P1 com diagnóstico numérico de divergências,
-  antes das extrações de P2. P1 permanece em andamento.
+- Rodada técnica 1: [diagnóstico numérico em Fortran](REFACTORING_NUMERIC_DIAGNOSTICS.md)
+  integrado ao executor; 11 casos controlados aprovados. P1 permanece em andamento.
+  Regressão aprovada: 1, 5 e 30 dias, 27/27 arquivos byte a byte e diagnósticos
+  numéricos com código 0. Relatório local:
+  `build/regression-20260909-011850-e72b6175c3a24b1f8ee5f488f9aadd66/regression.json`.

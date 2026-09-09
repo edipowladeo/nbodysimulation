@@ -52,6 +52,8 @@ quanto na futura migração para Kotlin ou Rust.
 | P6 | Isolamento de I/O e contratos para portabilidade | Pendente | [I/O e portabilidade](REFACTORING_IO_PORTABILITY.md) |
 | P7 — última | Revisão da precisão: usar o máximo da precisão nativa disponível | Pendente | [Precisão numérica](REFACTORING_PRECISION.md) |
 
+Detalhamento adicional de P1: [Diagnóstico numérico](REFACTORING_NUMERIC_DIAGNOSTICS.md).
+
 ## Regra para detalhamento e rastreabilidade
 
 Todo ponto de refatoração que receber detalhamento deve ter um arquivo `.md`
