@@ -1,5 +1,6 @@
 param(
     [int[]]$Days = @(1, 5, 30),
+    [ValidateSet(1,2,3,4,5,6,7)][int[]]$Systems = @(1,2,3,4,5,6,7),
     [string]$Compiler = '',
     [string]$OutputRoot = '',
     [string]$Source = ''
@@ -23,19 +24,23 @@ $encoding = [Text.Encoding]::GetEncoding(28591)
 $original = [IO.File]::ReadAllText($source, $encoding)
 $pattern = '(?m)^(\s*TINTE\s*=\s*)30\.000000D\+00'
 if ([regex]::Matches($original, $pattern).Count -ne 1) { throw 'Expected exactly one original TINTE assignment.' }
+$systemPattern = '(?m)^(\s*SD\s*=\s*)6(?=\s*(?:!|$))'
+if ([regex]::Matches($original, $systemPattern).Count -ne 1) { throw 'Expected exactly one original SD assignment.' }
 $flags = @('-std=legacy', '-ffree-form', '-ffree-line-length-none', '-O0')
 $version = (& $Compiler --version | Out-String).Trim()
 if ($LASTEXITCODE -ne 0) { throw 'Compiler version check failed.' }
+foreach ($system in $Systems) {
 foreach ($day in $Days) {
     if ($day -notin @(1, 5, 30)) { throw 'Supported durations: 1, 5, 30 days.' }
-    $destination = Join-Path $OutputRoot "us76/420000kg/SD6/${day}Day"
+    $destination = Join-Path $OutputRoot "us76/420000kg/SD${system}/${day}Day"
     if (Test-Path $destination) { throw "Reference already exists: $destination. Choose a new OutputRoot." }
-    $buildDir = Join-Path $repoRoot "build/reference-us76-${day}day"
+    $buildDir = Join-Path $repoRoot ("build/scenario-SD${system}-${day}day-" + [Guid]::NewGuid().ToString('N'))
     New-Item -ItemType Directory -Force $buildDir | Out-Null
     New-Item -ItemType Directory $destination | Out-Null
     $destination = (Resolve-Path $destination).Path
     $scenarioSource = Join-Path $buildDir 'scenario.for'
     $scenario = [regex]::Replace($original, $pattern, ('${1}' + "$day.000000D+00"))
+    $scenario = [regex]::Replace($scenario, $systemPattern, ('${1}' + $system))
     [IO.File]::WriteAllText($scenarioSource, $scenario, $encoding)
     $exe = Join-Path $buildDir 'simulation.exe'
     $compileArgs = $flags + @(('"' + $scenarioSource + '"'), '-o', ('"' + $exe + '"'))
@@ -45,7 +50,9 @@ foreach ($day in $Days) {
     $run = Start-Process -FilePath $exe -WorkingDirectory $destination -WindowStyle Hidden -Wait -PassThru -RedirectStandardOutput (Join-Path $destination 'stdout.txt') -RedirectStandardError (Join-Path $destination 'stderr.txt')
     if ($run.ExitCode -ne 0) { throw "Simulation failed for $day days." }
     $timer.Stop()
-    $expected = @{ ECI=5; EOG=15; V24=6; Lua=3; ECEF=5; GRT=3; TPH=9; IAA=6; USS76=2 }
+    $expected = @{ ECI=5; EOG=15; V24=6; Lua=3; ECEF=5; GRT=3; TPH=9; IAA=6 }
+    if ($system -in @(4,6)) { $expected.USS76 = 2 }
+    elseif (Test-Path (Join-Path $destination 'USS76')) { throw "Unexpected drag output for SD$system" }
     $outputs = @()
     foreach ($name in ($expected.Keys | Sort-Object)) {
         $path = Join-Path $destination $name
@@ -70,10 +77,11 @@ foreach ($day in $Days) {
         $outputs += [ordered]@{ name=$name; rows=$count; columns=$expected[$name]; bytes=(Get-Item $path).Length; sha256=(Get-FileHash $path).Hash }
     }
     [ordered]@{
-        duration_days=$day; generated_utc=[DateTime]::UtcNow.ToString('o'); compiler=$version
+        dynamic_system=$system; duration_days=$day; generated_utc=[DateTime]::UtcNow.ToString('o'); compiler=$version
         flags=$flags; source=$source; source_sha256=$sourceHash
-        scenario_source_sha256=(Get-FileHash $scenarioSource).Hash; source_change="TINTE = $day.000000D+00"
+        scenario_source_sha256=(Get-FileHash $scenarioSource).Hash; source_change="TINTE = $day.000000D+00; SD = $system"
         elapsed_seconds=$timer.Elapsed.TotalSeconds; final_time_days=$lastTime; outputs=$outputs
     } | ConvertTo-Json -Depth 6 | Set-Content (Join-Path $destination 'manifest.json') -Encoding UTF8
-    Write-Host "Validated $day days: $destination ($($timer.Elapsed.TotalSeconds) seconds)."
+    Write-Host "Validated SD$system / $day days: $destination ($($timer.Elapsed.TotalSeconds) seconds)."
+}
 }

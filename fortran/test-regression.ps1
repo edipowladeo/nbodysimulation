@@ -1,4 +1,7 @@
-param([string]$Compiler = '')
+param(
+    [string]$Compiler = '',
+    [ValidateSet(1,2,3,4,5,6,7)][int[]]$Systems = @(1,2,3,4,5,6,7)
+)
 $ErrorActionPreference = 'Stop'
 $repoRoot = Split-Path $PSScriptRoot -Parent
 $runRoot = Join-Path $repoRoot ('build/regression-' + [DateTime]::UtcNow.ToString('yyyyMMdd-HHmmss') + '-' + [Guid]::NewGuid().ToString('N'))
@@ -11,12 +14,15 @@ $comparator = Join-Path $runRoot 'compare-numeric.exe'
 & $Compiler -std=f2008 -Wall -Wextra -Wno-compare-reals -fcheck=all -o $comparator "$PSScriptRoot/compare-numeric.f90"
 if ($LASTEXITCODE -ne 0) { throw 'Diagnostic comparator compilation failed.' }
 $schemas = @{ ECI=@(5,5); ECEF=@(5,5); EOG=@(15,1); GRT=@(3,3); IAA=@(6,1); Lua=@(3,0); TPH=@(9,9); USS76=@(2,0); V24=@(6,1) }
-$names = @('ECI', 'ECEF', 'EOG', 'GRT', 'IAA', 'Lua', 'TPH', 'USS76', 'V24')
 $results = @()
+foreach ($system in $Systems) {
+$names = @('ECI', 'ECEF', 'EOG', 'GRT', 'IAA', 'Lua', 'TPH', 'V24')
+if ($system -in @(4,6)) { $names += 'USS76' }
 foreach ($day in @(1, 5, 30)) {
-    & "$PSScriptRoot/generate-references.ps1" -Days $day -Compiler $Compiler -Source $source -OutputRoot $runRoot
-    $actualDir = Join-Path $runRoot "us76/420000kg/SD6/${day}Day"
-    $referenceDir = Join-Path $references "us76/420000kg/SD6/${day}Day"
+    $referenceDir = Join-Path $references "us76/420000kg/SD${system}/${day}Day"
+    if (!(Test-Path (Join-Path $referenceDir 'manifest.json'))) { throw "Missing baseline: $referenceDir" }
+    & "$PSScriptRoot/generate-references.ps1" -Days $day -Systems $system -Compiler $Compiler -Source $source -OutputRoot $runRoot
+    $actualDir = Join-Path $runRoot "us76/420000kg/SD${system}/${day}Day"
     $baseline = Get-Content -Raw (Join-Path $referenceDir 'manifest.json') | ConvertFrom-Json
     $actual = Get-Content -Raw (Join-Path $actualDir 'manifest.json') | ConvertFrom-Json
     if ($actual.compiler -cne $baseline.compiler -or ($actual.flags -join ' ') -cne ($baseline.flags -join ' ')) {
@@ -33,12 +39,13 @@ foreach ($day in @(1, 5, 30)) {
         $equal = [Convert]::ToBase64String([IO.File]::ReadAllBytes($expectedPath)) -ceq [Convert]::ToBase64String([IO.File]::ReadAllBytes($actualPath))
         $diagnosticPath = Join-Path $actualDir "$name.numeric.txt"
         $diagnostic = Start-Process -FilePath $comparator -ArgumentList @(('"' + $expectedPath + '"'), ('"' + $actualPath + '"'), $schemas[$name][0], $schemas[$name][1]) -WindowStyle Hidden -Wait -PassThru -RedirectStandardOutput $diagnosticPath -RedirectStandardError (Join-Path $actualDir "$name.numeric.stderr.txt")
-        $results += [ordered]@{ days=$day; file=$name; byte_exact=$equal; numeric_exit_code=$diagnostic.ExitCode; actual_sha256=(Get-FileHash $actualPath).Hash }
+        $results += [ordered]@{ system=$system; days=$day; file=$name; byte_exact=$equal; numeric_exit_code=$diagnostic.ExitCode; actual_sha256=(Get-FileHash $actualPath).Hash }
     }
-    Write-Host "Compared $day days against immutable references."
+    Write-Host "Compared SD$system / $day days against immutable references."
+}
 }
 $passed = @($results | Where-Object { !$_.byte_exact -or $_.numeric_exit_code -ne 0 }).Count -eq 0
 [ordered]@{ passed=$passed; source_sha256=(Get-FileHash $source).Hash; comparisons=$results } |
     ConvertTo-Json -Depth 6 | Set-Content (Join-Path $runRoot 'regression.json') -Encoding UTF8
 if (!$passed) { throw "Byte differences found. Stop refactoring and investigate: $runRoot/regression.json" }
-Write-Host "PASS: all 27 files are byte-exact. Report: $runRoot/regression.json"
+Write-Host "PASS: all $($results.Count) files are byte-exact. Report: $runRoot/regression.json"

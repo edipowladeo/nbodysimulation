@@ -54,6 +54,7 @@ quanto na futura migração para Kotlin ou Rust.
 
 Detalhamento adicional de P1: [Diagnóstico numérico](REFACTORING_NUMERIC_DIAGNOSTICS.md).
 Cobertura e organização: [Cenários SD1 a SD7](REFACTORING_SCENARIOS.md).
+Tentativa deste branch: [Investigação de cobertura](INVESTIGATION_SD_COVERAGE.md).
 
 ## Regra para detalhamento e rastreabilidade
 

@@ -764,6 +764,8 @@
               !     Importante: laços para consideração da(s) perturbação(ões)
               !-----------------------------------------------------------------------------------
 
+              Acx=0D0; Acy=0D0; Acz=0D0; Arx=0D0; Ary=0D0; Arz=0D0; Aprx=0D0; Apry=0D0; Aprz=0D0
+
               If(PERT == 0) then
                   Goto 5
               Else if(PERT == 1) then
