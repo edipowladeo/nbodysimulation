@@ -21,6 +21,7 @@
           !-----------------------------------------------------------------------------------
           use us76_dynamics, only: RA15
           use coordinate_transforms, only: translate_to_ecliptic
+          use orbital_state, only: elements_to_relative_state
           use time_normalization, only: days_to_normalized_time, normalized_time_to_days
           Implicit none
 
@@ -199,17 +200,8 @@
           !-----------------------------------------------------------------------------------
           !     Corpo 3 (MUITO CUIDADO AQUI):
 
-          P3    =  an3*(1-(e3**2))
-          Ro3   =  P3/(1+e3*Dcosd(f3))
-          Vo3   =  Dsqrt(Mi2*( (2/Ro3) - (1/an3) ))
-
-          X3o   =  Ro3*(Dcosd(OM3)*Dcosd(w3 + f3)         - Dsind(OM3)*Dcosd(i3)*Dsind(w3 + f3))
-          Y3o   =  Ro3*(Dsind(OM3)*Dcosd(w3 + f3)         + Dcosd(OM3)*Dcosd(i3)*Dsind(w3 + f3))
-          Z3o   =  Ro3*Dsind(i3)*Dsind(w3 + f3)
-
-          Vx3o  = - Dsqrt(Mi2/P3)*( Dcosd(OM3)*(Dsind(w3+f3) + e3*Dsind(w3))        + Dsind(OM3)*Dcosd(i3)*(Dcosd(w3+f3) + e3*Dcosd(w3)) )
-          Vy3o  = - Dsqrt(Mi2/P3)*( Dsind(OM3)*(Dsind(w3+f3) + e3*Dsind(w3))        - Dcosd(OM3)*Dcosd(i3)*(Dcosd(w3+f3) + e3*Dcosd(w3)) )
-          Vz3o  =   Dsqrt(Mi2/P3)*( Dsind(i3)*(Dcosd(w3+f3) + e3*Dcosd(w3)))
+          call elements_to_relative_state(an3,e3,i3,OM3,w3,f3,Mi2,P3,Ro3,Vo3, &
+              X3o,Y3o,Z3o,Vx3o,Vy3o,Vz3o)
 
           call translate_to_ecliptic(X(4:6), X3o, Y3o, Z3o, Ec, X(7:9))
 
@@ -219,17 +211,8 @@
           !-----------------------------------------------------------------------------------
           !     Corpo 4 (Sonda):
 
-          P4    =  an4*(1-(e4**2))
-          Ro4   =  P4/(1+e4*Dcosd(f4))
-          Vo4   =  Dsqrt(Mi2*( (2/Ro4) - (1/an4) ))
-
-          X4o   =  Ro4*(Dcosd(OM4)*Dcosd(w4 + f4)         - Dsind(OM4)*Dcosd(i4)*Dsind(w4 + f4))
-          Y4o   =  Ro4*(Dsind(OM4)*Dcosd(w4 + f4)         + Dcosd(OM4)*Dcosd(i4)*Dsind(w4 + f4))
-          Z4o   =  Ro4*Dsind(i4)*Dsind(w4 + f4)
-
-          Vx4o  =	- Dsqrt(Mi2/P4)*( Dcosd(OM4)*(Dsind(w4+f4) + e4*Dsind(w4))        + Dsind(OM4)*Dcosd(i4)*(Dcosd(w4+f4) + e4*Dcosd(w4)) )
-          Vy4o  =	- Dsqrt(Mi2/P4)*( Dsind(OM4)*(Dsind(w4+f4) + e4*Dsind(w4))        - Dcosd(OM4)*Dcosd(i4)*(Dcosd(w4+f4) + e4*Dcosd(w4)) )
-          Vz4o  =   Dsqrt(Mi2/P4)*( Dsind(i4)*(Dcosd(w4+f4) + e4*Dcosd(w4)))
+          call elements_to_relative_state(an4,e4,i4,OM4,w4,f4,Mi2,P4,Ro4,Vo4, &
+              X4o,Y4o,Z4o,Vx4o,Vy4o,Vz4o)
 
           call translate_to_ecliptic(X(4:6), X4o, Y4o, Z4o, Ec, X(10:12))
 

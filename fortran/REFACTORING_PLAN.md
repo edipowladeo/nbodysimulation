@@ -55,6 +55,7 @@ quanto na futura migração para Kotlin ou Rust.
 Detalhamento adicional de P1: [Diagnóstico numérico](REFACTORING_NUMERIC_DIAGNOSTICS.md).
 Cobertura e organização: [Cenários SD1 a SD7](REFACTORING_SCENARIOS.md).
 Extração de P2: [Transformações de coordenadas](REFACTORING_COORDINATE_TRANSFORMS.md).
+Extração de P2: [Estado orbital relativo](REFACTORING_ORBITAL_STATE.md).
 Extração de P2: [Normalização do tempo](REFACTORING_TIME_NORMALIZATION.md).
 Organização de P2: [Programa e módulo de dinâmica](REFACTORING_DYNAMICS_MODULE.md).
 Interfaces de P2: [Tipos explícitos do RA15](REFACTORING_RADAU_TYPES.md).

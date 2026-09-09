@@ -27,6 +27,9 @@ rotinas extraídas complementam a regressão e devem passar antes do commit.
 
 ## Acompanhamento
 
+- Rodada 11: [estado orbital relativo da Lua e sonda](REFACTORING_ORBITAL_STATE.md),
+  testes unitários e regressão 27/27 byte a byte aprovados.
+
 - Rodada 10: [contratos de argumentos](REFACTORING_ARGUMENT_CONTRACTS.md),
   testes unitários e regressão 27/27 byte a byte aprovados.
 

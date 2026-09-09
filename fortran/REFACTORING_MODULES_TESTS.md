@@ -4,6 +4,7 @@ Plano principal: [REFACTORING_PLAN.md](REFACTORING_PLAN.md).
 Estado: em andamento. Prioridade: P2.
 
 Primeira extração e testes: [Transformações de coordenadas](REFACTORING_COORDINATE_TRANSFORMS.md).
+Extração validada da Lua e sonda: [Estado orbital relativo](REFACTORING_ORBITAL_STATE.md).
 Segunda extração: [Normalização do tempo](REFACTORING_TIME_NORMALIZATION.md).
 Pré-requisito para interfaces: [Dimensões do RA15](REFACTORING_RADAU_DIMENSIONS.md), antecipado de P5.
 Declarações: [Tipos explícitos do RA15](REFACTORING_RADAU_TYPES.md).
