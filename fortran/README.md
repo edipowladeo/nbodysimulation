@@ -5,6 +5,12 @@ A cópia de trabalho para refatoração é [traj_us76_30dias_420000kg_updated.f9
 ao legado. Etapas e critérios de validação estão em
 [REFACTORING_PLAN.md](REFACTORING_PLAN.md).
 
+Os módulos extraídos ficam em [`src/`](src/) e os testes unitários Fortran em
+[`unit/`](unit/). O programa usa `us76_dynamics`, `coordinate_transforms` e
+`time_normalization`. Execute `test-unit.ps1` com PowerShell/ExecutionPolicy Bypass
+para testar a biblioteca separadamente; o executor de regressão compila os módulos
+automaticamente antes do programa.
+
 [traj_us76_30dias_420000kg_legacy.for](traj_us76_30dias_420000kg_legacy.for) é uma cópia byte a byte de
 `../fortran-legacy/traj_us76_30dias_420000kg.for`: massa de 420.000 kg,
 área de 2.000 m², SD = 6 e duração original de 30 dias. Não foi refatorado.

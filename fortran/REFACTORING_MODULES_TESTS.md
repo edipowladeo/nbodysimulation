@@ -9,6 +9,8 @@ Pré-requisito para interfaces: [Dimensões do RA15](REFACTORING_RADAU_DIMENSION
 Executor unitário disponível: `powershell -NoProfile -ExecutionPolicy Bypass -File fortran/test-unit.ps1`.
 
 - [ ] Organizar biblioteca de cálculo separada do executável e dos testes.
+  Programa e rotinas separados em [módulo de dinâmica](REFACTORING_DYNAMICS_MODULE.md);
+  I/O ainda presente na biblioteca, a isolar em P6.
 - [ ] Configurar `fpm` e `test-drive` para testes unitários em Fortran.
   Manter fontes de referência fora dos alvos compilados, evitando dois programas principais.
 - [ ] Extrair uma rotina por alteração, preservando expressões, ordem de soma,
