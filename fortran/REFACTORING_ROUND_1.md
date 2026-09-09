@@ -17,7 +17,10 @@ Estado: em andamento. Prioridade: seguir P1 a P7 na ordem do plano principal.
 3. Exigir igualdade byte a byte nos nove arquivos de cada cenário: 1, 5 e 30 dias.
 4. Se passar nos 27 arquivos, registrar a evidência, fazer commit e push no branch.
 5. Se falhar, interromper a sequência e investigar a significância da divergência
-   antes de prosseguir. Não atualizar referências nem relaxar o critério para aprovar.
+   e tentar uma correção breve. Se não houver correção ou se o erro for pequeno,
+   preservar a tentativa e um MD de análise em branch `investigation/round-1-*`.
+   Retornar ao último estado aprovado de `refactor/round-1` e seguir com o próximo
+   passo independente. Não atualizar referências nem relaxar o critério para aprovar.
 
 Não incluir alterações locais alheias à refatoração. Os testes unitários das
 rotinas extraídas complementam a regressão e devem passar antes do commit.

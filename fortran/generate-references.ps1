@@ -12,9 +12,9 @@ $Compiler = (Resolve-Path $Compiler).Path
 $compilerPath = "$(Split-Path $Compiler);$env:PATH"
 Remove-Item Env:PATH -ErrorAction SilentlyContinue
 $env:Path = $compilerPath
-if (!$Source) { $Source = Join-Path $PSScriptRoot 'legacy_traj_us76_30dias_420000kg.for' }
+if (!$Source) { $Source = Join-Path $PSScriptRoot 'traj_us76_30dias_420000kg_legacy.for' }
 $source = (Resolve-Path $Source).Path
-if ($source -ne (Join-Path $PSScriptRoot 'legacy_traj_us76_30dias_420000kg.for') -and
+if ($source -ne (Join-Path $PSScriptRoot 'traj_us76_30dias_420000kg_legacy.for') -and
     [IO.Path]::GetFullPath($OutputRoot).StartsWith((Join-Path $repoRoot 'tests/reference'), [StringComparison]::OrdinalIgnoreCase)) {
     throw 'Candidate runs must not write into tests/reference.'
 }
@@ -28,7 +28,7 @@ $version = (& $Compiler --version | Out-String).Trim()
 if ($LASTEXITCODE -ne 0) { throw 'Compiler version check failed.' }
 foreach ($day in $Days) {
     if ($day -notin @(1, 5, 30)) { throw 'Supported durations: 1, 5, 30 days.' }
-    $destination = Join-Path $OutputRoot "us76_${day}day"
+    $destination = Join-Path $OutputRoot "us76/420000kg/SD6/${day}Day"
     if (Test-Path $destination) { throw "Reference already exists: $destination. Choose a new OutputRoot." }
     $buildDir = Join-Path $repoRoot "build/reference-us76-${day}day"
     New-Item -ItemType Directory -Force $buildDir | Out-Null

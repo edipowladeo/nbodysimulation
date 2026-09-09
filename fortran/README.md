@@ -1,10 +1,11 @@
 # Referências do cenário US76
 
-A cópia de trabalho para refatoração é `traj_us76.f90`, inicialmente idêntica
+A versão escolhida é US76, 30 dias, massa de 420.000 kg.
+A cópia de trabalho para refatoração é [traj_us76_30dias_420000kg_updated.f90](traj_us76_30dias_420000kg_updated.f90), inicialmente idêntica
 ao legado. Etapas e critérios de validação estão em
 [REFACTORING_PLAN.md](REFACTORING_PLAN.md).
 
-`legacy_traj_us76_30dias_420000kg.for` é uma cópia byte a byte de
+[traj_us76_30dias_420000kg_legacy.for](traj_us76_30dias_420000kg_legacy.for) é uma cópia byte a byte de
 `../fortran-legacy/traj_us76_30dias_420000kg.for`: massa de 420.000 kg,
 área de 2.000 m², SD = 6 e duração original de 30 dias. Não foi refatorado.
 
@@ -38,7 +39,7 @@ O script compila separadamente 1, 5 e 30 dias, substituindo somente `TINTE`
 em cópias de trabalho em `build/`. Flags:
 `-std=legacy -ffree-form -ffree-line-length-none -O0`.
 
-As referências estão em `tests/reference/gfortran/us76_{1,5,30}day/`.
+As referências estão em `tests/reference/gfortran/us76/420000kg/SD6/{1,5,30}Day/`.
 Cada pasta contém os nove arquivos numéricos originais (`ECI`, `EOG`, `V24`,
 `Lua`, `ECEF`, `GRT`, `TPH`, `IAA`, `USS76`), logs e `manifest.json` com
 compilador, flags, duração, hashes e dimensões dos arquivos. A validação

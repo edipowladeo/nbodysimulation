@@ -11,6 +11,10 @@ O projeto está na etapa inicial de organização do material de referência. A 
 Os códigos da simulação também estão disponíveis na raiz para facilitar o port:
 
 - [`fortran-legacy/`](fortran-legacy/): três fontes únicos, nomeados pelo modelo atmosférico, duração e massa da nave. Veja as [diferenças entre as versões](fortran-legacy/README.md).
-- [`matlab/`](matlab/): cinco MATLAB Live Scripts com cálculos e estudos orbitais.
+- [`matlab/`](matlab/): cinco MATLAB Live Scripts relacionados à disciplina DVE; não fazem parte desta implementação.
+
+A versão escolhida para refatoração é US76, 30 dias, massa de 420.000 kg:
+[fonte legado](fortran/traj_us76_30dias_420000kg_legacy.for) e
+[fonte em refatoração](fortran/traj_us76_30dias_420000kg_updated.f90).
 
 Essas pastas contêm cópias dos arquivos originais, preservados junto ao material da matéria. Os exemplos e ferramentas do compilador permanecem na pasta da matéria.

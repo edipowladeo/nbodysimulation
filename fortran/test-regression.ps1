@@ -3,7 +3,7 @@ $ErrorActionPreference = 'Stop'
 $repoRoot = Split-Path $PSScriptRoot -Parent
 $runRoot = Join-Path $repoRoot ('build/regression-' + [DateTime]::UtcNow.ToString('yyyyMMdd-HHmmss') + '-' + [Guid]::NewGuid().ToString('N'))
 $references = Join-Path $repoRoot 'tests/reference/gfortran'
-$source = Join-Path $PSScriptRoot 'traj_us76.f90'
+$source = Join-Path $PSScriptRoot 'traj_us76_30dias_420000kg_updated.f90'
 if (!$Compiler) { $Compiler = Join-Path $repoRoot '.tools/mingw64/bin/gfortran.exe' }
 $Compiler = (Resolve-Path $Compiler).Path
 New-Item -ItemType Directory -Path $runRoot | Out-Null
@@ -15,8 +15,8 @@ $names = @('ECI', 'ECEF', 'EOG', 'GRT', 'IAA', 'Lua', 'TPH', 'USS76', 'V24')
 $results = @()
 foreach ($day in @(1, 5, 30)) {
     & "$PSScriptRoot/generate-references.ps1" -Days $day -Compiler $Compiler -Source $source -OutputRoot $runRoot
-    $actualDir = Join-Path $runRoot "us76_${day}day"
-    $referenceDir = Join-Path $references "us76_${day}day"
+    $actualDir = Join-Path $runRoot "us76/420000kg/SD6/${day}Day"
+    $referenceDir = Join-Path $references "us76/420000kg/SD6/${day}Day"
     $baseline = Get-Content -Raw (Join-Path $referenceDir 'manifest.json') | ConvertFrom-Json
     $actual = Get-Content -Raw (Join-Path $actualDir 'manifest.json') | ConvertFrom-Json
     if ($actual.compiler -cne $baseline.compiler -or ($actual.flags -join ' ') -cne ($baseline.flags -join ' ')) {

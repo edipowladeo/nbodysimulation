@@ -5,13 +5,13 @@
 Preparar o simulador para testes unitários e futura migração para Kotlin ou
 Rust, preservando o comportamento numérico a cada alteração estrutural.
 
-- [x] Criar `traj_us76.f90`, cópia byte a byte de `legacy_traj_us76_30dias_420000kg.for`.
+- [x] Criar `traj_us76_30dias_420000kg_updated.f90`, cópia byte a byte de `traj_us76_30dias_420000kg_legacy.for`.
 - [x] Preservar o legado e as referências de 1, 5 e 30 dias em `../tests/reference/gfortran/`.
 - [x] Documentar este plano. A implementação começou pelo executor de regressão P1.
 
 O nome `.f90` identifica o formato livre; não significa que o código já foi
 modernizado. O script `generate-references.ps1` continua usando o arquivo
-`legacy_...for`. As futuras execuções do candidato devem usar `traj_us76.f90`
+`..._legacy.for`. As futuras execuções do candidato devem usar `traj_us76_30dias_420000kg_updated.f90`
 e gravar em `build/`, sem regenerar ou sobrescrever as referências.
 
 ## Mapa do fonte inicial
@@ -53,6 +53,7 @@ quanto na futura migração para Kotlin ou Rust.
 | P7 — última | Revisão da precisão: usar o máximo da precisão nativa disponível | Pendente | [Precisão numérica](REFACTORING_PRECISION.md) |
 
 Detalhamento adicional de P1: [Diagnóstico numérico](REFACTORING_NUMERIC_DIAGNOSTICS.md).
+Cobertura e organização: [Cenários SD1 a SD7](REFACTORING_SCENARIOS.md).
 
 ## Regra para detalhamento e rastreabilidade
 

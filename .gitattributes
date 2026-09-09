@@ -1,5 +1,5 @@
 # Preserve golden output bytes and original Fortran sources across checkouts.
 tests/reference/** -text
 fortran-legacy/** -text
-fortran/legacy_*.for -text
-fortran/traj_us76.f90 -text
+fortran/*_legacy.for -text
+fortran/*_updated.f90 -text
