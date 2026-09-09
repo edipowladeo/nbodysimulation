@@ -1,4 +1,5 @@
 module us76_dynamics
+  implicit none
   private
   public :: RA15, Output, Force, PotGrav, Arrasto, PRS
 contains
@@ -1062,7 +1063,9 @@ contains
           !     the final position-velocity vector.
           !     Integration is in double precision. A 64-bit double-word is assumed.
 
-          IMPLICIT REAL*8 (A-H,O-Z)
+          implicit none
+          integer :: j, jd, jdm, k, l, la, lb, lc, ld, le, ll, m, n, nclass, ncount, nf, ni, ns, nv, nw
+          double precision :: a, b, bd, c, d, dir, e, f1, fj, g, gk, h, half, hv, one, os, out, phi, q, r, s, sr, ss, t, t2, temp, tf, tinst, tm, tp, u, v, w, w1, ww, x, xl, y, z, zero
           INTEGER PERT
           REAL*4 TVAL,PW
           REAL*8 Cd,Ad,Be,Lab,M1,M2,M3,M4,Elev

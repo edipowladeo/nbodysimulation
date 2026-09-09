@@ -27,6 +27,9 @@ rotinas extraídas complementam a regressão e devem passar antes do commit.
 
 ## Acompanhamento
 
+- Rodada 9: [tipos explícitos do RA15](REFACTORING_RADAU_TYPES.md), precisão
+  preservada; testes unitários e regressão 27/27 byte a byte aprovados.
+
 - Rodada 8: [programa separado do módulo de dinâmica](REFACTORING_DYNAMICS_MODULE.md),
   testes unitários e regressão 27/27 byte a byte aprovados.
 
