@@ -30,6 +30,10 @@ As linhas são as da cópia inicial e mudarão durante a refatoração.
 
 ## Prioridades e acompanhamento
 
+Round ativo: [Round 1 — branch, PR e validação por rodada](REFACTORING_ROUND_1.md).
+Todas as próximas rodadas deste round devem usar `refactor/round-1` e o mesmo
+PR aberto, com destino a `main`. Não fazer merge nem encerrar o PR durante o round.
+
 Executar na ordem abaixo. A revisão de precisão é a última etapa; nas etapas
 P1–P6, preservar a precisão efetiva, as expressões e a ordem das operações.
 Ajustes de interfaces/dimensões necessários para a compilação de P2 devem ser
