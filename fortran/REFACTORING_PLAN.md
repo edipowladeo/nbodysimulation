@@ -89,3 +89,6 @@ executado, maior erro encontrado e eventuais limitações. Uma diferença
 inesperada interrompe a sequência de refatorações até ser entendida.
 As referências atuais cobrem US76/SD=6; outros modos precisam de casos
 próprios. Compatibilidade com o legado não constitui validação física.
+
+Extração de P2: [Densidade atmosférica US76](REFACTORING_ATMOSPHERE_DENSITY.md),
+concluída e validada na rodada 12 (unitários e regressão 27/27 byte a byte).

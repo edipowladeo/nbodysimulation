@@ -63,3 +63,7 @@ rotinas extraídas complementam a regressão e devem passar antes do commit.
   Regressão aprovada: 1, 5 e 30 dias, 27/27 arquivos byte a byte e diagnósticos
   numéricos com código 0. Relatório local:
   `build/regression-20260909-011850-e72b6175c3a24b1f8ee5f488f9aadd66/regression.json`.
+
+- Rodada 12: [densidade atmosférica US76](REFACTORING_ATMOSPHERE_DENSITY.md),
+  testes unitários e regressão 27/27 byte a byte aprovados em 2026-09-09.
+  Relatório: `build/regression-20260909-134016-8fefa99fe331434398cf8559682b064c/regression.json`.

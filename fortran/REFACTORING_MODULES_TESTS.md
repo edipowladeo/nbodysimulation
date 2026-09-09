@@ -34,3 +34,10 @@ Executor unitário disponível: `powershell -NoProfile -ExecutionPolicy Bypass -
 - [ ] Testar o integrador com problemas de solução conhecida, além da regressão.
   Verificar energia/momento em cenário conservativo; não exigir conservação
   de energia mecânica no cenário com arrasto.
+
+## Rodada 12 — densidade US76
+
+- [x] Isolar densidade e verificar fronteiras e ambos os lados: [detalhamento](REFACTORING_ATMOSPHERE_DENSITY.md).
+  Extração validada com 54 amostras do legado, suíte unitária e regressão
+  27/27 byte a byte; o item de densidade acima está atendido quanto à
+  compatibilidade legada. Validação física do modelo não foi realizada.
