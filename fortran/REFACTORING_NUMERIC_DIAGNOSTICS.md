@@ -14,10 +14,15 @@ A coluna de tempo é 0 quando o arquivo não contém tempo explícito.
 Códigos de saída: 0 para igualdade numérica, 1 para diferença numérica,
 2 para erro estrutural, entrada inválida ou erro de leitura/cálculo diagnóstico.
 
-O executor de regressão roda esse diagnóstico para os 27 arquivos e salva
+O executor de regressão roda esse diagnóstico para os arquivos com bytes diferentes e salva
 `NOME.numeric.txt` e `NOME.numeric.stderr.txt` junto às saídas de cada cenário.
-O relatório JSON inclui o código de saída do comparador. Aprovação exige
-simultaneamente igualdade de bytes e diagnóstico sem erros.
+O relatório JSON registra se o diagnóstico foi executado e seu código de saída
+(null quando não executado). Aprovação exige igualdade de bytes e, quando
+executado, diagnóstico sem erros. `-FullNumericDiagnostics` força a análise
+numérica de todos os arquivos. Arquivos byte a byte idênticos já têm valores
+numericamente iguais; formato, finitude e duração continuam validados em todos
+os cenários pelo gerador. Essa mudança evita analisar numericamente a mesma
+informação durante cada rodada, sem relaxar o critério de aprovação.
 
 ## Interpretação
 
@@ -43,3 +48,7 @@ formatação diferente, diferença de valor, diferença temporal, referência ze
 quantidade de linhas, coluna extra, coluna ausente, NaN, overflow, sintaxe de
 lista inválida e entrada vazia. Formatação diferente pode ter igualdade numérica,
 mas continuará reprovada pelo requisito de bytes do executor de regressão.
+
+Rodada do diagnóstico sob demanda: 11 testes do comparador, testes unitários
+e regressão de 1, 5 e 30 dias aprovados; 27/27 arquivos byte a byte.
+`build/regression-20260909-033530-a146ce001af949fb9a4dce93dbcc9aaf/regression.json`.

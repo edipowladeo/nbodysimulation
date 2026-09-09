@@ -1,4 +1,4 @@
-param([string]$Compiler = '')
+param([string]$Compiler = '', [switch]$FullNumericDiagnostics)
 $ErrorActionPreference = 'Stop'
 $repoRoot = Split-Path $PSScriptRoot -Parent
 $runRoot = Join-Path $repoRoot ('build/regression-' + [DateTime]::UtcNow.ToString('yyyyMMdd-HHmmss') + '-' + [Guid]::NewGuid().ToString('N'))
@@ -31,13 +31,18 @@ foreach ($day in @(1, 5, 30)) {
         }
         # Base64 is a lossless encoding: equality checks every byte, including whitespace.
         $equal = [Convert]::ToBase64String([IO.File]::ReadAllBytes($expectedPath)) -ceq [Convert]::ToBase64String([IO.File]::ReadAllBytes($actualPath))
-        $diagnosticPath = Join-Path $actualDir "$name.numeric.txt"
-        $diagnostic = Start-Process -FilePath $comparator -ArgumentList @(('"' + $expectedPath + '"'), ('"' + $actualPath + '"'), $schemas[$name][0], $schemas[$name][1]) -WindowStyle Hidden -Wait -PassThru -RedirectStandardOutput $diagnosticPath -RedirectStandardError (Join-Path $actualDir "$name.numeric.stderr.txt")
-        $results += [ordered]@{ days=$day; file=$name; byte_exact=$equal; numeric_exit_code=$diagnostic.ExitCode; actual_sha256=(Get-FileHash $actualPath).Hash }
+        $diagnosticCode = $null
+        $diagnosticRan = !$equal -or $FullNumericDiagnostics
+        if ($diagnosticRan) {
+            $diagnosticPath = Join-Path $actualDir "$name.numeric.txt"
+            $diagnostic = Start-Process -FilePath $comparator -ArgumentList @(('"' + $expectedPath + '"'), ('"' + $actualPath + '"'), $schemas[$name][0], $schemas[$name][1]) -WindowStyle Hidden -Wait -PassThru -RedirectStandardOutput $diagnosticPath -RedirectStandardError (Join-Path $actualDir "$name.numeric.stderr.txt")
+            $diagnosticCode = $diagnostic.ExitCode
+        }
+        $results += [ordered]@{ days=$day; file=$name; byte_exact=$equal; numeric_diagnostic_ran=[bool]$diagnosticRan; numeric_exit_code=$diagnosticCode; actual_sha256=(Get-FileHash $actualPath).Hash }
     }
     Write-Host "Compared $day days against immutable references."
 }
-$passed = @($results | Where-Object { !$_.byte_exact -or $_.numeric_exit_code -ne 0 }).Count -eq 0
+$passed = @($results | Where-Object { !$_.byte_exact -or ($_.numeric_diagnostic_ran -and $_.numeric_exit_code -ne 0) }).Count -eq 0
 [ordered]@{ passed=$passed; source_sha256=(Get-FileHash $source).Hash; comparisons=$results } |
     ConvertTo-Json -Depth 6 | Set-Content (Join-Path $runRoot 'regression.json') -Encoding UTF8
 if (!$passed) { throw "Byte differences found. Stop refactoring and investigate: $runRoot/regression.json" }

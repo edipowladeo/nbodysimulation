@@ -27,6 +27,9 @@ rotinas extraídas complementam a regressão e devem passar antes do commit.
 
 ## Acompanhamento
 
+- Rodada 6: diagnóstico numérico sob demanda, testes do comparador/unitários
+  e regressão de 1, 5 e 30 dias aprovados; 27/27 byte a byte.
+
 - Rodada 5: [normalização de tempo](REFACTORING_TIME_NORMALIZATION.md), testes
   unitários e regressão de 1, 5 e 30 dias aprovados, 27/27 byte a byte.
 
