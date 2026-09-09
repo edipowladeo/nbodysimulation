@@ -27,6 +27,12 @@ rotinas extraídas complementam a regressão e devem passar antes do commit.
 
 ## Acompanhamento
 
+- Rodada 2: nomes e caminhos organizados, commit `1371e4d`, regressão 27/27.
+- Rodada 3 isolada: cobertura SD1–SD7, commit `5306de5` no branch
+  `investigation/round-1-sd-coverage`; análise vinculada em [Cenários](REFACTORING_SCENARIOS.md).
+- Rodada 4: extração de posições em [módulo de coordenadas](REFACTORING_COORDINATE_TRANSFORMS.md),
+  quatro testes unitários e regressão de 1, 5 e 30 dias, 27/27 byte a byte.
+
 - Preparação anterior: `e2cbc40`, já em `main`, com 27/27 arquivos byte a byte.
 - Rodada inicial do branch: registro deste fluxo; cálculos permanecem intactos.
   Validação em 2026-09-08: 1, 5 e 30 dias aprovados, 27/27 arquivos byte a byte.

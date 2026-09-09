@@ -45,7 +45,7 @@ quanto na futura migração para Kotlin ou Rust.
 | Prioridade | Ponto | Estado | Detalhamento |
 | --- | --- | --- | --- |
 | P1 | Proteção de regressão e comparação com referências | Em andamento | [Regressão](REFACTORING_REGRESSION.md) |
-| P2 | Módulos, interfaces e extração de procedimentos testáveis | Pendente | [Módulos e testes](REFACTORING_MODULES_TESTS.md) |
+| P2 | Módulos, interfaces e extração de procedimentos testáveis | Em andamento | [Módulos e testes](REFACTORING_MODULES_TESTS.md) |
 | P3 | Separação de inputs, configurações, constantes e estado | Pendente | [Configuração e composição](REFACTORING_CONFIGURATION.md) |
 | P4 | Eliminação de todos os GOTOs do candidato | Pendente | [Fluxo estruturado](REFACTORING_CONTROL_FLOW.md) |
 | P5 | Dimensões, inicialização e persistência das variáveis | Pendente | [Correção das declarações e estado](REFACTORING_CORRECTNESS.md) |
@@ -54,6 +54,9 @@ quanto na futura migração para Kotlin ou Rust.
 
 Detalhamento adicional de P1: [Diagnóstico numérico](REFACTORING_NUMERIC_DIAGNOSTICS.md).
 Cobertura e organização: [Cenários SD1 a SD7](REFACTORING_SCENARIOS.md).
+Extração de P2: [Transformações de coordenadas](REFACTORING_COORDINATE_TRANSFORMS.md).
+P2 prossegue com a proteção byte a byte de SD6; a ampliação de P1 foi isolada
+por falhas de inicialização no legado, conforme o detalhamento de cenários.
 
 ## Regra para detalhamento e rastreabilidade
 

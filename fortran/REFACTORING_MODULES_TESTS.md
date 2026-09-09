@@ -1,7 +1,10 @@
 # P2 — Introduzir módulos, interfaces e testes unitários
 
 Plano principal: [REFACTORING_PLAN.md](REFACTORING_PLAN.md).
-Estado: pendente. Prioridade: P2.
+Estado: em andamento. Prioridade: P2.
+
+Primeira extração e testes: [Transformações de coordenadas](REFACTORING_COORDINATE_TRANSFORMS.md).
+Executor unitário disponível: `powershell -NoProfile -ExecutionPolicy Bypass -File fortran/test-unit.ps1`.
 
 - [ ] Organizar biblioteca de cálculo separada do executável e dos testes.
 - [ ] Configurar `fpm` e `test-drive` para testes unitários em Fortran.

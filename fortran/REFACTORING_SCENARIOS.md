@@ -16,6 +16,15 @@ Estado: em andamento. Prioridade: P1, antes de extrair cálculos.
 
 ## Próxima rodada
 
+A tentativa de ampliação está preservada em
+[`investigation/round-1-sd-coverage`](https://github.com/edipowladeo/nbodysimulation/tree/investigation/round-1-sd-coverage),
+commit `5306de5`. [Análise da falha e correção experimental](https://github.com/edipowladeo/nbodysimulation/blob/5306de5/fortran/INVESTIGATION_SD_COVERAGE.md).
+SD1–SD5 e SD7 não avançaram além de 0 dias no legado. Inicializar perturbações
+desativadas permitiu concluir 1 dia em cópia experimental, mas isso não fornece
+referências do legado intacto. Não há referências oficiais desses modos no round 1.
+A expansão aguarda decisão sobre referências corrigidas; passos independentes
+de P2 continuam com a cobertura histórica de SD6.
+
 Ampliar geração e regressão para SD1 a SD7, sempre 1, 5 e 30 dias.
 Cada referência nova deve vir do legado, mudando apenas SD e TINTE na cópia
 temporária. Modos sem arrasto não produzem USS76; verificar saídas conforme o modo.

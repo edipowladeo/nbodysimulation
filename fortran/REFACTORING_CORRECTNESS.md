@@ -1,6 +1,10 @@
 # P5 — Corrigir dimensões, inicialização e persistência
 
 Plano principal: [REFACTORING_PLAN.md](REFACTORING_PLAN.md).
+
+Evidência antecipada: [falha dos modos sem todas as perturbações](REFACTORING_SCENARIOS.md).
+Acx/Acy/Acz, Arx/Ary/Arz e Aprx/Apry/Aprz podem ser usados sem atribuição.
+A tentativa de correção está isolada no branch `investigation/round-1-sd-coverage`.
 Estado: pendente. Prioridade: P5.
 
 - [ ] Corrigir declarações `X(1)`/`V(1)` de RA15 para dimensões compatíveis

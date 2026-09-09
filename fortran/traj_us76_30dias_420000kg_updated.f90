@@ -19,6 +19,7 @@
           !     - THC topocêntrico horizontal, no qual  está  localizado um  ponto/radar
           !       observador.
           !-----------------------------------------------------------------------------------
+          use coordinate_transforms, only: translate_to_ecliptic
           Implicit none
 
           Logical FIXED
@@ -208,9 +209,7 @@
           Vy3o  = - Dsqrt(Mi2/P3)*( Dsind(OM3)*(Dsind(w3+f3) + e3*Dsind(w3))        - Dcosd(OM3)*Dcosd(i3)*(Dcosd(w3+f3) + e3*Dcosd(w3)) )
           Vz3o  =   Dsqrt(Mi2/P3)*( Dsind(i3)*(Dcosd(w3+f3) + e3*Dcosd(w3)))
 
-          X(7)  =  X(4) + X3o
-          X(8)  =  X(5) + Y3o*Dcosd(Ec) + Z3o*Dsind(Ec)
-          X(9)  =  X(6) - Y3o*Dsind(Ec) + Z3o*Dcosd(Ec)
+          call translate_to_ecliptic(X(4:6), X3o, Y3o, Z3o, Ec, X(7:9))
 
           V(7)  =  V(4) + Vx3o
           V(8)  =  V(5) + Vy3o*Dcosd(Ec) + Vz3o*Dsind(Ec)
@@ -230,9 +229,7 @@
           Vy4o  =	- Dsqrt(Mi2/P4)*( Dsind(OM4)*(Dsind(w4+f4) + e4*Dsind(w4))        - Dcosd(OM4)*Dcosd(i4)*(Dcosd(w4+f4) + e4*Dcosd(w4)) )
           Vz4o  =   Dsqrt(Mi2/P4)*( Dsind(i4)*(Dcosd(w4+f4) + e4*Dcosd(w4)))
 
-          X(10) =  X(4) + X4o
-          X(11) =  X(5) + Y4o*Dcosd(Ec) + Z4o*Dsind(Ec)
-          X(12) =  X(6) - Y4o*Dsind(Ec) + Z4o*Dcosd(Ec)
+          call translate_to_ecliptic(X(4:6), X4o, Y4o, Z4o, Ec, X(10:12))
 
           V(10) =  V(4) + Vx4o
           V(11) =  V(5) +	Vy4o*Dcosd(Ec) + Vz4o*Dsind(Ec)

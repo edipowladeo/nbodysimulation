@@ -19,6 +19,10 @@ if ($source -ne (Join-Path $PSScriptRoot 'traj_us76_30dias_420000kg_legacy.for')
     throw 'Candidate runs must not write into tests/reference.'
 }
 $sourceHash = (Get-FileHash $source -Algorithm SHA256).Hash
+$modules = @()
+if ($source -eq (Join-Path $PSScriptRoot 'traj_us76_30dias_420000kg_updated.f90')) {
+    $modules = @(Get-ChildItem "$PSScriptRoot/src" -Filter '*.f90' | Sort-Object Name | ForEach-Object FullName)
+}
 $encoding = [Text.Encoding]::GetEncoding(28591)
 $original = [IO.File]::ReadAllText($source, $encoding)
 $pattern = '(?m)^(\s*TINTE\s*=\s*)30\.000000D\+00'
@@ -38,7 +42,7 @@ foreach ($day in $Days) {
     $scenario = [regex]::Replace($original, $pattern, ('${1}' + "$day.000000D+00"))
     [IO.File]::WriteAllText($scenarioSource, $scenario, $encoding)
     $exe = Join-Path $buildDir 'simulation.exe'
-    $compileArgs = $flags + @(('"' + $scenarioSource + '"'), '-o', ('"' + $exe + '"'))
+    $compileArgs = $flags + @('-J', ('"' + $buildDir + '"')) + @($modules | ForEach-Object { '"' + $_ + '"' }) + @(('"' + $scenarioSource + '"'), '-o', ('"' + $exe + '"'))
     $compile = Start-Process -FilePath $Compiler -ArgumentList $compileArgs -WindowStyle Hidden -Wait -PassThru -RedirectStandardError (Join-Path $destination 'compile.log')
     if ($compile.ExitCode -ne 0) { throw "Compilation failed for $day days." }
     $timer = [Diagnostics.Stopwatch]::StartNew()
@@ -72,6 +76,7 @@ foreach ($day in $Days) {
     [ordered]@{
         duration_days=$day; generated_utc=[DateTime]::UtcNow.ToString('o'); compiler=$version
         flags=$flags; source=$source; source_sha256=$sourceHash
+        module_sources=@($modules | ForEach-Object { @{ path=$_; sha256=(Get-FileHash $_).Hash } })
         scenario_source_sha256=(Get-FileHash $scenarioSource).Hash; source_change="TINTE = $day.000000D+00"
         elapsed_seconds=$timer.Elapsed.TotalSeconds; final_time_days=$lastTime; outputs=$outputs
     } | ConvertTo-Json -Depth 6 | Set-Content (Join-Path $destination 'manifest.json') -Encoding UTF8
