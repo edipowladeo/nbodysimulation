@@ -5,6 +5,8 @@ Plano principal: [REFACTORING_PLAN.md](REFACTORING_PLAN.md).
 Evidência antecipada: [falha dos modos sem todas as perturbações](REFACTORING_SCENARIOS.md).
 Acx/Acy/Acz, Arx/Ary/Arz e Aprx/Apry/Aprz podem ser usados sem atribuição.
 A tentativa de correção está isolada no branch `investigation/round-1-sd-coverage`.
+As [dimensões dos argumentos RA15](REFACTORING_RADAU_DIMENSIONS.md) são tratadas
+separadamente como pré-requisito de interfaces em P2.
 Estado: pendente. Prioridade: P5.
 
 - [ ] Corrigir declarações `X(1)`/`V(1)` de RA15 para dimensões compatíveis

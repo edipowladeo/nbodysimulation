@@ -1315,7 +1315,7 @@
           INTEGER PERT
           REAL*4 TVAL,PW
           REAL*8 Cd,Ad,Be,Lab,M1,M2,M3,M4,Elev
-          DIMENSION X(1),V(1),F1(18),FJ(18),C(21),D(21),R(21),Y(18),Z(18),B(7,18),G(7,18),E(7,18),BD(7,18),H(8),W(7),U(7),NW(8)
+          DIMENSION X(NV),V(NV),F1(18),FJ(18),C(21),D(21),R(21),Y(18),Z(18),B(7,18),G(7,18),E(7,18),BD(7,18),H(8),W(7),U(7),NW(8)
           LOGICAL NPQ,NSF,NPER,NCL,NES,fixed
           DATA NW/0,0,1,3,6,10,15,21/
           DATA ZERO, HALF, ONE,SR/0.0D0, 0.5D0, 1.0D0,1.4D0/
