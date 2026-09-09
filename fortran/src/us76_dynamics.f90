@@ -6,6 +6,7 @@ contains
           Subroutine Output(X,V,TM,Phi,Lab,Elev)
 
               Implicit None
+              intent(in) :: X,V,TM,Phi,Lab,Elev
 
               Double precision X(12),V(12),TM,PI,UC,FV,TN,G,TA,TB,Lab,Phi,Phia
               Double precision M2,Mi2,M3,EC,Rem,OME,WE
@@ -390,6 +391,8 @@ contains
               use time_normalization, only: normalized_time_to_days
 
               Implicit None
+              intent(in) :: P,V,T,Cd,Ad,Be,M1,M2,M3,M4,PERT
+              intent(out) :: F
 
               Integer PERT
               Double precision P(12),V(12),T,F(12),PI,UC,TA,TE,FC,TN
@@ -580,6 +583,8 @@ contains
           Subroutine PotGrav(M2,Xg,Yg,Zg,Vxg,Vyg,Vzg,TA,Acx,Acy,Acz)
 
               Implicit None
+              intent(in) :: M2,Xg,Yg,Zg,Vxg,Vyg,Vzg,TA
+              intent(out) :: Acx,Acy,Acz
 
               Double precision M2,Mip,Xg,Yg,Zg,Vxg,Vyg,Vzg,TA,  AGpx,AGpy,AGpz,Acx,Acy,Acz,Ahx,Ahy,Ahz,Vx,Vy,Vz,ae,UC,FC,FV
               Double precision J2,J3,J4,J5,J6,J7,C22,S22,J22,L22, C31,S31, J31,L31,C32,S32,J32,L32,C33,S33,J33,L33,C42,S42,J42,L42,C44,S44,J44,L44,L
@@ -798,6 +803,8 @@ contains
           Subroutine Arrasto(Xg,Yg,Zg,Vxg,Vyg,Vzg,TA,Cd,Ad,M4,Arx,Ary,Arz)
 
               Implicit None
+              intent(in) :: Xg,Yg,Zg,Vxg,Vyg,Vzg,TA,Cd,Ad,M4
+              intent(out) :: Arx,Ary,Arz
 
               Double precision Xg,Yg,Zg,Vxg,Vyg,Vzg,V,TA,Cd,Ad,M4,Arx,Ary,Arz,           Ax,Ay,Az,X,Y,Z,Vx,Vy,Vz
               Double precision R,h,Rem,UC,FV,FC,PI,TMo,P,de,A,B,C,D,E,Ac,Deg,WE,           OME
@@ -995,6 +1002,8 @@ contains
           Subroutine PRS(M4,Ad,Be,X12,Y12,Z12,X14,Y14,Z14,Aprx,Apry,Aprz)
 
               Implicit None
+              intent(in) :: M4,Ad,Be,X12,Y12,Z12,X14,Y14,Z14
+              intent(out) :: Aprx,Apry,Aprz
 
               Double precision M4,Ad,X12,Y12,Z12,X12i,Y12i,Z12i,X14,Y14,Z14,           X14i,Y14i,Z14i,R12i,R14i,Aprx,Apry,Aprz,Apx,           Apy,Apz,Ap
               Double precision UC,Po,Be,a12,Rp,D,FC,TETmax,TET,h,Hm,Eps,E
@@ -1064,6 +1073,9 @@ contains
           !     Integration is in double precision. A 64-bit double-word is assumed.
 
           implicit none
+              intent(in) :: TF,LL,NV,NCLASS,OS,FIXED,Cd,Ad,Be,Phi,Lab,M1,M2,M3,M4,Elev,PERT
+              intent(inout) :: X,V,XL
+              intent(out) :: TINST
           integer :: j, jd, jdm, k, l, la, lb, lc, ld, le, ll, m, n, nclass, ncount, nf, ni, ns, nv, nw
           double precision :: a, b, bd, c, d, dir, e, f1, fj, g, gk, h, half, hv, one, os, out, phi, q, r, s, sr, ss, t, t2, temp, tf, tinst, tm, tp, u, v, w, w1, ww, x, xl, y, z, zero
           INTEGER PERT

@@ -58,6 +58,7 @@ Extração de P2: [Transformações de coordenadas](REFACTORING_COORDINATE_TRANS
 Extração de P2: [Normalização do tempo](REFACTORING_TIME_NORMALIZATION.md).
 Organização de P2: [Programa e módulo de dinâmica](REFACTORING_DYNAMICS_MODULE.md).
 Interfaces de P2: [Tipos explícitos do RA15](REFACTORING_RADAU_TYPES.md).
+Interfaces de P2: [Contratos dos argumentos](REFACTORING_ARGUMENT_CONTRACTS.md).
 Pré-requisito de P2 antecipado de P5: [Dimensões do RA15](REFACTORING_RADAU_DIMENSIONS.md).
 P2 prossegue com a proteção byte a byte de SD6; a ampliação de P1 foi isolada
 por falhas de inicialização no legado, conforme o detalhamento de cenários.

@@ -7,6 +7,7 @@ Primeira extração e testes: [Transformações de coordenadas](REFACTORING_COOR
 Segunda extração: [Normalização do tempo](REFACTORING_TIME_NORMALIZATION.md).
 Pré-requisito para interfaces: [Dimensões do RA15](REFACTORING_RADAU_DIMENSIONS.md), antecipado de P5.
 Declarações: [Tipos explícitos do RA15](REFACTORING_RADAU_TYPES.md).
+Interfaces: [Contratos dos argumentos](REFACTORING_ARGUMENT_CONTRACTS.md).
 Executor unitário disponível: `powershell -NoProfile -ExecutionPolicy Bypass -File fortran/test-unit.ps1`.
 
 - [ ] Organizar biblioteca de cálculo separada do executável e dos testes.
